@@ -1,0 +1,44 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.question,
+.answer {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
+.answer {
+    background-color: #fff;
+}
+
+.comment {
+    margin-left: 20px;
+}
+
+.comment p {
+    margin-bottom: 5px;
+}
+
+.vote-icons i {
+    color: #555;
+}
+
+.upvotes,
+.downvotes {
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+.reply-form input {
+    margin-right: 5px;
+}
+
+.reply-form button {
+    cursor: pointer;
+}
