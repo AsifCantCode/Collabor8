@@ -1,14 +1,12 @@
-.Button {
+/* Button2.module.css */
+.Button2 {
     width: 144px;
     height: 39px;
-    top: 119px;
-    left: 73px;
+    top: 192px;
+    left: 75px;
     border-radius: 10px;
-    border: 2px solid #FFBB26;
-    background: linear-gradient(0deg, #2F2F3A, #2F2F3A),
-    linear-gradient(0deg, #2F2F3A, #2F2F3A);
-    ;
-    color: #E4E3E5;
+    background: #FFBB26;
+    color: #171821; /* Text color set to #171821 */
     font-family: 'Poppins', sans-serif;
     font-size: 18px;
     font-weight: 600;
@@ -19,5 +17,4 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
 }
