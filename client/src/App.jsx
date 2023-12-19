@@ -10,12 +10,16 @@ import TagBox from "./UI_Testing/TagBox";
 import Tags from "./UI_Testing/Tags";
 import Layout from "./Components/Layout";
 import QuestionBox from "./UI_Testing/QuestionBox";
+import LoginSignup from "./Components/pages/LoginSignup";
 const App = () => {
     return (
         <Router>
             <Routes>
                 {/* Main Routes  */}
-                <Route path="/*" element={<Layout />}></Route>
+                <Route path="/*" element={<Layout />}>
+                    {/* <Route path="/" element={<Home />} /> */}
+                    <Route path="accounts" element={<LoginSignup />} />
+                </Route>
                 {/* Ui Test Routes  */}
                 <Route path="/ui-test/navbar" element={<Navbar />} />
                 <Route path="/ui-test/button" element={<Button />} />

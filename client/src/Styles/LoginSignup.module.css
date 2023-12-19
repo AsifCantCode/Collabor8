@@ -1,0 +1,49 @@
+.LoginSignup {
+    background-color: var(--dark);
+    color: var(--white);
+    width: 100vw;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: calc(100vh - 74px);
+}
+
+.LoginSignup div {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.LoginSignup div h3 {
+    margin-bottom: 20px;
+}
+.LoginSignup div form {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.loginArea {
+    border-right: 3px dashed #444;
+}
+.login-form input,
+.signup-form input {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid var(--white);
+    padding: 4px 20px;
+    margin-bottom: 8px;
+    background: transparent;
+    color: var(--white);
+    font-size: 1.1rem;
+    background-color: var(--white);
+    margin-bottom: 20px;
+}
+.signup-form button,
+.login-form button {
+    width: 100%;
+}

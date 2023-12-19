@@ -8,7 +8,7 @@ import exit_logo from "../assets/exit.png";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Button, ButtonTransarent } from "./Buttons";
+import { Button, ButtonTransarent, LinkButtonTransarent } from "./Buttons";
 const Navbar = () => {
     const [tempState, setTempState] = useState(false);
     return (
@@ -20,7 +20,7 @@ const Navbar = () => {
                 />
             </Helmet>
             {/* Logo  */}
-            <Link className={classes.logoContainer}>
+            <Link to="/" className={classes.logoContainer}>
                 <img
                     src={collabor8_logo}
                     alt="Icon"
@@ -82,10 +82,10 @@ const Navbar = () => {
             ) : (
                 <div className={`${classes["navItems"]}`}>
                     <div className={classes.navbarItem}>
-                        <Button text={`Login`} />
-                    </div>
-                    <div className={classes.navbarItem}>
-                        <ButtonTransarent text={`Registration`} />
+                        <LinkButtonTransarent
+                            to="/accounts"
+                            text={`Login | Signup`}
+                        />
                     </div>
                 </div>
             )}
