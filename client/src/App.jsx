@@ -9,6 +9,7 @@ import FinalNav from "./UI_Testing/FinalNav";
 import TagBox from "./UI_Testing/TagBox";
 import Tags from "./UI_Testing/Tags";
 import Layout from "./Components/Layout";
+import QuestionBox from "./UI_Testing/QuestionBox";
 const App = () => {
     return (
         <Router>
@@ -22,6 +23,7 @@ const App = () => {
                 <Route path="/ui-test/button2" element={<Button2 />} />
                 <Route path="/ui-test/tagbox" element={<TagBox />} />
                 <Route path="/ui-test/tags" element={<Tags />} />
+                <Route path="/ui-test/questionbox" element={<QuestionBox />} />
             </Routes>
         </Router>
     );
