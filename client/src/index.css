@@ -7,6 +7,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+:root {
+    --white: #e4e3e5;
+    --dark: #171821;
+}
 a {
     text-decoration: none;
 }
