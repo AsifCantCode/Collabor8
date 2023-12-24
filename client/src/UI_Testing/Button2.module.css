@@ -19,6 +19,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 .Button2 span::before {
     content: "React"; /* Change the content to whatever you want */
