@@ -5,7 +5,7 @@ import classes from "./Button2.module.css";
 export default function Button2() {
     return (
         <button className={`${classes["Button2"]}`}>
-            <span>Button 2</span>
+            <span></span>
         </button>
     );
 }

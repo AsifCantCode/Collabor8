@@ -1,0 +1,66 @@
+.QcomponentDesk {
+    position: relative;
+    min-height: 100%; /* Set a minimum height */
+    height: auto; /* Allow the height to expand based on content */
+    margin: 20px;
+    width: 70%;
+    border: 1px solid #2F2F3A;
+    background-color: #2F2F3A;
+    display: flex;
+    border-radius: 10px;
+}
+
+.sidebox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.mainbox {
+    flex: 1;
+    /* Take up remaining space */
+    margin-left: 30%;
+    min-height: 100%; /* Set a minimum height */
+    height: auto; /* Allow the height to expand based on content */
+    /* Adjusted margin to create space for sidebox */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    /* Updated to display content in a column */
+    color: white;
+}
+
+.messages::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 15px;
+    background: url('../assets/checkmark.png') no-repeat center center;
+    background-size: contain;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+/* Button2.module.css */
+.Button2 {
+    /* Add your styles for the button */
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+.asker{
+    display: inline-block;
+    text-align: right;
+    margin-top: 5%;
+}
+/* Add more styles as needed */

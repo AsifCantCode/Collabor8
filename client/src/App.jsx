@@ -10,6 +10,7 @@ import TagBox from "./UI_Testing/TagBox";
 import Tags from "./UI_Testing/Tags";
 import Layout from "./Components/Layout";
 import QuestionBox from "./UI_Testing/QuestionBox";
+import QcomponentDesk from "./UI_Testing/QcomponentDesk";
 import LoginSignup from "./Components/pages/LoginSignup";
 const App = () => {
     return (
@@ -28,6 +29,7 @@ const App = () => {
                 <Route path="/ui-test/tagbox" element={<TagBox />} />
                 <Route path="/ui-test/tags" element={<Tags />} />
                 <Route path="/ui-test/questionbox" element={<QuestionBox />} />
+                <Route path="/ui-test/qcomponentdesk" element={<QcomponentDesk />} />
             </Routes>
         </Router>
     );
