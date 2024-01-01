@@ -12,13 +12,14 @@ import Layout from "./Components/Layout";
 import QuestionBox from "./UI_Testing/QuestionBox";
 import QcomponentDesk from "./UI_Testing/QcomponentDesk";
 import LoginSignup from "./Components/pages/LoginSignup";
+import Home from "./Components/pages/Home";
 const App = () => {
     return (
         <Router>
             <Routes>
                 {/* Main Routes  */}
                 <Route path="/*" element={<Layout />}>
-                    {/* <Route path="/" element={<Home />} /> */}
+                    <Route path="" element={<Home />} />
                     <Route path="accounts" element={<LoginSignup />} />
                 </Route>
                 {/* Ui Test Routes  */}
@@ -29,7 +30,10 @@ const App = () => {
                 <Route path="/ui-test/tagbox" element={<TagBox />} />
                 <Route path="/ui-test/tags" element={<Tags />} />
                 <Route path="/ui-test/questionbox" element={<QuestionBox />} />
-                <Route path="/ui-test/qcomponentdesk" element={<QcomponentDesk />} />
+                <Route
+                    path="/ui-test/qcomponentdesk"
+                    element={<QcomponentDesk />}
+                />
             </Routes>
         </Router>
     );

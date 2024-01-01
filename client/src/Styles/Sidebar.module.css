@@ -1,0 +1,51 @@
+.Sidebar {
+    position: fixed;
+    top: 74px;
+    z-index: 100;
+    transition: all 0.3s ease-in-out;
+    padding: 1rem;
+    overflow-y: auto;
+    width: 20%;
+    height: 100%;
+    border-right: 1px solid var(--border-deep);
+}
+.Sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.Sidebar ul li {
+    margin: 1rem 0;
+}
+.Sidebar ul li a {
+    padding: 0.8rem 1.5rem;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: 500;
+}
+.Sidebar ul li a > * {
+    vertical-align: middle;
+}
+.Sidebar ul li a svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+.Sidebar ul li a span {
+    margin-left: 0.8rem;
+}
+.Sidebar ul li.active a {
+    background-color: var(--yellow);
+    color: #000;
+}
+.Sidebar ul li:not(.active) a:hover {
+    background-color: var(--dark-light);
+    color: var(--white);
+}
+
+.Sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    display: block;
+}
