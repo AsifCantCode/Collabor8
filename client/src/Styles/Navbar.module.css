@@ -39,7 +39,7 @@
     top: 32px;
     left: 286px;
     border-radius: 10px;
-    border: 2px solid var(--white);
+    border: 2px solid var(--border);
     display: flex;
     align-items: center;
     padding: 8px;
