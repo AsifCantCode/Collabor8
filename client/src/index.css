@@ -12,6 +12,8 @@
 :root {
     --white: #e4e3e5;
     --dark: #171821;
+    --dark-light: #2f2f3a;
+    --yellow: #ffbb26;
 }
 a {
     text-decoration: none;
