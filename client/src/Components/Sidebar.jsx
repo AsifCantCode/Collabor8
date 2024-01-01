@@ -6,7 +6,31 @@ import { FaHome } from "react-icons/fa";
 import { FaUserGraduate } from "react-icons/fa";
 import { FaTags } from "react-icons/fa6";
 import { IoCreate } from "react-icons/io5";
+import { useState } from "react";
 const Sidebar = ({ sidebarState }) => {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const navItems = [
+        {
+            name: "Home",
+            icon: <FaHome />,
+            path: "/",
+        },
+        {
+            name: "Profile",
+            icon: <FaUserGraduate />,
+            path: "/profile",
+        },
+        {
+            name: "Tags",
+            icon: <FaTags />,
+            path: "/tags",
+        },
+        {
+            name: "Ask a Question",
+            icon: <IoCreate />,
+            path: "/ask",
+        },
+    ];
     return (
         <div
             className={`${classes["Sidebar"]} ${
@@ -14,30 +38,22 @@ const Sidebar = ({ sidebarState }) => {
             }`}
         >
             <ul>
-                <li className={`${classes["active"]}`}>
-                    <Link>
-                        <FaHome />
-                        <span>Home</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link>
-                        <FaUserGraduate />
-                        <span>Profile</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link>
-                        <FaTags />
-                        <span>Tags</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link>
-                        <IoCreate />
-                        <span>Ask a Question</span>
-                    </Link>
-                </li>
+                {navItems.map((item, index) => {
+                    return (
+                        <li
+                            key={index}
+                            className={`${
+                                index === activeIndex ? classes["active"] : ""
+                            }`}
+                            onClick={() => setActiveIndex(index)}
+                        >
+                            <Link to={item.path}>
+                                {item.icon}
+                                <span>{item.name}</span>
+                            </Link>
+                        </li>
+                    );
+                })}
             </ul>
         </div>
     );

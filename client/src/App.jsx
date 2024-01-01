@@ -13,13 +13,14 @@ import QuestionBox from "./UI_Testing/QuestionBox";
 import QcomponentDesk from "./UI_Testing/QcomponentDesk";
 import LoginSignup from "./Components/pages/LoginSignup";
 import Home from "./Components/pages/Home";
+import Profile from "./Components/pages/Profile";
 const App = () => {
     return (
         <Router>
             <Routes>
                 {/* Main Routes  */}
                 <Route path="/*" element={<Layout />}>
-                    <Route path="" element={<Home />} />
+                    <Route path="profile" element={<Profile />} />
                     <Route path="accounts" element={<LoginSignup />} />
                 </Route>
                 {/* Ui Test Routes  */}
