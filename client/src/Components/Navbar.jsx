@@ -7,12 +7,22 @@ import avatar_logo from "../assets/avatar.png";
 import exit_logo from "../assets/exit.png";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, ButtonTransarent, LinkButtonTransarent } from "./Buttons";
-const Navbar = () => {
+
+// Icons
+import { GiHamburgerMenu } from "react-icons/gi";
+import { ImCross } from "react-icons/im";
+const Navbar = ({ setSidebarState }) => {
     const [tempState, setTempState] = useState(false);
+    const navRef = useRef();
+
+    useEffect(() => {
+        console.log("NAV HEIGHT", navRef.current.offsetHeight);
+    }, []);
+
     return (
-        <div className={classes.navbar}>
+        <div ref={navRef} className={classes.navbar}>
             <Helmet>
                 <link
                     rel="stylesheet"
@@ -44,51 +54,62 @@ const Navbar = () => {
             </div>
 
             {/* Navbar Items  */}
-            {tempState ? (
-                <div className={`${classes["navItems"]}`}>
-                    <div className={classes.navbarItem}>
-                        <img
-                            src={expert_logo}
-                            alt="Icon"
-                            className={classes.expertIcon}
-                        />
-                        <span className={classes.navbarText}>Expert</span>
-                    </div>
 
-                    <div className={classes.navbarItem}>
-                        <img
-                            src={inbox_logo}
-                            alt="Icon"
-                            className={classes.icon}
-                        />
-                        <span className={classes.navbarText}>Inbox</span>
-                    </div>
-                    <div className={classes.navbarItem}>
-                        <img
-                            src={avatar_logo}
-                            alt="Icon"
-                            className={classes.icon}
-                        />
-                        <span className={classes.navbarText}>Asif</span>
-                    </div>
-                    <div className={classes.navbarItem}>
-                        <img
-                            src={exit_logo}
-                            alt="Icon"
-                            className={classes.iconExit}
-                        />
-                    </div>
+            <div className={`${classes["navItems"]}`}>
+                <div
+                    className={`${classes["navbarItem"]} ${
+                        classes["sidebarIcon"]
+                    } ${tempState ? classes["active"] : ""}`}
+                >
+                    <GiHamburgerMenu
+                        onClick={() => setSidebarState((prev) => !prev)}
+                    />
                 </div>
-            ) : (
-                <div className={`${classes["navItems"]}`}>
+
+                {tempState ? (
+                    <>
+                        <div className={classes.navbarItem}>
+                            <img
+                                src={expert_logo}
+                                alt="Icon"
+                                className={classes.expertIcon}
+                            />
+                            <span className={classes.navbarText}>Expert</span>
+                        </div>
+
+                        <div className={classes.navbarItem}>
+                            <img
+                                src={inbox_logo}
+                                alt="Icon"
+                                className={classes.icon}
+                            />
+                            <span className={classes.navbarText}>Inbox</span>
+                        </div>
+                        <div className={classes.navbarItem}>
+                            <img
+                                src={avatar_logo}
+                                alt="Icon"
+                                className={classes.icon}
+                            />
+                            <span className={classes.navbarText}>Asif</span>
+                        </div>
+                        <div className={classes.navbarItem}>
+                            <img
+                                src={exit_logo}
+                                alt="Icon"
+                                className={classes.iconExit}
+                            />
+                        </div>
+                    </>
+                ) : (
                     <div className={classes.navbarItem}>
                         <LinkButtonTransarent
                             to="/accounts"
                             text={`Login | Signup`}
                         />
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };

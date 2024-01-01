@@ -6,9 +6,13 @@ import { FaHome } from "react-icons/fa";
 import { FaUserGraduate } from "react-icons/fa";
 import { FaTags } from "react-icons/fa6";
 import { IoCreate } from "react-icons/io5";
-const Sidebar = () => {
+const Sidebar = ({ sidebarState }) => {
     return (
-        <div className={`${classes["Sidebar"]}`}>
+        <div
+            className={`${classes["Sidebar"]} ${
+                sidebarState ? classes["sidebar-active"] : ""
+            }`}
+        >
             <ul>
                 <li className={`${classes["active"]}`}>
                     <Link>

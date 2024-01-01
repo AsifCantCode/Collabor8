@@ -15,3 +15,12 @@
     padding: 1rem;
     overflow-y: auto;
 }
+
+@media screen and (max-width: 1000px) {
+    .Main {
+        width: 100%;
+        top: 180px;
+        left: 0;
+        border-right: none;
+    }
+}

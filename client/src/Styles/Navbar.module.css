@@ -94,7 +94,12 @@
     top: 41px;
     left: 1213px;
 }
-
+.sidebarIcon svg {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 8px;
+    display: none;
+}
 .navbarText {
     width: 50px;
     height: 24px;
@@ -119,7 +124,7 @@
     margin-right: 8px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
     .navbar {
         flex-direction: column;
         align-items: center;
@@ -139,9 +144,13 @@
     .navItems {
         order: 2;
         margin-right: 0px;
+        width: 100%;
         justify-content: space-between;
     }
     .navbarItem {
         margin-left: 10px;
+    }
+    .sidebarIcon svg {
+        display: block;
     }
 }
