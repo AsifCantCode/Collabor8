@@ -4,19 +4,28 @@ import { Button } from "../Buttons";
 import Login from "../Login";
 import Signup from "../Signup";
 
+// Icons
+import { FaLongArrowAltLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
+// Todo : Validation for Login and Signup must be added.
 const LoginSignup = () => {
     const [loginSignup, setLoginSignup] = useState("login");
     return (
         <div className={`${classes["LoginSignup"]}`}>
             {loginSignup === "login" && (
                 <div className={`${classes["loginArea"]}`}>
-                    <h3>Login</h3>
+                    <Link to={`/`}>
+                        <FaLongArrowAltLeft /> Back to Home
+                    </Link>
                     <Login setLoginSignup={setLoginSignup} />
                 </div>
             )}
             {loginSignup === "signup" && (
                 <div className={`${classes["signupArea"]}`}>
-                    <h3>Signup</h3>
+                    <Link to={`/`}>
+                        <FaLongArrowAltLeft /> Back to Home
+                    </Link>
                     <Signup setLoginSignup={setLoginSignup} />
                 </div>
             )}

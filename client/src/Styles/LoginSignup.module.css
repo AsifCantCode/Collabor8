@@ -16,17 +16,15 @@
     flex-direction: column;
     align-items: center;
 }
-.LoginSignup div h3 {
+.LoginSignup div a {
     margin-bottom: 20px;
+    color: var(--white);
+    font-size: 1.2rem;
 }
-.LoginSignup div h3::after {
-    content: "";
-    width: 100%;
-    height: 2px;
-    background-color: var(--white);
-    display: block;
-    margin-top: 5px;
+.LoginSignup div a svg {
+    vertical-align: middle;
 }
+
 .LoginSignup div form {
     width: 60%;
     display: flex;
