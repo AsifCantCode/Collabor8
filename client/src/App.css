@@ -2,3 +2,24 @@ body {
     background-color: var(--dark);
     color: var(--white);
 }
+
+.jodit-toolbar__box,
+.jodit-status-bar,
+.jodit-popup__content {
+    background-color: var(--dark-light) !important;
+    color: var(--white) !important;
+    border: 1px solid var(--border-deep) !important;
+}
+.jodit_theme_dark
+    .jodit-toolbar__box:not(:empty)
+    .jodit-toolbar-editor-collection:after {
+    border-color: var(--border-deep) !important;
+}
+.jodit-wysiwyg {
+    background-color: var(--dark) !important;
+    color: var(--white) !important;
+}
+
+.jodit-wysiwyg li {
+    margin-left: 1.5rem;
+}

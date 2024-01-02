@@ -1,5 +1,10 @@
 import "./App.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import LoginSignup from "./Components/pages/LoginSignup";
+import Profile from "./Components/pages/Profile";
+import AllQuestions from "./Components/pages/AllQuestions";
+import AskQuestion from "./Components/pages/AskQuestion";
+import Layout from "./Components/Layout";
 
 // Ui Testing Component Import
 import Navbar from "./UI_Testing/Navbar";
@@ -8,13 +13,9 @@ import Button2 from "./UI_Testing/Button2";
 import FinalNav from "./UI_Testing/FinalNav";
 import TagBox from "./UI_Testing/TagBox";
 import Tags from "./UI_Testing/Tags";
-import Layout from "./Components/Layout";
 import QuestionBox from "./UI_Testing/QuestionBox";
 import QcomponentDesk from "./UI_Testing/QcomponentDesk";
-import LoginSignup from "./Components/pages/LoginSignup";
-import Home from "./Components/pages/Home";
-import Profile from "./Components/pages/Profile";
-import AllQuestions from "./Components/pages/AllQuestions";
+
 const App = () => {
     return (
         <Router>
@@ -23,6 +24,7 @@ const App = () => {
                 <Route path="/*" element={<Layout />}>
                     <Route path="" element={<AllQuestions />} />
                     <Route path="profile" element={<Profile />} />
+                    <Route path="new-question" element={<AskQuestion />} />
                 </Route>
                 <Route path="/accounts" element={<LoginSignup />} />
                 {/* Ui Test Routes  */}

@@ -16,10 +16,11 @@
     --dark: #171821;
     --dark-light: #2f2f3a;
     --yellow: #ffbb26;
+    --danger: #fc3434;
 }
-a {
+a:not(.jodit-wysiwyg li) {
     text-decoration: none;
 }
-li {
+li:not(.jodit-wysiwyg li) {
     list-style: none;
 }

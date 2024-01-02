@@ -10,6 +10,9 @@
     background-color: var(--dark);
 }
 
+.close-btn {
+    display: none;
+}
 @media screen and (max-width: 1000px) {
     .RightSidebar {
         left: 100%;
@@ -18,5 +21,8 @@
     }
     .active {
         left: 0;
+    }
+    .close-btn {
+        display: block;
     }
 }

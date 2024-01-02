@@ -3,6 +3,7 @@ import {
     Button,
     ButtonWithIconOnly,
     ButtonWithIconOnlyTransparent,
+    LinkButton,
 } from "../Buttons";
 import SingleQuestion from "./SingleQuestion";
 
@@ -15,7 +16,7 @@ const QuestionBox = ({ setRightSidebarState, rightSidebarState }) => {
             <div className={`${classes["questionBox-header"]}`}>
                 <h2>Question Box</h2>
                 <div className={`${classes["desktop-view-button"]}`}>
-                    <Button text="Ask a question" />
+                    <LinkButton text="Ask a question" to="/new-question" />
                 </div>
 
                 <div className={`${classes["responsive-button"]}`}>

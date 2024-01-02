@@ -9,7 +9,12 @@ const RightSidebar = ({ setRightSidebarState, rightSidebarState }) => {
                 rightSidebarState ? classes["active"] : ""
             }`}
         >
-            <ImCross onClick={() => setRightSidebarState((prev) => !prev)} />
+            <div className={`${classes["close-btn"]}`}>
+                <ImCross
+                    onClick={() => setRightSidebarState((prev) => !prev)}
+                />
+            </div>
+
             <h4>Right Sidebar</h4>
         </div>
     );

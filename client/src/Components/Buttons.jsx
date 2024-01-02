@@ -16,11 +16,18 @@ export function LinkButtonTransarent({ text, to }) {
     );
 }
 
-export function Button({ text, type = "button" }) {
+export function Button({ text, type = "button", func }) {
     return (
-        <button type={type} className={`${classes["Button"]}`}>
+        <button onClick={func} type={type} className={`${classes["Button"]}`}>
             <span>{text}</span>
         </button>
+    );
+}
+export function LinkButton({ text, to }) {
+    return (
+        <Link to={to} className={`${classes["Button"]}`}>
+            <span>{text}</span>
+        </Link>
     );
 }
 export function ButtonWithIconOnly({ icon, type = "button" }) {
