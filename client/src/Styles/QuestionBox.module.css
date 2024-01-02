@@ -1,0 +1,13 @@
+.QuestionBox {
+    position: absolute;
+    left: 0;
+    width: 70%;
+    /* background: green; */
+    padding: 1rem;
+}
+
+.questionBox-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -1,0 +1,9 @@
+.RightSidebar {
+    position: fixed;
+    left: 76%;
+    width: 24%;
+    height: 100%;
+    /* background: blue; */
+    padding: 1rem;
+    border-left: 1px solid var(--border-deep);
+}
