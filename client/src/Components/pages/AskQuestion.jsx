@@ -1,59 +1,19 @@
 import { useRef, useState } from "react";
 import classes from "../../Styles/AskQuestion.module.css";
-import JoditReact from "jodit-react";
+
 import { Button } from "../Buttons";
 
 // Icons
 import { LuImagePlus } from "react-icons/lu";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { ImCross } from "react-icons/im";
+import Jodit from "../Jodit";
 const AskQuestion = () => {
-    const editorConfig = {
-        readonly: false,
-        autofocus: true,
-        tabIndex: 1,
-
-        askBeforePasteHTML: false,
-        askBeforePasteFromWord: false,
-        defaultActionOnPaste: "insert_clear_html",
-
-        placeholder: "Write something awesome ...",
-        beautyHTML: true,
-        toolbarButtonSize: "large",
-        buttons: [
-            "source",
-            "|",
-            "bold",
-            "italic",
-            "|",
-            "ul",
-            "ol",
-            "|",
-            "font",
-            "fontsize",
-            "paragraph",
-            "|",
-            "table",
-            "link",
-            "|",
-            "left",
-            "center",
-            "right",
-            "justify",
-            "|",
-            "undo",
-            "redo",
-            "|",
-            "fullsize",
-        ],
-        theme: "dark",
-    };
+    // Text Input Section
 
     const [textContent, setTextContent] = useState("");
 
-    const handleSubmit = () => {
-        console.log(textContent);
-    };
-
+    // Image Input Section
     const [selectedImage, setSelectedImage] = useState([]);
     const imageInputRef = useRef(null);
     const handleImageChange = (event) => {
@@ -77,6 +37,36 @@ const AskQuestion = () => {
         const newImages = selectedImage.filter((image, i) => i !== index);
         setSelectedImage(newImages);
     };
+
+    // Tags Input Section
+    const [joditEditor, setJoditEditor] = useState(true);
+    const [tagList, setTagList] = useState([]);
+    const [tag, setTag] = useState("");
+    const handleTagChange = (event) => {
+        setJoditEditor(false);
+        event.stopPropagation();
+        const value = event.target.value;
+        console.log(event.target.value);
+        if (value[value.length - 1] === ",") {
+            setTagList([...tagList, tag]);
+            setTag("");
+            console.log("Comma found");
+            console.log([...tagList, tag]);
+        } else {
+            setTag(event.target.value);
+        }
+    };
+
+    const handleTagDelete = (index) => {
+        const newTagList = tagList.filter((tag, i) => i !== index);
+        setTagList(newTagList);
+    };
+
+    const handleSubmit = () => {
+        console.log(textContent);
+        console.log(selectedImage);
+        console.log(tagList);
+    };
     return (
         <div className={`${classes["AskQuestion"]}`}>
             <div className={`${classes["page-header"]}`}>
@@ -84,11 +74,9 @@ const AskQuestion = () => {
             </div>
 
             <div className={`${classes["new-question"]}`}>
-                <JoditReact
-                    config={editorConfig}
-                    value={textContent}
-                    tabIndex={1}
-                    onBlur={(newContent) => setTextContent(newContent)}
+                <Jodit
+                    textContent={textContent}
+                    setTextContent={setTextContent}
                 />
             </div>
 
@@ -128,12 +116,34 @@ const AskQuestion = () => {
                     ref={imageInputRef}
                 />
             </div>
+
+            <div className={`${classes["tags"]}`}>
+                <label htmlFor="tags">Tags</label>
+                <div className={`${classes["tag-list"]}`}>
+                    {tagList.length > 0 &&
+                        tagList.map((tag, index) => (
+                            <span key={index}>
+                                {tag}{" "}
+                                <ImCross
+                                    onClick={() => {
+                                        handleTagDelete(index);
+                                    }}
+                                />
+                            </span>
+                        ))}
+
+                    <input
+                        type="text"
+                        name="tag"
+                        id=""
+                        placeholder="Tag with comma"
+                        value={tag}
+                        onChange={handleTagChange}
+                    />
+                </div>
+            </div>
             <div className={`${classes["submit-btn"]}`}>
                 <Button func={handleSubmit} text="Submit" />
-            </div>
-
-            <div className={`${classes["content"]}`}>
-                <div dangerouslySetInnerHTML={{ __html: textContent }} />
             </div>
         </div>
     );

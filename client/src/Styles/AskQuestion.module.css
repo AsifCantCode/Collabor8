@@ -4,22 +4,25 @@
 
 .new-question {
     margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
+.attachments {
+    margin-bottom: 2rem;
+}
 .images {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     margin-bottom: 1rem;
     gap: 1rem;
 }
 .imageBox {
     border: 2px solid var(--border);
     /* padding: 2rem; */
-    width: 5rem;
-    height: 5rem;
+    width: 15rem;
+    height: 15rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,6 +51,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: all 0.2s ease;
 }
 
 .imageBox img:hover {
@@ -59,4 +63,41 @@
 }
 .submit-btn {
     margin-top: 1rem;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    gap: 0.5rem;
+    border: 2px solid var(--border);
+    padding: 0.5rem;
+    min-height: 3rem;
+    border-radius: 0.5rem;
+}
+.tag-list span {
+    padding: 0.3rem 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--dark-light);
+    color: var(--white);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.tag-list span svg {
+    width: 0.7rem;
+    height: 0.7rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+}
+
+.tag-list input {
+    background: transparent;
+    border: none;
+    color: var(--white);
+}
+.tag-list input:focus {
+    outline: none;
 }
