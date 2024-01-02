@@ -43,10 +43,11 @@ const AskQuestion = () => {
     const [tagList, setTagList] = useState([]);
     const [tag, setTag] = useState("");
     const handleTagChange = (event) => {
+        console.log("Tag Change");
         setJoditEditor(false);
         event.stopPropagation();
         const value = event.target.value;
-        console.log(event.target.value);
+        // console.log(event.target.value);
         if (value[value.length - 1] === ",") {
             setTagList([...tagList, tag]);
             setTag("");
@@ -143,7 +144,7 @@ const AskQuestion = () => {
                 </div>
             </div>
             <div className={`${classes["submit-btn"]}`}>
-                <Button func={handleSubmit} text="Submit" />
+                <Button func={handleSubmit} text="Confirm Post" />
             </div>
         </div>
     );

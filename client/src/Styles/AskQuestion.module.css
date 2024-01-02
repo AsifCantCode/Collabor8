@@ -97,6 +97,7 @@
     background: transparent;
     border: none;
     color: var(--white);
+    flex-grow: 1;
 }
 .tag-list input:focus {
     outline: none;
