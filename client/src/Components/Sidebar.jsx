@@ -1,12 +1,16 @@
 import classes from "../Styles/Sidebar.module.css";
 import { Link } from "react-router-dom";
-
+import { useState } from "react";
 // Icons
 import { FaHome } from "react-icons/fa";
 import { FaUserGraduate } from "react-icons/fa";
 import { FaTags } from "react-icons/fa6";
-import { IoCreate } from "react-icons/io5";
-import { useState } from "react";
+import { BsFillQuestionSquareFill } from "react-icons/bs";
+import { FaStar } from "react-icons/fa";
+import { RiMastercardFill } from "react-icons/ri";
+import { FaClipboardList } from "react-icons/fa";
+import { FaQuinscape } from "react-icons/fa6";
+
 const Sidebar = ({ sidebarState }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const navItems = [
@@ -20,15 +24,36 @@ const Sidebar = ({ sidebarState }) => {
             icon: <FaUserGraduate />,
             path: "/profile",
         },
+
+        {
+            name: "Ask a Question",
+            icon: <BsFillQuestionSquareFill />,
+            path: "/new-question",
+        },
+        {
+            name: "My Questions",
+            icon: <FaClipboardList />,
+            path: "/",
+        },
+        {
+            name: "Collections",
+            icon: <FaStar />,
+            path: "/",
+        },
         {
             name: "Tags",
             icon: <FaTags />,
             path: "/tags",
         },
         {
-            name: "Ask a Question",
-            icon: <IoCreate />,
-            path: "/ask",
+            name: "Subscriptions",
+            icon: <RiMastercardFill />,
+            path: "/",
+        },
+        {
+            name: "FAQ",
+            icon: <FaQuinscape />,
+            path: "/",
         },
     ];
     return (
