@@ -1,8 +1,15 @@
 import classes from "../Styles/RightSidebar.module.css";
 
-const RightSidebar = () => {
+// Icons
+import { ImCross } from "react-icons/im";
+const RightSidebar = ({ setRightSidebarState, rightSidebarState }) => {
     return (
-        <div className={`${classes["RightSidebar"]}`}>
+        <div
+            className={`${classes["RightSidebar"]} ${
+                rightSidebarState ? classes["active"] : ""
+            }`}
+        >
+            <ImCross onClick={() => setRightSidebarState((prev) => !prev)} />
             <h4>Right Sidebar</h4>
         </div>
     );

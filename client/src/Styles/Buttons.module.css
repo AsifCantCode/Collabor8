@@ -42,3 +42,26 @@
     background-color: #ffbb26;
     color: #000000;
 }
+
+.ButtonWithIconOnly {
+    padding: 10px 10px;
+    border-radius: 5px;
+    background: #ffbb26;
+    border: none;
+}
+.ButtonWithIconOnly svg {
+    vertical-align: middle;
+    width: 1.8rem;
+    height: 1.8rem;
+}
+.ButtonWithIconOnlyTransparent {
+    padding: 9px 9px;
+    border-radius: 5px;
+    /* border: 2px solid #ffbb26; */
+    color: var(--white);
+}
+.ButtonWithIconOnlyTransparent svg {
+    vertical-align: middle;
+    width: 2.5rem;
+    height: 2.5rem;
+}

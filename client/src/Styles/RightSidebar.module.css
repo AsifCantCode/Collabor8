@@ -6,4 +6,17 @@
     /* background: blue; */
     padding: 1rem;
     border-left: 1px solid var(--border-deep);
+    z-index: 9999;
+    background-color: var(--dark);
+}
+
+@media screen and (max-width: 1000px) {
+    .RightSidebar {
+        left: 100%;
+        width: 100%;
+        transition: all 0.3s ease-in-out;
+    }
+    .active {
+        left: 0;
+    }
 }

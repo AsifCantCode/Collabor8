@@ -23,3 +23,21 @@ export function Button({ text, type = "button" }) {
         </button>
     );
 }
+export function ButtonWithIconOnly({ icon, type = "button" }) {
+    return (
+        <Link type={type} className={`${classes["ButtonWithIconOnly"]}`}>
+            <span>{icon}</span>
+        </Link>
+    );
+}
+export function ButtonWithIconOnlyTransparent({ icon, type = "button", func }) {
+    return (
+        <Link
+            onClick={func}
+            type={type}
+            className={`${classes["ButtonWithIconOnlyTransparent"]}`}
+        >
+            <span>{icon}</span>
+        </Link>
+    );
+}
