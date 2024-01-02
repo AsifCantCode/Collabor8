@@ -68,3 +68,12 @@
     color: var(--yellow);
     /* fill: var(--yellow); */
 }
+
+@media screen and (max-width: 1000px) {
+    .info {
+        margin-top: 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+}

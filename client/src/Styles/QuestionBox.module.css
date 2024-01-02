@@ -19,8 +19,17 @@
     gap: 1rem;
 }
 
+.responsive-button {
+    display: none;
+}
 @media screen and (max-width: 1000px) {
     .QuestionBox {
         width: 100%;
+    }
+    .desktop-view-button {
+        display: none;
+    }
+    .responsive-button {
+        display: block;
     }
 }

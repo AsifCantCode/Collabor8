@@ -1,5 +1,9 @@
 import classes from "../../Styles/QuestionBox.module.css";
-import { ButtonWithIconOnly, ButtonWithIconOnlyTransparent } from "../Buttons";
+import {
+    Button,
+    ButtonWithIconOnly,
+    ButtonWithIconOnlyTransparent,
+} from "../Buttons";
 import SingleQuestion from "./SingleQuestion";
 
 // Icons
@@ -10,8 +14,11 @@ const QuestionBox = ({ setRightSidebarState, rightSidebarState }) => {
         <div className={`${classes["QuestionBox"]}`}>
             <div className={`${classes["questionBox-header"]}`}>
                 <h2>Question Box</h2>
-                {/* <Button text="Ask a question" /> */}
-                <div>
+                <div className={`${classes["desktop-view-button"]}`}>
+                    <Button text="Ask a question" />
+                </div>
+
+                <div className={`${classes["responsive-button"]}`}>
                     <ButtonWithIconOnly icon={<MdOutlineEditCalendar />} />
                     <ButtonWithIconOnlyTransparent
                         func={() => {
