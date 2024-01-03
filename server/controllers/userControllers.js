@@ -80,12 +80,18 @@ const getProfileInfo = async (req, res) => {
 //Upload Questions function
 const uploadQuestions = async (req, res) => {
   const { textContent, tagList } = req.body;
-  const { _id } = req.body.profile;
+  const { authorization } = req.headers;
+  const token = authorization.split(" ")[1];
+
   const selectedImage = req.files.map((file) => file.filename);
   console.log("SELECTED IMAGE: ", selectedImage);
   console.log("TEXT: ", textContent);
   console.log("TagList: ", tagList);
   try {
+    const { _id, fullname, password } = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    );
     // const question = await Question.create({
     //   textContent,
     //   selectedImage,
