@@ -12,9 +12,13 @@ const requireAuth = async (req, res, next) => {
   const token = authorization.split(" ")[1];
 
   try {
-    const { _id } = jwt.verify(token, process.env.JWT_SECRET); //can add other properties during sign
+    const { _id, email, fullname } = jwt.verify(token, process.env.JWT_SECRET); //can add other properties during sign
 
-    // req.user = await User.findOne({ _id }).select("_id");
+    req.body.profile = {
+      _id,
+      email,
+      fullname,
+    };
     next();
   } catch (error) {
     console.log(error.message);

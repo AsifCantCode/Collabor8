@@ -4,30 +4,35 @@ const multer = require("multer"); // for handling file uploads
 const path = require("path"); // for handling file paths
 
 const {
-    uploadQuestions,
+  uploadQuestions,
+  signup,
+  login,
+  getProfileInfo,
 } = require("../controllers/userControllers");
 
 const router = express.Router();
 
 // Create a multer storage configuration to save the uploaded file
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "public/images");
-    },
-    filename: (req, file, cb) => {
-        cb(
-            null,
-            file.fieldname + "_" + Date.now() + path.extname(file.originalname)
-        );
-    },
+  destination: (req, file, cb) => {
+    cb(null, "public/images");
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+    );
+  },
 }); // You can use a disk storage if needed
 
 const upload = multer({ storage: storage });
 
 router
-    .route("/add-question")
-    .post(requireAuth, upload.array("image"), uploadQuestions);
+  .route("/add-question")
+  .post(requireAuth, upload.array("image"), uploadQuestions);
 
-// router.route("/login").post(checkLogin);
+router.route("/signup").post(signup);
+router.route("/login").post(login);
+router.route("/").get(requireAuth, getProfileInfo);
 
 module.exports = router;

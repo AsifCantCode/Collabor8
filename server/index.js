@@ -12,10 +12,10 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 
 //route imports
-// const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 //routes
-// app.use("/api/user", userRoutes);
+app.use("/api/user", userRoutes);
 
 //db connection
 mongoose

@@ -1,55 +1,99 @@
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const Question = require("../model/questionModel");
+const User = require("../model/userModel");
+const {
+  generatedHashedPassword,
+  validateUser,
+  generateToken,
+} = require("../utilities/account");
 
-//Token Generation (may provide other params to get from token)
-const generateToken = (_id) => {
-  return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const exists = await User.findOne({ email });
+    if (!exists) {
+      throw Error("User doesn't exist");
+    }
+
+    const match = await bcrypt.compare(password, exists.password);
+    if (!match) {
+      throw Error("Invalid password");
+    }
+
+    //create a token
+    const token = generateToken(exists._id, exists.fullname, email);
+
+    res.status(201).json({ email, fullname: exists.fullname, token });
+  } catch (error) {
+    res.status(401).json({
+      from: "login",
+      error: error.message,
+    });
+  }
 };
 
-const generatedHashedPassword = async (password) => {
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  return hashedPassword;
+const signup = async (req, res) => {
+  const { email, password, fullname, confirmPassword } = req.body;
+
+  try {
+    await validateUser(email, fullname, password, confirmPassword);
+
+    const hashedPassword = await generatedHashedPassword(password);
+
+    const user = await User.create({
+      email,
+      password: hashedPassword,
+      fullname,
+    });
+
+    const token = generateToken(user._id, fullname, email);
+    res.status(201).json({
+      email,
+      fullname,
+      token,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(401).json({
+      from: "signup",
+      error: error.message,
+    });
+  }
 };
 
-const salt = await bcrypt.genSalt(10);
-const hashedPassword = await bcrypt.hash(password, salt);
+const getProfileInfo = async (req, res) => {
+  const { _id } = req.body.profile;
+  try {
+    const info = await User.findById(_id);
 
-//Login Function
-// const checkLogin = async (req, res) => {
-//     const { email, password } = req.body;
-//     try {
-//       const user = await User.login(email, password);
-
-//       //create a token
-//       const token = generateToken(user._id);
-
-//       res.status(201).json({ email, token });
-//     } catch (error) {
-//       res.status(401).json({
-//         error: error.message,
-//       });
-//     }
-//   };
+    res.status(201).json(info);
+  } catch (error) {
+    res.status(401).json({
+      from: "get profile info",
+      error: error.message,
+    });
+  }
+};
 
 //Upload Questions function
 const uploadQuestions = async (req, res) => {
   const { textContent, tagList } = req.body;
-  const selectedImage = req.files.map(file => file.filename);
+  const selectedImage = req.files.map((file) => file.filename);
   try {
     const question = await Question.create({
       textContent,
       selectedImage,
       tagList,
     });
-    res.status(201).json({ question });
+    res.status(200).json(question);
   } catch (error) {
-    res.status(401).json({
+    res.status(400).json({
+      from: "uploadQuestions",
       error: error.message,
     });
   }
 };
 
-module.exports = uploadQuestions;
+module.exports = { uploadQuestions, signup, login, getProfileInfo };
