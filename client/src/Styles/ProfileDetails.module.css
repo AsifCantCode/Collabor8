@@ -1,0 +1,54 @@
+.ProfileDetails {
+    position: absolute;
+    left: 0;
+    width: 70%;
+    /* background: green; */
+    padding: 1rem;
+}
+
+.personal-info {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+.info-part {
+    width: 70%;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.profile-img {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+}
+.profile-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.info {
+    width: 70%;
+    margin: 1rem 0;
+}
+.info h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.info p {
+    font-size: 1rem;
+    font-weight: 400;
+}
+.info p.email {
+    color: var(--border);
+    margin-bottom: 1rem;
+}
+.profile-btn {
+    margin-bottom: 1rem;
+}
