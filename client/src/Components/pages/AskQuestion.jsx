@@ -67,6 +67,13 @@ const AskQuestion = () => {
         console.log(textContent);
         console.log(selectedImage);
         console.log(tagList);
+
+        // API Call
+        const data = {
+            textContent,
+            selectedImage,
+            tagList,
+        };
     };
     return (
         <div className={`${classes["AskQuestion"]}`}>
