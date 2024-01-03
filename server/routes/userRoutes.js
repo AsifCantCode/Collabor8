@@ -25,7 +25,10 @@ const storage = multer.diskStorage({
   },
 }); // You can use a disk storage if needed
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: { fieldSize: 2 * 1024 * 1024 },
+});
 
 router
   .route("/add-question")

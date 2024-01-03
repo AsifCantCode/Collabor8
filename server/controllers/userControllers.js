@@ -80,14 +80,18 @@ const getProfileInfo = async (req, res) => {
 //Upload Questions function
 const uploadQuestions = async (req, res) => {
   const { textContent, tagList } = req.body;
+  const { _id } = req.body.profile;
   const selectedImage = req.files.map((file) => file.filename);
+  console.log("SELECTED IMAGE: ", selectedImage);
+  console.log("TEXT: ", textContent);
+  console.log("TagList: ", tagList);
   try {
-    const question = await Question.create({
-      textContent,
-      selectedImage,
-      tagList,
-    });
-    res.status(200).json(question);
+    // const question = await Question.create({
+    //   textContent,
+    //   selectedImage,
+    //   tagList,
+    // });
+    // res.status(200).json(question);
   } catch (error) {
     res.status(400).json({
       from: "uploadQuestions",
