@@ -52,3 +52,48 @@
 .profile-btn {
     margin-bottom: 1rem;
 }
+
+.personal-cards {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+.card {
+    width: 32%;
+    background-color: var(--dark-light);
+    padding: 2rem 3rem;
+    border-radius: 10px;
+    /* border: 2px solid var(--border); */
+}
+.question-answer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.card div span {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.card div span:first-child {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.questions {
+    margin-top: 2rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 1rem;
+}
+.questions h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    /* margin-bottom: 1rem; */
+}
