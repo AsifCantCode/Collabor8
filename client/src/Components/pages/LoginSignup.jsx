@@ -3,10 +3,9 @@ import classes from "../../Styles/LoginSignup.module.css";
 import { Button } from "../Buttons";
 import Login from "../Login";
 import Signup from "../Signup";
-
+import { Link } from "react-router-dom";
 // Icons
 import { FaLongArrowAltLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
 
 // Todo : Validation for Login and Signup must be added.
 const LoginSignup = () => {

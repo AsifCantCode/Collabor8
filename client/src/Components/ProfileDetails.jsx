@@ -28,7 +28,7 @@ const ProfileDetails = ({ rightSidebarState, setRightSidebarState }) => {
                 </div>
                 <div className={`${classes["profile-btn"]}`}>
                     <div className={`${classes["desktop-view-button"]}`}>
-                        <LinkButton text="Edit Profile" to="/new-question" />
+                        <LinkButton text="Edit Profile" to="/edit-profile" />
                     </div>
 
                     {/* <div className={`${classes["responsive-button"]}`}>
