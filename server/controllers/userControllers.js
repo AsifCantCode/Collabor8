@@ -115,6 +115,30 @@ const uploadQuestions = async (req, res) => {
   }
 };
 
+const getAllTags = async (req, res) => {
+  try {
+    const tags = await Tag.find();
+
+    res.json(tags);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server error");
+  }
+};
+
+const getPopularTags = async (req, res) => {
+  try {
+    const popularTags = await Tag.find()
+      .sort({ count: -1 }) // Sort in descending order of count
+      .exec();
+
+    res.json(popularTags);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server error");
+  }
+};
+
 const getAllQuestions = async (req, res) => {
   try {
     let query = {}; //blank rakhsi shob question ante
@@ -158,6 +182,7 @@ const tagBasedQuestions = async (req, res) => {
     res.status(500).send("Server error");
   }
 };
+
 const relatedQuestions = async (req, res) => {
   //const { tagName } = req.params;
   try {
@@ -229,4 +254,6 @@ module.exports = {
   signup,
   login,
   getProfileInfo,
+  getAllTags,
+  getPopularTags,
 };
