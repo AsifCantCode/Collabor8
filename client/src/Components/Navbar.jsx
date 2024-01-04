@@ -90,7 +90,7 @@ const Navbar = ({ setSidebarState }) => {
                             />
                             <span className={classes.navbarText}>Inbox</span>
                         </div>
-                        <div className={classes.navbarItem}>
+                        <Link to="/profile" className={classes.navbarItem}>
                             <img
                                 src={avatar_logo}
                                 alt="Icon"
@@ -99,7 +99,7 @@ const Navbar = ({ setSidebarState }) => {
                             <span className={classes.navbarText}>
                                 {newUser?.fullname?.split(" ")[0]}
                             </span>
-                        </div>
+                        </Link>
                         <div className={classes.navbarItem}>
                             <img
                                 src={exit_logo}

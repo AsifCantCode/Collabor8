@@ -21,7 +21,12 @@
 }
 a:not(.jodit-wysiwyg li) {
     text-decoration: none;
+    color: var(--white);
 }
+a:not(.jodit-wysiwyg li):hover {
+    color: var(--yellow);
+}
+
 li:not(.jodit-wysiwyg li) {
     list-style: none;
 }
