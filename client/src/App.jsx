@@ -17,33 +17,41 @@ import QcomponentDesk from "./UI_Testing/QcomponentDesk";
 import QuestionBox from "./UI_Testing/QuestionBox";
 import TagBox from "./UI_Testing/TagBox";
 import Tags from "./UI_Testing/Tags";
+import AllTags from "./Components/pages/AllTags";
 
 const App = () => {
-  return (
-    <AuthContextProvider>
-      <Router>
-        <Routes>
-          {/* Main Routes  */}
-          <Route path="/*" element={<Layout />}>
-            <Route path="" element={<AllQuestions />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="new-question" element={<AskQuestion />} />
-          </Route>
-          <Route path="/accounts" element={<LoginSignup />} />
-          <Route path="/edit-profile" element={<EditProfile />} />
-          {/* Ui Test Routes  */}
-          <Route path="/ui-test/navbar" element={<Navbar />} />
-          <Route path="/ui-test/button" element={<Button />} />
-          <Route path="/ui-test/finalnav" element={<FinalNav />} />
-          <Route path="/ui-test/button2" element={<Button2 />} />
-          <Route path="/ui-test/tagbox" element={<TagBox />} />
-          <Route path="/ui-test/tags" element={<Tags />} />
-          <Route path="/ui-test/questionbox" element={<QuestionBox />} />
-          <Route path="/ui-test/qcomponentdesk" element={<QcomponentDesk />} />
-        </Routes>
-      </Router>
-    </AuthContextProvider>
-  );
+    return (
+        <AuthContextProvider>
+            <Router>
+                <Routes>
+                    {/* Main Routes  */}
+                    <Route path="/*" element={<Layout />}>
+                        <Route path="" element={<AllQuestions />} />
+                        <Route path="profile" element={<Profile />} />
+                        <Route path="new-question" element={<AskQuestion />} />
+                        <Route path="all-tags" element={<AllTags />} />
+                    </Route>
+                    <Route path="/accounts" element={<LoginSignup />} />
+                    <Route path="/edit-profile" element={<EditProfile />} />
+                    {/* Ui Test Routes  */}
+                    <Route path="/ui-test/navbar" element={<Navbar />} />
+                    <Route path="/ui-test/button" element={<Button />} />
+                    <Route path="/ui-test/finalnav" element={<FinalNav />} />
+                    <Route path="/ui-test/button2" element={<Button2 />} />
+                    <Route path="/ui-test/tagbox" element={<TagBox />} />
+                    <Route path="/ui-test/tags" element={<Tags />} />
+                    <Route
+                        path="/ui-test/questionbox"
+                        element={<QuestionBox />}
+                    />
+                    <Route
+                        path="/ui-test/qcomponentdesk"
+                        element={<QcomponentDesk />}
+                    />
+                </Routes>
+            </Router>
+        </AuthContextProvider>
+    );
 };
 
 export default App;

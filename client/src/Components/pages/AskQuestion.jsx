@@ -147,7 +147,7 @@ const AskQuestion = () => {
     };
     return (
         <div className={`${classes["AskQuestion"]}`}>
-            <div className={`${classes["page-header"]}`}>
+            <div className={`${classes["page-header"]} global-page-header`}>
                 <h2>Ask a Question</h2>
             </div>
 

@@ -11,6 +11,10 @@
     justify-content: space-between;
     align-items: center;
 }
+.questionBox-header h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
 
 .questionBox-questions {
     margin-top: 1rem;

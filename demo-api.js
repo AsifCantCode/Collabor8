@@ -97,3 +97,18 @@ const singleAnswer = {
         ],
     },
 };
+
+const tags = [
+    {
+        _id: "123",
+        name: "nodejs",
+        questionCount: 10,
+        questionInLastWeek: 4,
+    },
+    {
+        _id: "123",
+        name: "nodejs",
+        questionCount: 10,
+        questionInLastWeek: 4,
+    },
+];

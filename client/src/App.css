@@ -23,3 +23,12 @@ body {
 .jodit-wysiwyg li {
     margin-left: 1.5rem;
 }
+
+.global-page-header h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.global-page-content {
+    margin-top: 1.5rem;
+}
