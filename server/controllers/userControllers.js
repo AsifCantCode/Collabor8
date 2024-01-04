@@ -164,9 +164,27 @@ const tagBasedQuestions = async (req, res) => {
     res.status(500).send("Server error");
   }
 }
+const relatedQuestions = async (req, res) => {
+  //const { tagName } = req.params;
+  try {
+    const tagNames = req.params.tagNames.split(',');
+
+    const query = {
+        tagList: { $in: tagNames },
+    };
+
+    const questions = await Question.find(query).exec();
+
+    res.json({ questions });
+  }catch(error){
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+}
 
 module.exports = 
 { 
+  relatedQuestions, 
   tagBasedQuestions,uploadQuestions,
   getAllQuestions, signup, 
   login, getProfileInfo 
