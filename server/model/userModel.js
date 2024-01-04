@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   bio: String,
+  image: String,
   favTags: [String],
   badge: String,
   points: Number,

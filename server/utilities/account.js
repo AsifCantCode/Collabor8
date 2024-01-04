@@ -56,4 +56,5 @@ module.exports = {
   validateUser,
   generateToken,
   generatedHashedPassword,
+  isValidFullname,
 };

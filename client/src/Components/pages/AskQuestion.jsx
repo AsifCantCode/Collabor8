@@ -114,7 +114,6 @@ const AskQuestion = () => {
     for (let i = 0; i < tagList.length; i++) {
       formData.append("tagList", tagList[i]);
     }
-    console.log("FORM DATA: ", formData);
 
     try {
       const response = await UserApi.post("/add-question", formData, {

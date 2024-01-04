@@ -8,6 +8,7 @@ const {
   generatedHashedPassword,
   validateUser,
   generateToken,
+  isValidFullname,
 } = require("../utilities/account");
 
 const login = async (req, res) => {
@@ -69,9 +70,9 @@ const getProfileInfo = async (req, res) => {
   try {
     const info = await User.findById(_id);
 
-    res.status(201).json(info);
+    res.status(200).json(info);
   } catch (error) {
-    res.status(401).json({
+    res.status(400).json({
       from: "get profile info",
       error: error.message,
     });
@@ -170,6 +171,63 @@ const updateQuestion = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       from: "updateQuestion",
+      error: error.message,
+    });
+  }
+};
+
+//Upload Questions function
+const updateProfile = async (req, res) => {
+  const { fullname, email, tagList } = req.body;
+  const { authorization } = req.headers;
+  const token = authorization.split(" ")[1];
+
+  const selectedImage = req.files[0].filename;
+  console.log("BODY: ", req.body);
+  console.log("Image: ", selectedImage);
+  try {
+    const profile = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(profile._id);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+    console.log(user);
+
+    // Update the user properties based on the provided data
+    if (profile.fullname !== fullname) {
+      if (!isValidFullname(fullname)) {
+        throw Error(
+          "Fullname must contain alphabets and atleast 3 characters long"
+        );
+      }
+      user.fullname = profile.fullname;
+    }
+
+    if (profile.email !== email) {
+      const emailExists = await User.findOne({ email });
+      if (emailExists) {
+        throw Error("Email already taken");
+      }
+      user.email = profile.email;
+    }
+
+    if (tagList.length !== 0) {
+      user.favTags = tagList;
+    }
+    if (bio && bio !== "") {
+      user.bio = bio;
+    }
+
+    if (image && image !== "") {
+      user.image = selectedImage;
+    }
+
+    await user.save();
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({
+      from: "update profile",
       error: error.message,
     });
   }
@@ -317,4 +375,5 @@ module.exports = {
   getAllTags,
   getPopularTags,
   updateQuestion,
+  updateProfile,
 };
