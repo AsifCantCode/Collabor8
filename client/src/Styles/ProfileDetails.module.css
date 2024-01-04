@@ -66,11 +66,14 @@
     padding: 2rem 3rem;
     border-radius: 10px;
     /* border: 2px solid var(--border); */
-}
-.question-answer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    transition: all 0.2s ease;
+}
+.card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+    transform: scale(1.02);
 }
 .card div span {
     width: 100%;
@@ -84,6 +87,24 @@
     font-size: 1.2rem;
 }
 
+.message-area {
+    width: 100%;
+    margin-top: 1rem;
+    /* background-color: var(--yellow); */
+    /* opacity: 0.8; */
+    border: 2px solid var(--border);
+    padding: 2rem;
+    border-radius: 10px;
+    /* color: var(--dark); */
+    font-weight: 600;
+    text-align: left;
+}
+
+.message-btn {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
 .questions {
     margin-top: 2rem;
     width: 100%;

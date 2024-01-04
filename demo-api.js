@@ -5,6 +5,7 @@ const profile = {
     favTags: ["nodejs", "reactjs", "mongodb", "python"],
     badge: "Beginner",
     points: 100,
+    questionLeft: 5,
     follower: 2,
     subscription: {
         status: true,
