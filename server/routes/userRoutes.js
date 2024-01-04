@@ -33,17 +33,17 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  limits: { fieldSize: 2 * 1024 * 1024 },
+  // limits: { fieldSize: 2 * 1024 * 1024 },
 });
 
 router
   .route("/add-question")
-  .post(requireAuth, upload.array("image"), uploadQuestions);
+  .post(requireAuth, upload.array("images"), uploadQuestions);
 
 router.route("/signup").post(signup);
 router.route("/login").post(login);
 router.route("/").get(requireAuth, getProfileInfo);
-router.route("/all-questions").get(requireAuth,isLoggedIn, getAllQuestions);
+router.route("/all-questions").get(requireAuth, isLoggedIn, getAllQuestions);
 router.route("/tag-questions/:tagName").get(tagBasedQuestions);
 router.route("/related-questions/:tagNames").get(relatedQuestions);
 router.route("/personal-question/:userId").get(getPersonalQuestions);

@@ -79,42 +79,23 @@ const getProfileInfo = async (req, res) => {
 
 //Upload Questions function
 const uploadQuestions = async (req, res) => {
-  const {
-    textContent,
-    description,
-    tagList,
-    postTime,
-    updateTime,
-    countUpVotes,
-    countDownVotes,
-    countAnswers,
-    isSolved,
-  } = req.body;
+  const { textContent, tagList } = req.body;
   const { authorization } = req.headers;
   const token = authorization.split(" ")[1];
 
   const selectedImage = req.files.map((file) => file.filename);
-  console.log("SELECTED IMAGE: ", selectedImage);
-  console.log("TEXT: ", textContent, typeof textContent);
-  console.log("Description: ", description);
-  console.log("TagList: ", tagList);
-  console.log("PostTime: ", postTime);
-  console.log("UpdateTime: ", updateTime);
-  console.log("CountUpVotes: ", countUpVotes);
-  console.log("CountDownVotes: ", countDownVotes);
-  console.log("CountAnswers: ", countAnswers);
-  console.log("isSolved: ", isSolved);
   try {
     const { _id, fullname, password } = jwt.verify(
       token,
       process.env.JWT_SECRET
     );
-    // const question = await Question.create({
-    //   textContent,
-    //   selectedImage,
-    //   tagList,
-    // });
-    // res.status(200).json(question);
+    const question = await Question.create({
+      AuthorId: _id,
+      textContent,
+      selectedImage,
+      tagList,
+    });
+    res.status(200).json(question);
   } catch (error) {
     res.status(400).json({
       from: "uploadQuestions",
@@ -156,80 +137,85 @@ const tagBasedQuestions = async (req, res) => {
   try {
     const questions = await Question.find({
       tagList: tagName,
-    }).sort({ postTime: -1 }).exec();
+    })
+      .sort({ postTime: -1 })
+      .exec();
 
     res.json({ questions });
-  }catch(error){
+  } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
   }
-}
+};
 const relatedQuestions = async (req, res) => {
   //const { tagName } = req.params;
   try {
-    const tagNames = req.params.tagNames.split(',');
+    const tagNames = req.params.tagNames.split(",");
 
     const query = {
-        tagList: { $in: tagNames },
+      tagList: { $in: tagNames },
     };
 
     const questions = await Question.find(query).exec();
 
     res.json({ questions });
-  }catch(error){
+  } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
   }
-}
+};
 
 const getPersonalQuestions = async (req, res) => {
-    try {
-      const { userId } = req.params;
-      const query = {
-        AuthorId: userId,
-      };
-      const questions = await Question.find(query).sort({ postTime: -1 }).exec();
-      res.json({ questions });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Server error');
-    }
-  };
+  try {
+    const { userId } = req.params;
+    const query = {
+      AuthorId: userId,
+    };
+    const questions = await Question.find(query).sort({ postTime: -1 }).exec();
+    res.json({ questions });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+};
 
 const getWholeQuestion = async (req, res) => {
   try {
-        const { questionId } = req.params;
+    const { questionId } = req.params;
 
-        const question = await Question.findById(questionId)
-            .populate([
-                { path: 'AuthorId', model: 'User' },
-                { 
-                    path: 'answers', 
-                    populate: [
-                        { path: 'AuthorId', model: 'User' }, 
-                        { 
-                            path: 'comments.commentList.fullname', 
-                            model: 'Answers' 
-                        }
-                    ]
-                },
-            ])
-            .exec();
-        if (!question) {
-            return res.status(404).json({ error: 'Question not found' });
-        }
-        res.json({ question });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Server error');
+    const question = await Question.findById(questionId)
+      .populate([
+        { path: "AuthorId", model: "User" },
+        {
+          path: "answers",
+          populate: [
+            { path: "AuthorId", model: "User" },
+            {
+              path: "comments.commentList.fullname",
+              model: "Answers",
+            },
+          ],
+        },
+      ])
+      .exec();
+    if (!question) {
+      return res.status(404).json({ error: "Question not found" });
     }
+    res.json({ question });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
 };
 
-module.exports = 
-{ 
+module.exports = {
   getWholeQuestion,
-  relatedQuestions, getPersonalQuestions, 
-  tagBasedQuestions,uploadQuestions,
-  getAllQuestions, signup, 
-  login, getProfileInfo 
+  relatedQuestions,
+  getPersonalQuestions,
+  tagBasedQuestions,
+  uploadQuestions,
+  getAllQuestions,
+  signup,
+  login,
+  getProfileInfo,
 };
