@@ -10,8 +10,9 @@ import { FaStar } from "react-icons/fa";
 import { RiMastercardFill } from "react-icons/ri";
 import { FaClipboardList } from "react-icons/fa";
 import { FaQuinscape } from "react-icons/fa6";
+import { ImCross } from "react-icons/im";
 
-const Sidebar = ({ sidebarState }) => {
+const Sidebar = ({ sidebarState, setSidebarState }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const navItems = [
         {
@@ -55,31 +56,6 @@ const Sidebar = ({ sidebarState }) => {
             icon: <FaQuinscape />,
             path: "/",
         },
-        {
-            name: "FAQ",
-            icon: <FaQuinscape />,
-            path: "/",
-        },
-        {
-            name: "FAQ",
-            icon: <FaQuinscape />,
-            path: "/",
-        },
-        {
-            name: "FAQ",
-            icon: <FaQuinscape />,
-            path: "/",
-        },
-        {
-            name: "FAQ",
-            icon: <FaQuinscape />,
-            path: "/",
-        },
-        {
-            name: "FAQ",
-            icon: <FaQuinscape />,
-            path: "/",
-        },
     ];
     return (
         <div
@@ -87,6 +63,9 @@ const Sidebar = ({ sidebarState }) => {
                 sidebarState ? classes["sidebar-active"] : ""
             }`}
         >
+            <div className={`${classes["close-btn"]}`}>
+                <ImCross onClick={() => setSidebarState((prev) => !prev)} />
+            </div>
             <ul>
                 {navItems.map((item, index) => {
                     return (
@@ -104,6 +83,9 @@ const Sidebar = ({ sidebarState }) => {
                         </li>
                     );
                 })}
+                {/* <li style={{ visibility: "hidden" }}>dsfsd</li>
+                <li style={{ visibility: "hidden" }}>dsfsd</li>
+                <li style={{ visibility: "hidden" }}>dsfsd</li> */}
             </ul>
         </div>
     );
