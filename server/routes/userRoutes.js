@@ -9,7 +9,8 @@ const {
   signup,
   login,
   getProfileInfo,
-  getAllQuestions
+  getAllQuestions,
+  tagBasedQuestions,
 } = require("../controllers/userControllers");
 
 const router = express.Router();
@@ -40,5 +41,6 @@ router.route("/signup").post(signup);
 router.route("/login").post(login);
 router.route("/").get(requireAuth, getProfileInfo);
 router.route("/all-questions").get(requireAuth,isLoggedIn, getAllQuestions);
+router.route("/tag-questions/:tagName").get(tagBasedQuestions);
 
 module.exports = router;
