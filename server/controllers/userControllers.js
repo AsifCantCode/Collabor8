@@ -182,9 +182,53 @@ const relatedQuestions = async (req, res) => {
   }
 }
 
+const getPersonalQuestions = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const query = {
+        AuthorId: userId,
+      };
+      const questions = await Question.find(query).sort({ postTime: -1 }).exec();
+      res.json({ questions });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Server error');
+    }
+  };
+
+const getWholeQuestion = async (req, res) => {
+  try {
+        const { questionId } = req.params;
+
+        const question = await Question.findById(questionId)
+            .populate([
+                { path: 'AuthorId', model: 'User' },
+                { 
+                    path: 'answers', 
+                    populate: [
+                        { path: 'AuthorId', model: 'User' }, 
+                        { 
+                            path: 'comments.commentList.fullname', 
+                            model: 'Answers' 
+                        }
+                    ]
+                },
+            ])
+            .exec();
+        if (!question) {
+            return res.status(404).json({ error: 'Question not found' });
+        }
+        res.json({ question });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+};
+
 module.exports = 
 { 
-  relatedQuestions, 
+  getWholeQuestion,
+  relatedQuestions, getPersonalQuestions, 
   tagBasedQuestions,uploadQuestions,
   getAllQuestions, signup, 
   login, getProfileInfo 

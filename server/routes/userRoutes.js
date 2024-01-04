@@ -12,6 +12,8 @@ const {
   getAllQuestions,
   tagBasedQuestions,
   relatedQuestions,
+  getPersonalQuestions,
+  getWholeQuestion,
 } = require("../controllers/userControllers");
 
 const router = express.Router();
@@ -44,5 +46,8 @@ router.route("/").get(requireAuth, getProfileInfo);
 router.route("/all-questions").get(requireAuth,isLoggedIn, getAllQuestions);
 router.route("/tag-questions/:tagName").get(tagBasedQuestions);
 router.route("/related-questions/:tagNames").get(relatedQuestions);
+router.route("/personal-question/:userId").get(getPersonalQuestions);
+//Dummy function
+router.route("/whole-question/:questionId").get(getWholeQuestion);
 
 module.exports = router;
