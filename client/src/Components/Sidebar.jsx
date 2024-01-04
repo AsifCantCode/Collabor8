@@ -55,6 +55,31 @@ const Sidebar = ({ sidebarState }) => {
             icon: <FaQuinscape />,
             path: "/",
         },
+        {
+            name: "FAQ",
+            icon: <FaQuinscape />,
+            path: "/",
+        },
+        {
+            name: "FAQ",
+            icon: <FaQuinscape />,
+            path: "/",
+        },
+        {
+            name: "FAQ",
+            icon: <FaQuinscape />,
+            path: "/",
+        },
+        {
+            name: "FAQ",
+            icon: <FaQuinscape />,
+            path: "/",
+        },
+        {
+            name: "FAQ",
+            icon: <FaQuinscape />,
+            path: "/",
+        },
     ];
     return (
         <div
