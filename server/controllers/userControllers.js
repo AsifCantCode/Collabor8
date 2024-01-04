@@ -152,16 +152,11 @@ const getAllQuestions = async (req, res) => {
 };
 
 const tagBasedQuestions = async (req, res) => {
-  //const { tagName } = req.params;
+  const { tagName } = req.params;
   try {
-    const tagNames = req.params.tagNames.split(',');
-
-    const query = {
-        tagList: { $in: tagNames },
-    };
-
-    const questions = await Question.find(query)
-    .sort({ postTime: -1 }).exec();
+    const questions = await Question.find({
+      tagList: tagName,
+    }).sort({ postTime: -1 }).exec();
 
     res.json({ questions });
   }catch(error){
