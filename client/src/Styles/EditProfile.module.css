@@ -6,20 +6,6 @@
     padding: 2rem 5rem;
 }
 
-.page-header a {
-    color: var(--white);
-    font-weight: 500;
-    font-size: 1.2rem;
-}
-.page-header a:hover {
-    color: var(--yellow);
-    text-decoration: none;
-}
-.page-header a svg {
-    vertical-align: middle;
-    margin-right: 0.8rem;
-}
-
 /* Edit Profile Area  */
 .edit-profile-area {
     margin: 1rem 0;

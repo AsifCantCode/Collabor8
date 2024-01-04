@@ -23,9 +23,16 @@ export function Button({ text, type = "button", func }) {
         </button>
     );
 }
-export function SmallButton({ text, type = "button", to }) {
+export function SmallButton({ text, to }) {
     return (
         <Link to={to} className={`${classes["SmallButton"]}`}>
+            <span>{text}</span>
+        </Link>
+    );
+}
+export function SmallButtonLite({ text, to }) {
+    return (
+        <Link to={to} className={`${classes["SmallButtonLite"]}`}>
             <span>{text}</span>
         </Link>
     );

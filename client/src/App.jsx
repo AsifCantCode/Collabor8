@@ -18,6 +18,7 @@ import QuestionBox from "./UI_Testing/QuestionBox";
 import TagBox from "./UI_Testing/TagBox";
 import Tags from "./UI_Testing/Tags";
 import AllTags from "./Components/pages/AllTags";
+import Subscription from "./Components/pages/Subscription";
 
 const App = () => {
     return (
@@ -33,6 +34,7 @@ const App = () => {
                     </Route>
                     <Route path="/accounts" element={<LoginSignup />} />
                     <Route path="/edit-profile" element={<EditProfile />} />
+                    <Route path="/subscription" element={<Subscription />} />
                     {/* Ui Test Routes  */}
                     <Route path="/ui-test/navbar" element={<Navbar />} />
                     <Route path="/ui-test/button" element={<Button />} />

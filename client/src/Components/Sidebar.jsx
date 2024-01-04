@@ -48,7 +48,7 @@ const Sidebar = ({ sidebarState }) => {
         {
             name: "Subscriptions",
             icon: <RiMastercardFill />,
-            path: "/",
+            path: "/subscription",
         },
         {
             name: "FAQ",

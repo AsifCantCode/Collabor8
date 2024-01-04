@@ -1,0 +1,69 @@
+.Subscription {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    /* width: 100vw; */
+    padding: 2rem 5rem;
+}
+
+.subscription-area {
+    margin-top: 1rem;
+    background: var(--dark-light);
+    border: 1px solid var(--border-deep);
+    border-radius: 0.5rem;
+    padding: 2rem;
+}
+.personal-subscription-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.personal-subscription-info span {
+    font-style: italic;
+    margin-left: 1rem;
+}
+
+.subscription-plan {
+    border-top: 3px solid var(--border);
+    padding-top: 2rem;
+}
+
+.subscription-plan h3 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.plan-cards {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+.card {
+    background: var(--dark);
+    border: 1px solid var(--border-deep);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    margin-bottom: 1rem;
+    width: 300px;
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    border: 1px solid var(--yellow);
+}
+.card h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+}
+
+.card p {
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+}
+.card > p:nth-child(4) {
+    margin-bottom: 1rem;
+}

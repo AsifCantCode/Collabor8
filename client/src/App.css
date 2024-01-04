@@ -32,3 +32,17 @@ body {
 .global-page-content {
     margin-top: 1.5rem;
 }
+
+.global-single-page-header a {
+    color: var(--white);
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+.global-single-page-header a:hover {
+    color: var(--yellow);
+    text-decoration: none;
+}
+.global-single-page-header a svg {
+    vertical-align: middle;
+    margin-right: 0.8rem;
+}

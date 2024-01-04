@@ -116,7 +116,9 @@ const EditProfile = () => {
     };
     return (
         <div className={`${classes["EditProfile"]}`}>
-            <div className={`${classes["page-header"]}`}>
+            <div
+                className={`${classes["page-header"]} global-single-page-header`}
+            >
                 <Link to={`/`}>
                     <FaLongArrowAltLeft />
                     Go to Home
