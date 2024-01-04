@@ -5,16 +5,25 @@ export default axios.create({
 });
 
 /** ALL TAGS */
-// const response = await UserApi.post("/all-tags",{
+// const response = await UserApi.get("/all-tags",{
 //   headers: {
 //     "Content-Type": "application/json",
 //   },
 // });
 
 /** POPULAR TAGS */
-// const response = await UserApi.post("/popular-tags",{
+// const response = await UserApi.get("/popular-tags",{
 //   headers: {
 //     "Content-Type": "application/json",
+//   },
+// });
+
+/**UPDATE QUESTIONS */
+/** MUST USE ----> formData.append("questionId",questionId) */
+/**REST SIMILAR TO ADD QUESTIONs */
+// const response = await UserApi.put("/update-question",formData,{
+//   headers: {
+// Authorization: `Bearer ${user}`,
 //   },
 // });
 

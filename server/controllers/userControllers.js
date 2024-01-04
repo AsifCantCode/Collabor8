@@ -89,6 +89,28 @@ async function enterTags(tagList) {
     console.error("Error:", error);
   }
 }
+// Function to update tag count
+async function updateTagCounts(prevTagList, tagList) {
+  try {
+    const newTags = tagList.filter((tag) => !prevTagList.includes(tag));
+    await enterTags(newTags);
+
+    //taglist to decrement count
+    const tagsToDecrement = prevTagList.filter(
+      (tagName) => !tagList.includes(tagName)
+    );
+
+    for (const tagName of tagsToDecrement) {
+      const tag = await Tag.findOneAndUpdate(
+        { name: tagName },
+        { $inc: { count: -1 } } //decrement the count
+      );
+      console.log(`Tag '${tagName}' found or created:`, tag);
+    }
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+}
 
 //Upload Questions function
 const uploadQuestions = async (req, res) => {
@@ -110,6 +132,44 @@ const uploadQuestions = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       from: "uploadQuestions",
+      error: error.message,
+    });
+  }
+};
+
+const updateQuestion = async (req, res) => {
+  const { textContent, tagList, questionId } = req.body;
+  const { authorization } = req.headers;
+  const token = authorization.split(" ")[1];
+
+  const selectedImage = req.files.map((file) => file.filename);
+  try {
+    const { _id } = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Find the question by ID and ensure that the user has permission to update it
+    const existingQuestion = await Question.findOne({
+      _id: questionId,
+      AuthorId: _id,
+    });
+
+    if (!existingQuestion) {
+      throw Error("Question not found or unauthorized");
+    }
+    //Update tag counts
+    updateTagCounts(existingQuestion.tagList, tagList);
+
+    // Update the question fields
+    existingQuestion.textContent = textContent;
+    existingQuestion.tagList = tagList;
+    existingQuestion.selectedImage = selectedImage;
+
+    // Save the updated question
+    await existingQuestion.save();
+
+    res.status(200).json(existingQuestion);
+  } catch (error) {
+    res.status(400).json({
+      from: "updateQuestion",
       error: error.message,
     });
   }
@@ -256,4 +316,5 @@ module.exports = {
   getProfileInfo,
   getAllTags,
   getPopularTags,
+  updateQuestion,
 };
