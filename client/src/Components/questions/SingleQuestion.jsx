@@ -6,11 +6,23 @@ import { TbMessage2Question } from "react-icons/tb";
 import { FiEye } from "react-icons/fi";
 import { BsChatSquareHeart } from "react-icons/bs";
 import { Button, SmallButton } from "../Buttons";
+import { FaRegStar } from "react-icons/fa6";
+import { FaStar } from "react-icons/fa6";
+import { useState } from "react";
 const SingleQuestion = () => {
+    const [collected, setCollected] = useState(false);
+    const addToCollection = () => {
+        setCollected((prev) => !prev);
+    };
     return (
         <div className={`${classes["SingleQuestion"]}`}>
             <div className={`${classes["edit-btn"]}`}>
                 <SmallButton text={`Edit Post`} />
+                {collected ? (
+                    <FaStar onClick={addToCollection} />
+                ) : (
+                    <FaRegStar onClick={addToCollection} />
+                )}
             </div>
             <div className={`${classes["question"]}`}>
                 <p>
