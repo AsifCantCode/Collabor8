@@ -59,15 +59,36 @@ const ProfileDetails = ({ rightSidebarState, setRightSidebarState }) => {
                 </div>
                 <div className={`${classes["card"]} ${classes["points"]}`}>
                     <div>
-                        <span>0</span>
-                        <span>Points</span>
+                        <span>4</span>
+                        <span>Follower</span>
+                    </div>
+                    <div>
+                        <span>10</span>
+                        <span>Following</span>
                     </div>
                 </div>
                 <div className={`${classes["card"]} ${classes["badge"]}`}>
                     <div>
                         <span>0</span>
+                        <span>Points</span>
+                    </div>
+                    <div>
+                        <span>Beginner</span>
                         <span>Badge</span>
                     </div>
+                </div>
+            </div>
+
+            <div className={`${classes["message-area"]}`}>
+                <p>
+                    Do you want to be a instructor? Lorem ipsum dolor sit amet
+                    consectetur adipisicing elit. Distinctio a quod harum
+                    voluptatibus laudantium architecto consectetur, voluptas
+                    magnam tenetur minus!
+                </p>
+                <div className={`${classes["message-btn"]}`}>
+                    <LinkButton text="Apply Now" to="/apply" />
+                    <LinkButton text="Apply Now" to="/apply" />
                 </div>
             </div>
             <div className={`${classes["questions"]}`}>

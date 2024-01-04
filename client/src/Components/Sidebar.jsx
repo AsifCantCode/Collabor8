@@ -43,7 +43,7 @@ const Sidebar = ({ sidebarState }) => {
         {
             name: "Tags",
             icon: <FaTags />,
-            path: "/tags",
+            path: "/all-tags",
         },
         {
             name: "Subscriptions",

@@ -1,0 +1,44 @@
+.AllTags {
+    padding: 1rem;
+}
+.tag-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 1rem;
+    margin-top: 1rem;
+}
+.tag {
+    padding: 1.3rem;
+    border-radius: 0.5rem;
+    background-color: var(--dark-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid var(--border-deep);
+}
+.tag:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border);
+}
+
+.tag h3 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.tag div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: space-between;
+}
+.tag div p {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+}
+.tag span {
+    font-style: italic;
+    font-size: 1.4rem;
+}

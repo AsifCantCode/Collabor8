@@ -5,6 +5,7 @@ const profile = {
     favTags: ["nodejs", "reactjs", "mongodb", "python"],
     badge: "Beginner",
     points: 100,
+    questionLeft: 5,
     follower: 2,
     subscription: {
         status: true,
@@ -97,3 +98,18 @@ const singleAnswer = {
         ],
     },
 };
+
+const tags = [
+    {
+        _id: "123",
+        name: "nodejs",
+        questionCount: 10,
+        questionInLastWeek: 4,
+    },
+    {
+        _id: "123",
+        name: "nodejs",
+        questionCount: 10,
+        questionInLastWeek: 4,
+    },
+];
