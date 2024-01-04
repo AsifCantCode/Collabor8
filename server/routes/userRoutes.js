@@ -1,5 +1,6 @@
 const express = require("express");
 const requireAuth = require("../middlewares/requireAuth");
+const isLoggedIn = require("../middlewares/isLoggedIn.js");
 const multer = require("multer"); // for handling file uploads
 const path = require("path"); // for handling file paths
 
@@ -8,6 +9,7 @@ const {
   signup,
   login,
   getProfileInfo,
+  getAllQuestions
 } = require("../controllers/userControllers");
 
 const router = express.Router();
@@ -37,5 +39,6 @@ router
 router.route("/signup").post(signup);
 router.route("/login").post(login);
 router.route("/").get(requireAuth, getProfileInfo);
+router.route("/all-questions").get(isLoggedIn, getAllQuestions);
 
 module.exports = router;

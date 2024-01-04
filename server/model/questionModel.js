@@ -12,6 +12,9 @@ const questionSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    description:{
+        type: String,
+    },
     selectedImage: {
         type: Array,
         required: true,
@@ -20,6 +23,36 @@ const questionSchema = new mongoose.Schema({
         type: Array,
         required: true,
     },
+    postTime:{
+        type: Date,
+        default: Date.now,
+    },
+    updateTime:{
+        type: Date,
+        default: Date.now,
+    },
+    countUpVotes:{
+        type: Number,
+        default: 0,
+    },
+    countDownVotes:{
+        type: Number,
+        default: 0,
+    },
+    countAnswers:{
+        type: Number,
+        default: 0,
+    },
+    isSolved:{
+        type: Boolean,
+        default: false,
+    },
+    answers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Answer',
+        },
+    ],
 });
 
 module.exports = mongoose.model("Question", questionSchema);

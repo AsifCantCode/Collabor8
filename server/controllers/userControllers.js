@@ -79,14 +79,30 @@ const getProfileInfo = async (req, res) => {
 
 //Upload Questions function
 const uploadQuestions = async (req, res) => {
-    const { textContent, tagList } = req.body;
+    const { 
+      textContent, 
+      description, 
+      tagList, 
+      postTime,
+      updateTime,
+      countUpVotes,
+      countDownVotes,
+      countAnswers,
+      isSolveed} = req.body;
     const { authorization } = req.headers;
     const token = authorization.split(" ")[1];
 
     const selectedImage = req.files.map((file) => file.filename);
     console.log("SELECTED IMAGE: ", selectedImage);
     console.log("TEXT: ", textContent, typeof textContent);
+    console.log("Description: ", description);
     console.log("TagList: ", tagList);
+    console.log("PostTime: ", postTime);
+    console.log("UpdateTime: ", updateTime);
+    console.log("CountUpVotes: ", countUpVotes);
+    console.log("CountDownVotes: ", countDownVotes);
+    console.log("CountAnswers: ", countAnswers);
+    console.log("IsSolveed: ", isSolveed);
     try {
         const { _id, fullname, password } = jwt.verify(
             token,
@@ -103,6 +119,36 @@ const uploadQuestions = async (req, res) => {
             from: "uploadQuestions",
             error: error.message,
         });
+    }
+};
+
+const getAllQuestions = async (req, res) => {
+    try{
+      let query = {}; //blank rakhsi shob question ante
+      //jodi user logged in hoy taile nicher ta
+      if(req.user){
+        const {favTags, following} = req.user;
+
+        query = {
+          $or: [
+            {
+              tagList: {$in: favTags}
+            },
+            {
+              AuthorId: {$in: following}
+            }
+          ],
+        };
+      }
+
+      const questions = await Question.find(query)
+      .sort({postTime: -1})
+      .exec();
+
+      res.json({questions});
+    }catch(error){
+      console.error(error);
+      res.status(500).send("Server error");
     }
 };
 
