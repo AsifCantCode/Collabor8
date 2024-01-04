@@ -1,13 +1,14 @@
 .Subscription {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    /* height: 100vh; */
     /* width: 100vw; */
     padding: 2rem 5rem;
+    margin-bottom: 2rem;
 }
 
 .subscription-area {
-    margin-top: 1rem;
+    margin: 1rem 0;
     background: var(--dark-light);
     border: 1px solid var(--border-deep);
     border-radius: 0.5rem;
@@ -66,4 +67,23 @@
 }
 .card > p:nth-child(4) {
     margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 1000px) {
+    .Subscription {
+        padding: 2rem 2rem;
+    }
+    .subscription-area {
+        padding: 1rem;
+    }
+    .subscription-plan {
+        padding-top: 1rem;
+    }
+    .plan-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card {
+        width: 100%;
+    }
 }

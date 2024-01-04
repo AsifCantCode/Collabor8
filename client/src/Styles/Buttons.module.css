@@ -17,7 +17,7 @@
 }
 .ButtonTransarent:hover {
     background-color: #ffbb26;
-    color: #000000;
+    color: #000000 !important;
 }
 
 .Button {

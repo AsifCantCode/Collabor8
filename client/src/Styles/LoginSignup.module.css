@@ -97,4 +97,17 @@
 .switch-form span {
     margin-left: 10px;
     color: var(--yellow);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1000px) {
+    .LoginSignup {
+        height: auto;
+    }
+    .LoginSignup > div {
+        width: 100%;
+    }
+    .LoginSignup div form {
+        width: 100%;
+    }
 }
