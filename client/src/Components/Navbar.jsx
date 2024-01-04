@@ -9,18 +9,23 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { Button, ButtonTransarent, LinkButtonTransarent } from "./Buttons";
-
+import { useAuthContext } from "../Hooks/useAuthContext";
 // Icons
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 const Navbar = ({ setSidebarState }) => {
     const [tempState, setTempState] = useState(false);
     const navRef = useRef();
-
+    const { user, newUser, logout } = useAuthContext();
+    console.log("NEW USER From Navbar", newUser);
     useEffect(() => {
         console.log("NAV HEIGHT", navRef.current.offsetHeight);
     }, []);
 
+    const handleLogout = (e) => {
+        e.preventDefault();
+        logout();
+    };
     return (
         <div ref={navRef} className={classes.navbar}>
             <Helmet>
@@ -66,7 +71,7 @@ const Navbar = ({ setSidebarState }) => {
                     />
                 </div>
 
-                {tempState ? (
+                {user && newUser ? (
                     <>
                         <div className={classes.navbarItem}>
                             <img
@@ -91,13 +96,16 @@ const Navbar = ({ setSidebarState }) => {
                                 alt="Icon"
                                 className={classes.icon}
                             />
-                            <span className={classes.navbarText}>Asif</span>
+                            <span className={classes.navbarText}>
+                                {newUser?.fullname?.split(" ")[0]}
+                            </span>
                         </div>
                         <div className={classes.navbarItem}>
                             <img
                                 src={exit_logo}
                                 alt="Icon"
                                 className={classes.iconExit}
+                                onClick={handleLogout}
                             />
                         </div>
                     </>
