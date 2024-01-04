@@ -1,10 +1,22 @@
 import classes from "../Styles/ProfileDetails.module.css";
-import { LinkButton } from "./Buttons";
+import { ButtonWithIconOnlyTransparent, LinkButton } from "./Buttons";
 import SingleQuestion from "./questions/SingleQuestion";
 
+// Icons
+import { GoSidebarExpand } from "react-icons/go";
 const ProfileDetails = ({ rightSidebarState, setRightSidebarState }) => {
     return (
         <div className={`${classes["ProfileDetails"]}`}>
+            <div className={`${classes["responsive-button"]}`}>
+                <ButtonWithIconOnlyTransparent
+                    func={() => {
+                        console.log("Active Function Called");
+                        console.log(rightSidebarState);
+                        setRightSidebarState((prev) => !prev);
+                    }}
+                    icon={<GoSidebarExpand />}
+                />
+            </div>
             <div className={`${classes["personal-info"]}`}>
                 <div className={`${classes["info-part"]}`}>
                     <div className={`${classes["profile-img"]}`}>
@@ -30,18 +42,6 @@ const ProfileDetails = ({ rightSidebarState, setRightSidebarState }) => {
                     <div className={`${classes["desktop-view-button"]}`}>
                         <LinkButton text="Edit Profile" to="/edit-profile" />
                     </div>
-
-                    {/* <div className={`${classes["responsive-button"]}`}>
-                        <ButtonWithIconOnly icon={<MdOutlineEditCalendar />} />
-                        <ButtonWithIconOnlyTransparent
-                            func={() => {
-                                console.log("Active Function Called");
-                                console.log(rightSidebarState);
-                                setRightSidebarState((prev) => !prev);
-                            }}
-                            icon={<GoSidebarExpand />}
-                        />
-                    </div> */}
                 </div>
             </div>
             <div className={`${classes["personal-cards"]}`}>

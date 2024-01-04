@@ -118,3 +118,70 @@
     font-weight: 600;
     /* margin-bottom: 1rem; */
 }
+
+.responsive-button {
+    display: none;
+}
+@media screen and (max-width: 1000px) {
+    .responsive-button {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 1rem;
+    }
+    .ProfileDetails {
+        /* position: relative; */
+        width: 100%;
+        padding: 1rem;
+    }
+    .personal-info {
+        flex-direction: column;
+        align-items: center;
+    }
+    .info-part {
+        width: 100%;
+        justify-content: center;
+    }
+    .profile-img {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 1rem;
+    }
+    .info {
+        width: 100%;
+        margin: 1rem 0;
+        align-items: center;
+    }
+    .info > * {
+        text-align: center;
+    }
+    .personal-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    .message-area {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+    .message-btn {
+        align-items: center;
+    }
+    .questions {
+        margin-top: 2rem;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .questions h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        /* margin-bottom: 1rem; */
+    }
+}

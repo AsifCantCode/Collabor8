@@ -6,7 +6,7 @@
     /* background: blue; */
     padding: 1rem;
     border-left: 1px solid var(--border-deep);
-    z-index: 9999;
+    z-index: 9999999;
     background-color: var(--dark);
 }
 

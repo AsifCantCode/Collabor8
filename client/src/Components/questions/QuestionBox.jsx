@@ -20,7 +20,9 @@ const QuestionBox = ({ setRightSidebarState, rightSidebarState }) => {
                 </div>
 
                 <div className={`${classes["responsive-button"]}`}>
-                    <ButtonWithIconOnly icon={<MdOutlineEditCalendar />} />
+                    <ButtonWithIconOnlyTransparent
+                        icon={<MdOutlineEditCalendar />}
+                    />
                     <ButtonWithIconOnlyTransparent
                         func={() => {
                             console.log("Active Function Called");
