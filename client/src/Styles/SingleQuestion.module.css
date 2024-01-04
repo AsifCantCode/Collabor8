@@ -70,7 +70,19 @@
     color: var(--yellow);
     /* fill: var(--yellow); */
 }
-
+.edit-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.edit-btn svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: var(--yellow);
+    /* fill: var(--yellow); */
+    cursor: pointer;
+    /* justify-self: end; */
+}
 @media screen and (max-width: 1000px) {
     .info {
         margin-top: 1rem;
