@@ -39,6 +39,6 @@ router
 router.route("/signup").post(signup);
 router.route("/login").post(login);
 router.route("/").get(requireAuth, getProfileInfo);
-router.route("/all-questions").get(isLoggedIn, getAllQuestions);
+router.route("/all-questions").get(requireAuth,isLoggedIn, getAllQuestions);
 
 module.exports = router;

@@ -127,8 +127,8 @@ const getAllQuestions = async (req, res) => {
   try {
     let query = {}; //blank rakhsi shob question ante
     //jodi user logged in hoy taile nicher ta
-    if (req.user) {
-      const { favTags, following } = req.user;
+    if (req.body.profile) {
+      const { favTags, following } = req.body.profile;
 
       query = {
         $or: [
@@ -151,4 +151,4 @@ const getAllQuestions = async (req, res) => {
   }
 };
 
-module.exports = { uploadQuestions, signup, login, getProfileInfo };
+module.exports = { uploadQuestions,getAllQuestions, signup, login, getProfileInfo };
