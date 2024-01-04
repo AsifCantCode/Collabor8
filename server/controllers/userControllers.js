@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 
 const Question = require("../model/questionModel");
 const User = require("../model/userModel");
+const Tag = require("../model/tagModel");
 const {
   generatedHashedPassword,
   validateUser,
@@ -77,6 +78,18 @@ const getProfileInfo = async (req, res) => {
   }
 };
 
+// Function to enter tags
+async function enterTags(tagList) {
+  try {
+    for (const tagName of tagList) {
+      const tag = await Tag.findOrCreate(tagName);
+      console.log(`Tag '${tagName}' found or created:`, tag);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 //Upload Questions function
 const uploadQuestions = async (req, res) => {
   const { textContent, tagList } = req.body;
@@ -85,10 +98,8 @@ const uploadQuestions = async (req, res) => {
 
   const selectedImage = req.files.map((file) => file.filename);
   try {
-    const { _id, fullname, password } = jwt.verify(
-      token,
-      process.env.JWT_SECRET
-    );
+    const { _id, fullname, email } = jwt.verify(token, process.env.JWT_SECRET);
+    await enterTags(tagList);
     const question = await Question.create({
       AuthorId: _id,
       textContent,
