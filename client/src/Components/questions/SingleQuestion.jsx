@@ -5,9 +5,13 @@ import { FaCircleUser } from "react-icons/fa6";
 import { TbMessage2Question } from "react-icons/tb";
 import { FiEye } from "react-icons/fi";
 import { BsChatSquareHeart } from "react-icons/bs";
+import { Button, SmallButton } from "../Buttons";
 const SingleQuestion = () => {
     return (
         <div className={`${classes["SingleQuestion"]}`}>
+            <div className={`${classes["edit-btn"]}`}>
+                <SmallButton text={`Edit Post`} />
+            </div>
             <div className={`${classes["question"]}`}>
                 <p>
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
