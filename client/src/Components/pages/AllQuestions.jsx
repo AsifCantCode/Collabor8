@@ -2,6 +2,7 @@ import QuestionBox from "../questions/QuestionBox";
 import classes from "../../Styles/AllQuestions.module.css";
 import RightSidebar from "../RightSidebar";
 import { useState } from "react";
+import PopularTagsCard from "../PopularTagsCard";
 
 const AllQuestions = () => {
     const [rightSidebarState, setRightSidebarState] = useState(false);
@@ -14,7 +15,13 @@ const AllQuestions = () => {
             <RightSidebar
                 setRightSidebarState={setRightSidebarState}
                 rightSidebarState={rightSidebarState}
-            />
+            >
+                <div>
+                    <PopularTagsCard />
+                    <PopularTagsCard />
+                    <PopularTagsCard />
+                </div>
+            </RightSidebar>
         </div>
     );
 };

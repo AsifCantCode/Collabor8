@@ -1,13 +1,16 @@
 .RightSidebar {
+    background-color: var(--dark);
     position: fixed;
-    left: 76%;
+    top: 74px;
+    z-index: 200;
+    transition: all 0.3s ease-in-out;
+    padding: 1rem;
+    overflow-y: auto;
     width: 24%;
     height: 100%;
-    /* background: blue; */
-    padding: 1rem;
     border-left: 1px solid var(--border-deep);
-    z-index: 9999999;
-    background-color: var(--dark);
+    left: 76%;
+    /* background: blue; */
 }
 
 .close-btn {
@@ -15,9 +18,16 @@
 }
 @media screen and (max-width: 1000px) {
     .RightSidebar {
-        left: 100%;
+        /* position: absolute; */
         width: 100%;
-        transition: all 0.3s ease-in-out;
+        height: 100vh;
+        top: 0;
+        left: 100%;
+        border-right: none;
+        overflow: auto;
+        z-index: 1000;
+        width: 100%;
+        height: 100vh;
     }
     .active {
         left: 0;

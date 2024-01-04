@@ -46,3 +46,43 @@ body {
     vertical-align: middle;
     margin-right: 0.8rem;
 }
+
+.sidebar-card {
+    background-color: var(--dark-light);
+}
+.sidebar-card-header {
+    /* width: 100%; */
+    margin-bottom: 1rem;
+    /* background-color: var(--dark); */
+}
+
+.sidebar-card-header::after {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 5px;
+    background-color: var(--yellow);
+    margin-bottom: 0.5rem;
+    position: relative;
+    bottom: 16px;
+    right: -138px;
+}
+
+.sidebar-card-header::before {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 5px;
+    background-color: var(--yellow);
+    margin-bottom: 0.5rem;
+    position: relative;
+    top: 25px;
+    left: -40px;
+}
+
+.sidebar-card-header h3 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--yellow);
+    text-align: left;
+}

@@ -8,7 +8,7 @@ const Layout = () => {
     return (
         <div className={`Layout`}>
             <Navbar setSidebarState={setSidebarState} />
-            <Home sidebarState={sidebarState}>
+            <Home sidebarState={sidebarState} setSidebarState={setSidebarState}>
                 <Outlet />
             </Home>
         </div>

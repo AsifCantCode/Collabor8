@@ -2,7 +2,11 @@ import classes from "../Styles/RightSidebar.module.css";
 
 // Icons
 import { ImCross } from "react-icons/im";
-const RightSidebar = ({ setRightSidebarState, rightSidebarState }) => {
+const RightSidebar = ({
+    setRightSidebarState,
+    rightSidebarState,
+    children,
+}) => {
     return (
         <div
             className={`${classes["RightSidebar"]} ${
@@ -15,7 +19,11 @@ const RightSidebar = ({ setRightSidebarState, rightSidebarState }) => {
                 />
             </div>
 
-            <h4>Right Sidebar</h4>
+            {children}
+
+            <div style={{ visibility: "hidden", height: "100px" }}>sfsd</div>
+            <div style={{ visibility: "hidden", height: "100px" }}>sfsd</div>
+            {/* <div style={{ visibility: "hidden", height: "100px" }}>sfsd</div> */}
         </div>
     );
 };
