@@ -19,6 +19,7 @@ import TagBox from "./UI_Testing/TagBox";
 import Tags from "./UI_Testing/Tags";
 import AllTags from "./Components/pages/AllTags";
 import Subscription from "./Components/pages/Subscription";
+import EditQuestion from "./Components/pages/EditQuestion";
 
 const App = () => {
     return (
@@ -30,6 +31,10 @@ const App = () => {
                         <Route path="" element={<AllQuestions />} />
                         <Route path="profile" element={<Profile />} />
                         <Route path="new-question" element={<AskQuestion />} />
+                        <Route
+                            path="edit-question/:id"
+                            element={<EditQuestion />}
+                        />
                         <Route path="all-tags" element={<AllTags />} />
                     </Route>
                     <Route path="/accounts" element={<LoginSignup />} />

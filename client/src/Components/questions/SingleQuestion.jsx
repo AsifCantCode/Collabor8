@@ -17,7 +17,7 @@ const SingleQuestion = () => {
     return (
         <div className={`${classes["SingleQuestion"]}`}>
             <div className={`${classes["edit-btn"]}`}>
-                <SmallButton text={`Edit Post`} />
+                <SmallButton to={`/edit-question/3`} text={`Edit Post`} />
                 {collected ? (
                     <FaStar onClick={addToCollection} />
                 ) : (

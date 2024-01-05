@@ -54,6 +54,7 @@ const AskQuestion = () => {
       setLoading(false);
       return;
     }
+    console.log("TITLE: ", title);
     console.log("TEXT: ", textContent);
     console.log("IMAGEs ", selectedImage);
     console.log("TAGLIST: ", tagList);
