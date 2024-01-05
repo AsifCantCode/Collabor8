@@ -16,6 +16,7 @@ const {
   getAllTags,
   updateQuestion,
   updateProfile,
+  followUnfollow,
 } = require("../controllers/userControllers");
 
 const router = express.Router();
@@ -41,9 +42,10 @@ router.route("/all-questions").get(requireAuth, isLoggedIn, getAllQuestions);
 router.route("/tag-questions/:tagName").get(tagBasedQuestions);
 router.route("/related-questions/:tagNames").get(relatedQuestions);
 router.route("/personal-question/:userId").get(getPersonalQuestions);
-//Dummy function
-router.route("/whole-question/:questionId").get(getWholeQuestion);
 router.route("/popular-tags").get(requireAuth, getPopularTags);
 router.route("/all-tags").get(requireAuth, getAllTags);
+router.route("/follow-unfollow").put(requireAuth, followUnfollow);
+//Dummy function
+router.route("/whole-question/:questionId").get(getWholeQuestion);
 
 module.exports = router;

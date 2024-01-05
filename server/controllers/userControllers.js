@@ -362,6 +362,30 @@ const getWholeQuestion = async (req, res) => {
   }
 };
 
+const followUnfollow = async (req, res) => {
+  const { userId, follow } = req.body;
+  const { _id } = req.body.profile;
+  console.log(req.body);
+
+  try {
+    const currentUser = await User.findById(_id);
+    const targetUser = await User.findById(userId);
+    let updatedUser;
+    if (follow) {
+      updatedUser = await currentUser.followUser(targetUser);
+    } else {
+      updatedUser = await currentUser.unfollowUser(targetUser);
+    }
+
+    res.status(200).json({ updatedUser });
+  } catch (error) {
+    res.status(400).json({
+      from: "from follow unfollow",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getWholeQuestion,
   relatedQuestions,
@@ -376,4 +400,5 @@ module.exports = {
   getPopularTags,
   updateQuestion,
   updateProfile,
+  followUnfollow,
 };
