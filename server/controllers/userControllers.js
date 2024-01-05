@@ -115,19 +115,20 @@ async function updateTagCounts(prevTagList, tagList) {
 
 //Upload Questions function
 const uploadQuestions = async (req, res) => {
-  const { textContent, tagList } = req.body;
+  const { textContent, tagList, title } = req.body;
   const { authorization } = req.headers;
   const token = authorization.split(" ")[1];
 
   const selectedImage = req.files.map((file) => file.filename);
   try {
-    const { _id, fullname, email } = jwt.verify(token, process.env.JWT_SECRET);
+    const { _id } = jwt.verify(token, process.env.JWT_SECRET);
     await enterTags(tagList);
     const question = await Question.create({
       AuthorId: _id,
       textContent,
       selectedImage,
       tagList,
+      title,
     });
     res.status(200).json(question);
   } catch (error) {
@@ -139,7 +140,7 @@ const uploadQuestions = async (req, res) => {
 };
 
 const updateQuestion = async (req, res) => {
-  const { textContent, tagList, questionId } = req.body;
+  const { textContent, tagList, questionId, title } = req.body;
   const { authorization } = req.headers;
   const token = authorization.split(" ")[1];
 
@@ -163,6 +164,7 @@ const updateQuestion = async (req, res) => {
     existingQuestion.textContent = textContent;
     existingQuestion.tagList = tagList;
     existingQuestion.selectedImage = selectedImage;
+    existingQuestion.title = title;
 
     // Save the updated question
     await existingQuestion.save();
