@@ -17,6 +17,7 @@ const {
   updateQuestion,
   updateProfile,
   followUnfollow,
+  upvoteDownvote,
 } = require("../controllers/userControllers");
 
 const router = express.Router();
@@ -45,6 +46,7 @@ router.route("/personal-question/:userId").get(getPersonalQuestions);
 router.route("/popular-tags").get(requireAuth, getPopularTags);
 router.route("/all-tags").get(requireAuth, getAllTags);
 router.route("/follow-unfollow").put(requireAuth, followUnfollow);
+router.route("/upvote-downvote").put(requireAuth, upvoteDownvote);
 //Dummy function
 router.route("/whole-question/:questionId").get(getWholeQuestion);
 

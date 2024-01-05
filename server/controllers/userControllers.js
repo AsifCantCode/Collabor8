@@ -165,6 +165,7 @@ const updateQuestion = async (req, res) => {
     existingQuestion.tagList = tagList;
     existingQuestion.selectedImage = selectedImage;
     existingQuestion.title = title;
+    existingQuestion.updateTime = Date.now();
 
     // Save the updated question
     await existingQuestion.save();
@@ -367,7 +368,6 @@ const getWholeQuestion = async (req, res) => {
 const followUnfollow = async (req, res) => {
   const { userId, follow } = req.body;
   const { _id } = req.body.profile;
-  console.log(req.body);
 
   try {
     const currentUser = await User.findById(_id);
@@ -388,6 +388,28 @@ const followUnfollow = async (req, res) => {
   }
 };
 
+const upvoteDownvote = async (req, res) => {
+  const { questionId, upvote } = req.body;
+  const { _id } = req.body.profile;
+
+  try {
+    const question = await Question.findById(questionId);
+    let updatedQuestion;
+    if (upvote) {
+      updatedQuestion = await question.upVote(_id);
+    } else {
+      updatedQuestion = await question.downVote(_id);
+    }
+
+    res.status(200).json({ updatedQuestion });
+  } catch (error) {
+    res.status(400).json({
+      from: "from upvote-downvote",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getWholeQuestion,
   relatedQuestions,
@@ -403,4 +425,5 @@ module.exports = {
   updateQuestion,
   updateProfile,
   followUnfollow,
+  upvoteDownvote,
 };
