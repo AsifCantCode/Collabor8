@@ -2,11 +2,30 @@
     padding: 1rem;
 }
 
+.title {
+    margin: 1rem 0;
+}
+.title label {
+    margin-bottom: 0.5rem;
+    display: block;
+}
+.title input {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--white);
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
 .new-question {
     margin-top: 1rem;
     margin-bottom: 2rem;
 }
-
+.new-question label {
+    margin-bottom: 0.5rem;
+    display: block;
+}
 .attachments {
     margin-bottom: 2rem;
 }
