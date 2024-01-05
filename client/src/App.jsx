@@ -20,6 +20,8 @@ import Tags from "./UI_Testing/Tags";
 import AllTags from "./Components/pages/AllTags";
 import Subscription from "./Components/pages/Subscription";
 import EditQuestion from "./Components/pages/EditQuestion";
+import SingleQuestion from "./Components/questions/SingleQuestion";
+import SingleQuestionDetails from "./Components/pages/SingleQuestionDetails";
 
 const App = () => {
     return (
@@ -36,6 +38,10 @@ const App = () => {
                             element={<EditQuestion />}
                         />
                         <Route path="all-tags" element={<AllTags />} />
+                        <Route
+                            path="single-question/:id"
+                            element={<SingleQuestionDetails />}
+                        />
                     </Route>
                     <Route path="/accounts" element={<LoginSignup />} />
                     <Route path="/edit-profile" element={<EditProfile />} />

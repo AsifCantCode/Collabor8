@@ -18,24 +18,28 @@
     --dark-light: #2f2f3a;
     --yellow: #ffbb26;
     --danger: #fc3434;
+    --success: #00c851;
 }
 ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
 }
 ::-webkit-scrollbar-track {
     background: var(--border);
+    border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb {
     background: var(--dark-light);
+    border-radius: 3px;
 }
-a:not(.jodit-wysiwyg li) {
+a:not(.jodit-wysiwyg a, .post-description a) {
     text-decoration: none;
     color: var(--white);
 }
-a:not(.jodit-wysiwyg li):hover {
+a:not(.jodit-wysiwyg a, .post-description a):hover {
     color: var(--yellow);
 }
 
-li:not(.jodit-wysiwyg li) {
+li:not(.jodit-wysiwyg li, .post-description li) {
     list-style: none;
 }

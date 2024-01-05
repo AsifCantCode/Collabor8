@@ -9,6 +9,7 @@ import { Button, SmallButton } from "../Buttons";
 import { FaRegStar } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa6";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 const SingleQuestion = () => {
     const [collected, setCollected] = useState(false);
     const addToCollection = () => {
@@ -25,11 +26,11 @@ const SingleQuestion = () => {
                 )}
             </div>
             <div className={`${classes["question"]}`}>
-                <p>
+                <Link to={`/single-question/1`}>
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                     Minus enim maxime atque. Veritatis excepturi exercitationem
                     hic facere molestiae. Quibusdam, ipsum!
-                </p>
+                </Link>
             </div>
             <div className={`${classes["tags"]}`}>
                 <span>Tag 1</span>

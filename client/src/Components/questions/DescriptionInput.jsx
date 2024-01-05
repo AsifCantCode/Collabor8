@@ -1,5 +1,6 @@
 import classes from "../../Styles/AskQuestion.module.css";
 import JoditEditor from "jodit-react";
+import { FaQuoteLeft } from "react-icons/fa6";
 const DescriptionInput = ({ textContent, setTextContent }) => {
     // Jodit Editor Config
     const editorConfig = {
@@ -39,6 +40,7 @@ const DescriptionInput = ({ textContent, setTextContent }) => {
             "|",
             "fullsize",
         ],
+
         theme: "dark",
     };
     return (

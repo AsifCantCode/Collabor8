@@ -1,0 +1,116 @@
+.SingleQuestion {
+    position: absolute;
+    left: 0;
+    width: 70%;
+    /* background: green; */
+    padding: 2rem;
+}
+.page-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.creation-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 1rem;
+}
+
+.creation-info > p > * {
+    vertical-align: middle;
+}
+.creation-date {
+    font-size: 0.8rem;
+    color: var(--border);
+    font-style: italic;
+}
+
+.up-down-votes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--border);
+}
+
+.upvote {
+    color: var(--success);
+}
+.downvote {
+    color: var(--danger);
+}
+
+.title h3 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--yellow);
+}
+.description {
+    margin-top: 1rem;
+    width: 100%;
+    overflow: auto;
+}
+.description ul,
+ol {
+    margin: 1rem 0;
+}
+.description li {
+    margin: 0 2rem;
+}
+.description li::marker {
+    color: var(--yellow);
+    font-weight: bold;
+}
+.description p {
+    margin: 1rem 0;
+}
+.description table {
+    max-width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    overflow-x: auto;
+}
+.description table th,
+td {
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+}
+.description table th {
+    background: var(--dark-light);
+    color: var(--white);
+}
+.description table tr:nth-child(even) {
+    background: var(--dark-light);
+}
+.description table tr:nth-child(odd) {
+    background: var(--dark);
+}
+.description table tr td a {
+    color: var(--yellow);
+}
+.description a {
+    color: var(--yellow);
+    font-style: italic;
+}
+.attachment {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--border);
+}
+.attachment img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}

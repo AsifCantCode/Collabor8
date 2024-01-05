@@ -11,8 +11,11 @@
     border-left: 1px solid var(--border-deep);
     left: 76%;
     /* background: blue; */
+    direction: rtl;
 }
-
+.RightSidebar > * {
+    direction: ltr;
+}
 .close-btn {
     display: none;
 }
