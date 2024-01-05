@@ -5,13 +5,15 @@ import { useAuthContext } from "../../Hooks/useAuthContext";
 import classes from "../../Styles/AskQuestion.module.css";
 import UserApi from "../../apis/UserApi";
 import { Button } from "../Buttons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import TitleInput from "../questions/TitleInput";
 import DescriptionInput from "../questions/DescriptionInput";
 import ImageInputAndViewer from "../questions/ImageInputAndViewer";
 import TagInput from "../questions/TagInput";
+import { useGetSingleQuestion } from "../../Hooks/useGetSingleQuestion";
+import PreviousImage from "../questions/PreviousImage";
 
-const AskQuestion = () => {
+const EditQuestion = () => {
     // Text Input Section
     const [title, setTitle] = useState("");
     const [textContent, setTextContent] = useState("");
@@ -21,10 +23,28 @@ const AskQuestion = () => {
     const [imageViewer, setImageViewer] = useState([]);
     const imageInputRef = useRef(null);
     const [fileError, setFileError] = useState(false);
+    const [previousImages, setPreviousImages] = useState([]);
 
     // Tags Input Section
     const [tagList, setTagList] = useState([]);
     const [tag, setTag] = useState("");
+
+    // Previous Data Load
+    const { id } = useParams();
+    const {
+        question,
+        loading: questionLoading,
+        error: questionError,
+    } = useGetSingleQuestion(id);
+
+    useEffect(() => {
+        if (question) {
+            setTitle(question?.title);
+            setTextContent(question?.textContent);
+            setPreviousImages(question?.selectedImage);
+            setTagList(question?.tagList);
+        }
+    }, [question]);
 
     // Submit Section
     const [loading, setLoading] = useState(false);
@@ -40,7 +60,8 @@ const AskQuestion = () => {
             }
         });
     }, []);
-    const handleSubmit = async (e) => {
+
+    const handleUpdate = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(false);
@@ -65,34 +86,34 @@ const AskQuestion = () => {
             formData.append("tagList", tagList[i]);
         }
 
-        try {
-            const response = await UserApi.post("/add-question", formData, {
-                headers: {
-                    Authorization: `Bearer ${user}`,
-                },
-            });
-            setLoading(false);
+        // try {
+        //     const response = await UserApi.post("/add-question", formData, {
+        //         headers: {
+        //             Authorization: `Bearer ${user}`,
+        //         },
+        //     });
+        //     setLoading(false);
 
-            toast.success(
-                "Question Added Successfully !! Navigating to home page...",
-                {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: 1500,
-                }
-            );
-            console.log("ASK QUESTION Response: ", response.data);
-        } catch (err) {
-            console.log("ASK QUESTION ERROR: ", err);
-            setLoading(false);
-            setError(err.response.data.error);
-        }
+        //     toast.success(
+        //         "Question Added Successfully !! Navigating to home page...",
+        //         {
+        //             position: toast.POSITION.TOP_RIGHT,
+        //             autoClose: 1500,
+        //         }
+        //     );
+        //     console.log("ASK QUESTION Response: ", response.data);
+        // } catch (err) {
+        //     console.log("ASK QUESTION ERROR: ", err);
+        //     setLoading(false);
+        //     setError(err.response.data.error);
+        // }
     };
 
     return (
         <>
             <div className={`${classes["AskQuestion"]}`}>
                 <div className={`${classes["page-header"]} global-page-header`}>
-                    <h2>Ask a Question</h2>
+                    <h2>Edit Your Question</h2>
                 </div>
 
                 <TitleInput title={title} setTitle={setTitle} />
@@ -103,6 +124,13 @@ const AskQuestion = () => {
                 />
 
                 {/* Image Attachment  */}
+                {previousImages && previousImages.length > 0 && (
+                    <PreviousImage
+                        previousImages={previousImages}
+                        setPreviousImages={setPreviousImages}
+                    />
+                )}
+
                 <ImageInputAndViewer
                     selectedImage={selectedImage}
                     setSelectedImage={setSelectedImage}
@@ -129,7 +157,7 @@ const AskQuestion = () => {
                 {error && <p style={{ color: "red" }}>{error}</p>}
                 {/* Submit Button */}
                 <div className={`${classes["submit-btn"]}`}>
-                    <Button func={handleSubmit} text="Confirm Post" />
+                    <Button func={handleUpdate} text="Update Post" />
                 </div>
             </div>
             <ToastContainer position="top-right" />
@@ -137,4 +165,4 @@ const AskQuestion = () => {
     );
 };
 
-export default AskQuestion;
+export default EditQuestion;
