@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const Question = require("../model/questionModel");
 const User = require("../model/userModel");
 const Tag = require("../model/tagModel");
+const Answer = require("../model/answerModel");
 const {
   generatedHashedPassword,
   validateUser,
@@ -115,19 +116,20 @@ async function updateTagCounts(prevTagList, tagList) {
 
 //Upload Questions function
 const uploadQuestions = async (req, res) => {
-  const { textContent, tagList } = req.body;
+  const { textContent, tagList, title } = req.body;
   const { authorization } = req.headers;
   const token = authorization.split(" ")[1];
 
   const selectedImage = req.files.map((file) => file.filename);
   try {
-    const { _id, fullname, email } = jwt.verify(token, process.env.JWT_SECRET);
+    const { _id } = jwt.verify(token, process.env.JWT_SECRET);
     await enterTags(tagList);
     const question = await Question.create({
       AuthorId: _id,
       textContent,
       selectedImage,
       tagList,
+      title,
     });
     res.status(200).json(question);
   } catch (error) {
@@ -139,7 +141,7 @@ const uploadQuestions = async (req, res) => {
 };
 
 const updateQuestion = async (req, res) => {
-  const { textContent, tagList, questionId } = req.body;
+  const { textContent, tagList, questionId, title } = req.body;
   const { authorization } = req.headers;
   const token = authorization.split(" ")[1];
 
@@ -163,6 +165,8 @@ const updateQuestion = async (req, res) => {
     existingQuestion.textContent = textContent;
     existingQuestion.tagList = tagList;
     existingQuestion.selectedImage = selectedImage;
+    existingQuestion.title = title;
+    existingQuestion.updateTime = Date.now();
 
     // Save the updated question
     await existingQuestion.save();
@@ -286,10 +290,10 @@ const getAllQuestions = async (req, res) => {
 };
 
 const tagBasedQuestions = async (req, res) => {
-  const { tagName } = req.params;
+  const { tagNames } = req.query;
   try {
     const questions = await Question.find({
-      tagList: tagName,
+      tagList: tagNames,
     })
       .sort({ postTime: -1 })
       .exec();
@@ -302,10 +306,8 @@ const tagBasedQuestions = async (req, res) => {
 };
 
 const relatedQuestions = async (req, res) => {
-  //const { tagName } = req.params;
+  const tagNames = req.query.tags ? req.query.tags.split(",") : [];
   try {
-    const tagNames = req.params.tagNames.split(",");
-
     const query = {
       tagList: { $in: tagNames },
     };
@@ -321,11 +323,12 @@ const relatedQuestions = async (req, res) => {
 
 const getPersonalQuestions = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const query = {
-      AuthorId: userId,
-    };
-    const questions = await Question.find(query).sort({ postTime: -1 }).exec();
+    const { _id } = req.body.profile;
+    const questions = await Question.find({
+      AuthorId: _id,
+    })
+      .sort({ postTime: -1 })
+      .exec();
     res.json({ questions });
   } catch (error) {
     console.error(error);
@@ -335,7 +338,7 @@ const getPersonalQuestions = async (req, res) => {
 
 const getWholeQuestion = async (req, res) => {
   try {
-    const { questionId } = req.params;
+    const { questionId } = req.query;
 
     const question = await Question.findById(questionId)
       .populate([
@@ -362,6 +365,51 @@ const getWholeQuestion = async (req, res) => {
   }
 };
 
+const followUnfollow = async (req, res) => {
+  const { userId, follow } = req.body;
+  const { _id } = req.body.profile;
+
+  try {
+    const currentUser = await User.findById(_id);
+    const targetUser = await User.findById(userId);
+    let updatedUser;
+    if (follow) {
+      updatedUser = await currentUser.followUser(targetUser);
+    } else {
+      updatedUser = await currentUser.unfollowUser(targetUser);
+    }
+
+    res.status(200).json({ updatedUser });
+  } catch (error) {
+    res.status(400).json({
+      from: "from follow unfollow",
+      error: error.message,
+    });
+  }
+};
+
+const upvoteDownvote = async (req, res) => {
+  const { questionId, upvote } = req.body;
+  const { _id } = req.body.profile;
+
+  try {
+    const question = await Question.findById(questionId);
+    let updatedQuestion;
+    if (upvote) {
+      updatedQuestion = await question.upVote(_id);
+    } else {
+      updatedQuestion = await question.downVote(_id);
+    }
+
+    res.status(200).json({ updatedQuestion });
+  } catch (error) {
+    res.status(400).json({
+      from: "from upvote-downvote",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getWholeQuestion,
   relatedQuestions,
@@ -376,4 +424,6 @@ module.exports = {
   getPopularTags,
   updateQuestion,
   updateProfile,
+  followUnfollow,
+  upvoteDownvote,
 };

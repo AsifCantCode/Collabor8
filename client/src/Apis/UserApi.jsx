@@ -27,6 +27,22 @@ export default axios.create({
 //   },
 // });
 
+/**FOLLOW-UNFOLLOW (if follow is given true will follow, if given false will unfollow) */
+// const response = await UserApi.put("/follow-unfollow",{userId,follow},{
+//   headers: {
+// Authorization: `Bearer ${user}`,
+//     "Content-Type": "application/json",
+//   },
+// });
+
+/**UPVOTE-DOWNVOTE (if upvote is given true will upvote else downvote for false) */
+// const response = await UserApi.put("/upvote-downvote",{ questionId, upvote },{
+//   headers: {
+// Authorization: `Bearer ${user}`,
+//     "Content-Type": "application/json",
+//   },
+// });
+
 /**SAMPLE */
 // const response = await UserApi.post("/all-tags",{prop1,prop2},{
 //   headers: {
