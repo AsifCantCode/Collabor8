@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const Question = require("../model/questionModel");
 const User = require("../model/userModel");
 const Tag = require("../model/tagModel");
+const Answer = require("../model/answerModel");
 const {
   generatedHashedPassword,
   validateUser,
@@ -289,10 +290,10 @@ const getAllQuestions = async (req, res) => {
 };
 
 const tagBasedQuestions = async (req, res) => {
-  const { tagName } = req.params;
+  const { tagNames } = req.query;
   try {
     const questions = await Question.find({
-      tagList: tagName,
+      tagList: tagNames,
     })
       .sort({ postTime: -1 })
       .exec();
@@ -305,10 +306,8 @@ const tagBasedQuestions = async (req, res) => {
 };
 
 const relatedQuestions = async (req, res) => {
-  //const { tagName } = req.params;
+  const tagNames = req.query.tags ? req.query.tags.split(",") : [];
   try {
-    const tagNames = req.params.tagNames.split(",");
-
     const query = {
       tagList: { $in: tagNames },
     };
@@ -324,11 +323,12 @@ const relatedQuestions = async (req, res) => {
 
 const getPersonalQuestions = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const query = {
-      AuthorId: userId,
-    };
-    const questions = await Question.find(query).sort({ postTime: -1 }).exec();
+    const { _id } = req.body.profile;
+    const questions = await Question.find({
+      AuthorId: _id,
+    })
+      .sort({ postTime: -1 })
+      .exec();
     res.json({ questions });
   } catch (error) {
     console.error(error);
@@ -338,7 +338,7 @@ const getPersonalQuestions = async (req, res) => {
 
 const getWholeQuestion = async (req, res) => {
   try {
-    const { questionId } = req.params;
+    const { questionId } = req.query;
 
     const question = await Question.findById(questionId)
       .populate([
