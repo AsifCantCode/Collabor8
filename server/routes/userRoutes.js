@@ -39,7 +39,7 @@ router
 router.route("/signup").post(signup);
 router.route("/login").post(login);
 router.route("/").get(requireAuth, getProfileInfo);
-router.route("/all-questions").get(requireAuth, isLoggedIn, getAllQuestions);
+router.route("/all-questions").get(isLoggedIn, getAllQuestions);
 router.route("/tag-questions").get(tagBasedQuestions);
 router.route("/related-questions").get(relatedQuestions);
 router.route("/personal-question").get(requireAuth, getPersonalQuestions);
