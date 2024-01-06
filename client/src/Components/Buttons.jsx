@@ -37,6 +37,27 @@ export function SmallButtonLite({ text, to }) {
         </Link>
     );
 }
+export function SmallButtonAc({ text, func }) {
+    return (
+        <button onClick={func} className={`${classes["SmallButton"]}`}>
+            <span>{text}</span>
+        </button>
+    );
+}
+export function SmallButtonLiteAc({ text, func }) {
+    return (
+        <button onClick={func} className={`${classes["SmallButtonLite"]}`}>
+            <span>{text}</span>
+        </button>
+    );
+}
+export function SmallButtonDeepAc({ text, func }) {
+    return (
+        <button onClick={func} className={`${classes["SmallButtonDeep"]}`}>
+            <span>{text}</span>
+        </button>
+    );
+}
 export function LinkButton({ text, to }) {
     return (
         <Link to={to} className={`${classes["Button"]}`}>

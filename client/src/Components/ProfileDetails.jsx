@@ -1,10 +1,20 @@
+import { useState } from "react";
 import classes from "../Styles/ProfileDetails.module.css";
-import { ButtonWithIconOnlyTransparent, LinkButton } from "./Buttons";
+import {
+    ButtonWithIconOnlyTransparent,
+    LinkButton,
+    SmallButton,
+    SmallButtonAc,
+    SmallButtonDeepAc,
+    SmallButtonLite,
+    SmallButtonLiteAc,
+} from "./Buttons";
 import SingleQuestion from "./questions/SingleQuestion";
 
 // Icons
 import { GoSidebarExpand } from "react-icons/go";
 const ProfileDetails = ({ rightSidebarState, setRightSidebarState }) => {
+    const [followState, setFollowState] = useState(false);
     return (
         <div className={`${classes["ProfileDetails"]}`}>
             <div className={`${classes["responsive-button"]}`}>
@@ -36,6 +46,21 @@ const ProfileDetails = ({ rightSidebarState, setRightSidebarState }) => {
                             Bio: Lorem ipsum dolor sit amet consectetur
                             adipisicing elit. Blanditiis, voluptates.
                         </p>
+                        {followState ? (
+                            <SmallButtonLiteAc
+                                text={`+ Follow`}
+                                func={() => {
+                                    setFollowState((prev) => !prev);
+                                }}
+                            />
+                        ) : (
+                            <SmallButtonDeepAc
+                                text={`- Unfollow`}
+                                func={() => {
+                                    setFollowState((prev) => !prev);
+                                }}
+                            />
+                        )}
                     </div>
                 </div>
                 <div className={`${classes["profile-btn"]}`}>

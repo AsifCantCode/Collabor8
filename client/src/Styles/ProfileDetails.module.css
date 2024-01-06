@@ -49,6 +49,9 @@
     color: var(--border);
     margin-bottom: 1rem;
 }
+.info p.bio {
+    margin-bottom: 0.5rem;
+}
 .profile-btn {
     margin-bottom: 1rem;
 }
