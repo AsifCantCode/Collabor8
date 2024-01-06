@@ -4,6 +4,36 @@ export default axios.create({
   baseURL: `http://localhost:${import.meta.env.VITE_BACKEND_PORT}/api/user`,
 });
 
+/** GET ALL QUESTIONS */
+// const response = await UserApi.get("/all-questions",{
+// params:{token:user},
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
+
+/** TAG BASED QUESTIONS */
+// const response = await UserApi.get("/tag-questions",{
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
+
+/** RELATED QUESTIONS */
+// const response = await UserApi.get("/related-questions",,{
+// params:{tags:commaSepTagList},
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
+
+/**PERSONAL QUESTIONS */
+// const response = await UserApi.get("/personal-questions",{
+//   headers: {
+// Authorization: `Bearer ${user}`,
+//   },
+// });
+
 /** ALL TAGS */
 // const response = await UserApi.get("/all-tags",{
 //   headers: {

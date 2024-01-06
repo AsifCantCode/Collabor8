@@ -22,9 +22,10 @@ const {
 
 const router = express.Router();
 
-//UPLOADING MIDDLE WARES
+//UPLOADING IMAGE UPLOAD MIDDLE WARES
 const questionUpload = require("../middlewares/questionUpload.js");
 const profileImageUpload = require("../middlewares/profileImageUpload.js");
+const answerImageUpload = require("../middlewares/answerImageUpload.js");
 
 router
   .route("/add-question")
@@ -42,12 +43,12 @@ router.route("/").get(requireAuth, getProfileInfo);
 router.route("/all-questions").get(isLoggedIn, getAllQuestions);
 router.route("/tag-questions").get(tagBasedQuestions);
 router.route("/related-questions").get(relatedQuestions);
-router.route("/personal-question").get(requireAuth, getPersonalQuestions);
+router.route("/personal-questions").get(requireAuth, getPersonalQuestions);
 router.route("/popular-tags").get(getPopularTags);
 router.route("/all-tags").get(getAllTags);
 router.route("/follow-unfollow").put(requireAuth, followUnfollow);
 router.route("/upvote-downvote").put(requireAuth, upvoteDownvote);
-//Dummy function
 router.route("/single-question").get(getWholeQuestion);
+//Dummy function
 
 module.exports = router;

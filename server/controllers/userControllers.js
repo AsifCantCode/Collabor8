@@ -285,15 +285,15 @@ const getAllQuestions = async (req, res) => {
     res.json({ questions });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server error");
+    res.status(500).send({ from: "Get all questions", error: error.message });
   }
 };
 
 const tagBasedQuestions = async (req, res) => {
-  const { tagNames } = req.query;
+  const { tagName } = req.query;
   try {
     const questions = await Question.find({
-      tagList: tagNames,
+      tagList: { $in: tagName },
     })
       .sort({ postTime: -1 })
       .exec();
@@ -301,7 +301,7 @@ const tagBasedQuestions = async (req, res) => {
     res.json({ questions });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server error");
+    res.status(500).send({ from: "Tag based questions", error: error.message });
   }
 };
 
@@ -317,7 +317,7 @@ const relatedQuestions = async (req, res) => {
     res.json({ questions });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server error");
+    res.status(500).send({ from: "Related questions", error: error.message });
   }
 };
 
@@ -332,7 +332,7 @@ const getPersonalQuestions = async (req, res) => {
     res.json({ questions });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server error");
+    res.status(500).send({ from: "Personal questions", error: error.message });
   }
 };
 
@@ -347,10 +347,10 @@ const getWholeQuestion = async (req, res) => {
           path: "answers",
           populate: [
             { path: "AuthorId", model: "User" },
-            {
-              path: "comments.commentList.fullname",
-              model: "Answers",
-            },
+            // {
+            //   path: "comments.commentList.fullname",
+            //   model: "Answers",
+            // },
           ],
         },
       ])
@@ -361,7 +361,7 @@ const getWholeQuestion = async (req, res) => {
     res.json({ question });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server error");
+    res.status(500).send({ from: "Single question", error: error.message });
   }
 };
 

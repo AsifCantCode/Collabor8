@@ -56,10 +56,6 @@ const answerSchema = new mongoose.Schema({
     },
     commentList: [
       {
-        _id: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Comment",
-        },
         fullname: {
           type: String,
           required: true,
