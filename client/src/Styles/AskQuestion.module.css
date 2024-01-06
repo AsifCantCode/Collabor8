@@ -129,6 +129,8 @@
     background-color: var(--dark-light);
     width: 250px;
     border-radius: 0.5rem;
+    z-index: 1000;
+    border: 1px solid var(--border);
     /* margin-bottom: 1rem; */
 }
 
@@ -140,4 +142,13 @@
     background-color: var(--dark);
     cursor: pointer;
     /* border-radius: 0.5rem; */
+}
+
+.tag-suggestion ul li:first-child {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+.tag-suggestion ul li:last-child {
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
 }
