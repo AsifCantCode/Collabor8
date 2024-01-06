@@ -40,8 +40,6 @@
 .imageBox {
     border: 2px solid var(--border);
     /* padding: 2rem; */
-    width: 15rem;
-    height: 15rem;
     display: flex;
     justify-content: center;
     align-items: center;
