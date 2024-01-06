@@ -37,11 +37,11 @@ const answerSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  countUpvote: {
+  countUpvotes: {
     type: Number,
     default: 0,
   },
-  countDownvote: {
+  countDownvotes: {
     type: Number,
     default: 0,
   },
@@ -50,10 +50,6 @@ const answerSchema = new mongoose.Schema({
     default: 0,
   },
   comments: {
-    count: {
-      type: Number,
-      default: 0,
-    },
     commentList: [
       {
         fullname: {
@@ -67,7 +63,64 @@ const answerSchema = new mongoose.Schema({
       },
     ],
   },
+  // Array to store users who upvoted
+  upvotes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+
+  // Array to store users who downvoted
+  downvotes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
+
+// Function to handle upvoting an answer
+answerSchema.methods.upVote = async function (userId) {
+  if (!this.upvotes.includes(userId)) {
+    this.upvotes.push(userId);
+    this.countUpvotes += 1;
+
+    // If the user has previously downvoted, remove the downvote
+    if (this.downvotes.includes(userId)) {
+      this.downvotes = this.downvotes.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+      if (this.countDownvotes > 0) {
+        this.countDownvotes -= 1;
+      }
+    }
+
+    await this.save();
+    return this;
+  }
+};
+
+// Function to handle downvoting an answer
+answerSchema.methods.downVote = async function (userId) {
+  if (!this.downvotes.includes(userId)) {
+    this.downvotes.push(userId);
+    this.countDownvotes += 1;
+
+    // If the user has previously upvoted, remove the upvote
+    if (this.upvotes.includes(userId)) {
+      this.upvotes = this.upvotes.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+      if (this.countUpvotes > 0) {
+        this.countUpvotes -= 1;
+      }
+    }
+
+    await this.save();
+    return this;
+  }
+};
 
 const Answer = mongoose.model("Answer", answerSchema);
 

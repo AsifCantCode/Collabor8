@@ -687,7 +687,7 @@ const upvoteDownvoteAnswer = async (req, res) => {
     res.status(200).json({ updatedAnswer });
   } catch (error) {
     res.status(400).json({
-      from: "from upvote-downvote-ans",
+      from: "from upvote-downvote-answer",
       error: error.message,
     });
   }
