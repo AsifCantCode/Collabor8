@@ -34,15 +34,16 @@ const TagInput = ({ tagList, setTagList, tag, setTag }) => {
     const { tags, loading, error } = useGetAllTags();
     const [filteredTags, setFilteredTags] = useState([]);
     useEffect(() => {
+        const temp = tags?.map((tag) => tag.name);
         if (tag) {
-            const tempTags = tags?.filter((singleTag) => {
-                return singleTag.name
+            const tempTags = temp?.filter((singleTag) => {
+                return singleTag
                     .toLowerCase()
                     .includes(_.chain(tag).words().join("").toLower().value());
             });
             setFilteredTags(tempTags);
         } else {
-            setFilteredTags(tags);
+            setFilteredTags(temp);
         }
     }, [tag, tags]);
     return (
@@ -76,19 +77,28 @@ const TagInput = ({ tagList, setTagList, tag, setTag }) => {
                                 {!loading &&
                                     !error &&
                                     filteredTags &&
-                                    filteredTags?.map((tag) => (
+                                    filteredTags?.map((tag, index) => (
                                         <li
-                                            onClick={() =>
-                                                handleTagAdd(tag.name)
-                                            }
-                                            key={tag._id}
+                                            onClick={() => handleTagAdd(tag)}
+                                            key={index}
                                         >
-                                            {tag.name}
+                                            {tag}
                                         </li>
                                     ))}
-                                {filteredTags.length === 0 && (
+                                {!filteredTags.includes(
+                                    _.chain(tag)
+                                        .words()
+                                        .join("")
+                                        .toLower()
+                                        .value()
+                                ) && (
                                     <li onClick={() => handleTagAdd(tag)}>
-                                        Create New Tag : {tag}
+                                        Create New Tag :{" "}
+                                        {_.chain(tag)
+                                            .words()
+                                            .join("")
+                                            .toLower()
+                                            .value()}
                                     </li>
                                 )}
                                 {/* <li></li> */}
