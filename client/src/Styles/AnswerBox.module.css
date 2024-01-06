@@ -65,3 +65,56 @@
     object-fit: cover;
     border-radius: 5px;
 }
+.answer textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    background-color: var(--dark);
+    padding: 0.8rem;
+    color: var(--white);
+    font-size: 1rem;
+    resize: none;
+    outline: none;
+    border-radius: 5px;
+    min-height: 8rem;
+}
+
+@media (max-width: 1000px) {
+    .AnswerBox {
+        margin-top: 3rem;
+        width: 100%;
+    }
+    .answer {
+        padding: 0.5rem 0.5rem;
+    }
+    .answer textarea {
+        padding: 0.5rem;
+    }
+    .component-header h3 {
+        font-size: 1rem;
+    }
+    .answer-header {
+        margin-bottom: 0.3rem;
+        margin-top: 0.3rem;
+    }
+    .answer-author {
+        font-size: 0.8rem;
+    }
+    .answer-date {
+        font-size: 0.8rem;
+    }
+    .up-down-votes {
+        gap: 0.3rem;
+    }
+    .up-down-votes > * {
+        font-size: 0.8rem;
+    }
+    .answer-attachments {
+        margin-top: 0.5rem;
+    }
+    .image img {
+        border-radius: 3px;
+    }
+    .answer textarea {
+        font-size: 0.9rem;
+    }
+}

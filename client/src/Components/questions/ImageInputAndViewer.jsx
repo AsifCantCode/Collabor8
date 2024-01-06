@@ -9,6 +9,8 @@ const ImageInputAndViewer = ({
     imageInputRef,
     fileError,
     setFileError,
+    width = "15rem",
+    height = "15rem",
 }) => {
     const handleImageChange = (event) => {
         setFileError(false);
@@ -53,6 +55,7 @@ const ImageInputAndViewer = ({
                             onClick={() => {
                                 handleDeleteImage(index);
                             }}
+                            style={{ width: width, height: height }}
                         >
                             <span className={`${classes["delete-btn"]}`}>
                                 <RiDeleteBin5Fill />
@@ -60,7 +63,11 @@ const ImageInputAndViewer = ({
                             <img src={image} alt="Selected" />
                         </div>
                     ))}
-                <div className={classes.imageBox} onClick={handleImageClick}>
+                <div
+                    style={{ width: width, height: height }}
+                    className={classes.imageBox}
+                    onClick={handleImageClick}
+                >
                     <LuImagePlus />
                 </div>
             </div>

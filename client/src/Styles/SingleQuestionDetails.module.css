@@ -114,3 +114,37 @@ td {
     object-fit: cover;
     border-radius: 5px;
 }
+
+@media (max-width: 1000px) {
+    .SingleQuestion {
+        width: 100%;
+        padding: 1rem;
+    }
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .creation-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .creation-info > p {
+        margin-bottom: 0.5rem;
+    }
+    .title h3 {
+        font-size: 1rem;
+    }
+    .description {
+        margin-top: 0.5rem;
+    }
+    .attachment {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .attachment img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+}
