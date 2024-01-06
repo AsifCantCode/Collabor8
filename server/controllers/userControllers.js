@@ -204,11 +204,15 @@ const uploadQuestions = async (req, res) => {
 };
 
 const updateQuestion = async (req, res) => {
-  const { textContent, tagList, questionId, title } = req.body;
+  const { textContent, tagList, questionId, title, previousImages } = req.body;
   const { authorization } = req.headers;
   const token = authorization.split(" ")[1];
 
-  const selectedImage = req.files.map((file) => file.filename);
+  const selectedImages = req.files.map((file) => file.filename);
+  const prevValid = previousImages.split(",");
+  console.log("PreviousImages: ", typeof prevValid, prevValid);
+  console.log("selectedImages: ", selectedImages);
+  const newImageArray = [...prevValid, ...selectedImages];
   try {
     const { _id } = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -217,6 +221,10 @@ const updateQuestion = async (req, res) => {
       _id: questionId,
       AuthorId: _id,
     });
+    let absentElements = existingQuestion.selectedImage.filter(
+      (image) => !newImageArray.includes(image)
+    );
+    console.log("ABSENT: ", absentElements.length);
 
     if (!existingQuestion) {
       throw Error("Question not found or unauthorized");
@@ -227,7 +235,13 @@ const updateQuestion = async (req, res) => {
     // Update the question fields
     existingQuestion.textContent = textContent;
     existingQuestion.tagList = tagList;
-    existingQuestion.selectedImage = selectedImage;
+    if (absentElements.length > 0) {
+      for (const filename of absentElements) {
+        await removeFile(filename, "questions");
+      }
+      existingQuestion.selectedImage = newImageArray;
+    }
+
     existingQuestion.title = title;
     existingQuestion.updateTime = new Date();
 
