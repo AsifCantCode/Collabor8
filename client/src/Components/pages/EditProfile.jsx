@@ -11,6 +11,7 @@ import { useAuthContext } from "../../Hooks/useAuthContext";
 import UserApi from "../../apis/UserApi";
 import { Button } from "../Buttons";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { useGetAllTags } from "../../Hooks/useGetAllTags";
 
 const EditProfile = () => {
     // Form Input Section
@@ -62,56 +63,61 @@ const EditProfile = () => {
     //   }, [navigate]);
 
     // Tags Input Section
-    const [tagList, setTagList] = useState([
-        "programming",
-        "javascript",
-        "python",
-        "java",
-        "csharp",
-        "html",
-        "css",
-        "webdevelopment",
-        "algorithms",
-        "datascience",
-        "machinelearning",
-        "frontend",
-        "backend",
-        "database",
-        "softwareengineering",
-        "mobiledevelopment",
-        "android",
-        "ios",
-        "react",
-        "angular",
-        "vue",
-        "nodejs",
-        "express",
-        "django",
-        "flask",
-        "ruby",
-        "rails",
-        "php",
-        "laravel",
-        "devops",
-        "cloudcomputing",
-        "docker",
-        "kubernetes",
-        "git",
-        "versioncontrol",
-        "testing",
-        "qa",
-        "security",
-        "networking",
-        "computergraphics",
-        "artificialintelligence",
-        "cybersecurity",
-        "blockchain",
-        "datastructures",
-        "codinginterviews",
-        "careeradvice",
-        "technology",
-        "programminglanguages",
-    ]);
+    // const [tagList, setTagList] = useState([
+    //     "programming",
+    //     "javascript",
+    //     "python",
+    //     "java",
+    //     "csharp",
+    //     "html",
+    //     "css",
+    //     "webdevelopment",
+    //     "algorithms",
+    //     "datascience",
+    //     "machinelearning",
+    //     "frontend",
+    //     "backend",
+    //     "database",
+    //     "softwareengineering",
+    //     "mobiledevelopment",
+    //     "android",
+    //     "ios",
+    //     "react",
+    //     "angular",
+    //     "vue",
+    //     "nodejs",
+    //     "express",
+    //     "django",
+    //     "flask",
+    //     "ruby",
+    //     "rails",
+    //     "php",
+    //     "laravel",
+    //     "devops",
+    //     "cloudcomputing",
+    //     "docker",
+    //     "kubernetes",
+    //     "git",
+    //     "versioncontrol",
+    //     "testing",
+    //     "qa",
+    //     "security",
+    //     "networking",
+    //     "computergraphics",
+    //     "artificialintelligence",
+    //     "cybersecurity",
+    //     "blockchain",
+    //     "datastructures",
+    //     "codinginterviews",
+    //     "careeradvice",
+    //     "technology",
+    //     "programminglanguages",
+    // ]);
+    const {
+        tags: tagList,
+        loading: tagLoading,
+        error: tagError,
+    } = useGetAllTags();
     const [selectedTag, setSelectedTag] = useState([]);
     const [filteredTag, setFilteredTag] = useState([]);
     const [searchTag, setSearchTag] = useState("");
@@ -119,7 +125,7 @@ const EditProfile = () => {
     useEffect(() => {
         if (searchTag.length > 0) {
             const tempTagList = tagList.filter((tag) =>
-                tag.includes(searchTag)
+                tag?.name.includes(searchTag)
             );
             setFilteredTag(tempTagList);
         } else {
@@ -130,13 +136,13 @@ const EditProfile = () => {
     // const [tag, setTag] = useState("");
 
     const handleTagChange = (tag) => {
-        const index = selectedTag.indexOf(tag);
+        const index = selectedTag.indexOf(tag.name);
         console.log(selectedTag, index);
-        if (index === -1) setSelectedTag([...selectedTag, tag]);
-        else setSelectedTag(selectedTag.filter((t) => t !== tag));
+        if (index === -1) setSelectedTag([...selectedTag, tag?.name]);
+        else setSelectedTag(selectedTag.filter((t) => t !== tag.name));
     };
     const checkSelected = (tag) => {
-        return selectedTag.indexOf(tag) !== -1;
+        return selectedTag.indexOf(tag?.name) !== -1;
     };
 
     // Previous Data
@@ -183,6 +189,7 @@ const EditProfile = () => {
         for (let i = 0; i < selectedTag.length; i++) {
             formData.append("tagList", selectedTag[i]);
         }
+        // console.log("Form Data: ", selectedTag);
         try {
             const response = await UserApi.put("/update-profile", formData, {
                 headers: {
@@ -338,7 +345,7 @@ const EditProfile = () => {
                                 />
                             </div>
                             <div className={`${classes["tag-list"]}`}>
-                                {filteredTag.length > 0 &&
+                                {filteredTag?.length > 0 &&
                                     filteredTag.map((tag, index) => (
                                         <span
                                             className={`${
@@ -351,7 +358,7 @@ const EditProfile = () => {
                                             }}
                                             key={index}
                                         >
-                                            {tag}
+                                            {tag.name}
                                         </span>
                                     ))}
                             </div>
