@@ -18,6 +18,8 @@ const {
   updateProfile,
   followUnfollow,
   upvoteDownvote,
+  uploadAnswer,
+  updateAnswer,
 } = require("../controllers/userControllers");
 
 const router = express.Router();
@@ -25,7 +27,7 @@ const router = express.Router();
 //UPLOADING IMAGE UPLOAD MIDDLE WARES
 const questionUpload = require("../middlewares/questionUpload.js");
 const profileImageUpload = require("../middlewares/profileImageUpload.js");
-const answerImageUpload = require("../middlewares/answerImageUpload.js");
+const answerUpload = require("../middlewares/answerImageUpload.js");
 
 router
   .route("/add-question")
@@ -33,6 +35,12 @@ router
 router
   .route("/update-question")
   .put(requireAuth, questionUpload.array("images"), updateQuestion);
+router
+  .route("/add-answer")
+  .post(requireAuth, answerUpload.array("images"), uploadAnswer);
+router
+  .route("/update-answer")
+  .put(requireAuth, answerUpload.array("images"), updateAnswer);
 router
   .route("/update-profile")
   .put(requireAuth, profileImageUpload.array("images"), updateProfile);

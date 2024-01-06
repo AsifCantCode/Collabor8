@@ -26,7 +26,13 @@ const login = async (req, res) => {
     }
 
     //create a token
-    const token = generateToken(exists._id, exists.fullname, email);
+    const token = generateToken(
+      exists._id,
+      exists.fullname,
+      email,
+      exists.badge,
+      exists.subscription.status
+    );
 
     res.status(201).json({ email, fullname: exists.fullname, token });
   } catch (error) {
@@ -51,7 +57,13 @@ const signup = async (req, res) => {
       fullname,
     });
 
-    const token = generateToken(user._id, fullname, email);
+    const token = generateToken(
+      user._id,
+      fullname,
+      email,
+      user.badge,
+      user.subscription.status
+    );
     res.status(201).json({
       email,
       fullname,
@@ -166,7 +178,7 @@ const updateQuestion = async (req, res) => {
     existingQuestion.tagList = tagList;
     existingQuestion.selectedImage = selectedImage;
     existingQuestion.title = title;
-    existingQuestion.updateTime = Date.now();
+    existingQuestion.updateTime = new Date();
 
     // Save the updated question
     await existingQuestion.save();
@@ -180,7 +192,7 @@ const updateQuestion = async (req, res) => {
   }
 };
 
-//Upload Questions function
+//Upload Profile function
 const updateProfile = async (req, res) => {
   const { fullname, email, tagList } = req.body;
   const { authorization } = req.headers;
@@ -410,6 +422,72 @@ const upvoteDownvote = async (req, res) => {
   }
 };
 
+//Upload Answer function
+const uploadAnswer = async (req, res) => {
+  const { textContent, questionId } = req.body;
+  const { authorization } = req.headers;
+  const token = authorization.split(" ")[1];
+
+  const selectedImage = req.files.map((file) => file.filename);
+
+  try {
+    const { _id, fullname } = jwt.verify(token, process.env.JWT_SECRET);
+    const answer = await Answer.create({
+      answer: textContent,
+      images: selectedImage,
+      createdBy: { _id, fullname },
+      questionId,
+    });
+    const question = await Question.findByIdAndUpdate(
+      questionId,
+      { $push: { answers: answer._id } },
+      { new: true }
+    );
+    res.status(200).json(answer);
+  } catch (error) {
+    res.status(400).json({
+      from: "uploadAnswers",
+      error: error.message,
+    });
+  }
+};
+
+const updateAnswer = async (req, res) => {
+  const { textContent, answerId } = req.body;
+  const { authorization } = req.headers;
+  const token = authorization.split(" ")[1];
+
+  const selectedImage = req.files.map((file) => file.filename);
+  try {
+    const { _id } = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Find the question by ID and ensure that the user has permission to update it
+    const existingAnswer = await Answer.findOne({
+      _id: answerId,
+      createdBy: { _id },
+    });
+
+    if (!existingAnswer) {
+      throw Error("Answer not found or unauthorized");
+    }
+
+    // Update the question fields
+    existingAnswer.answer = textContent;
+    existingAnswer.images = selectedImage;
+    existingAnswer.updatedAt = new Date();
+
+    // Save the updated question
+    await existingAnswer.save();
+
+    res.status(200).json(existingAnswer);
+  } catch (error) {
+    res.status(400).json({
+      from: "updateAnswer",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getWholeQuestion,
   relatedQuestions,
@@ -426,4 +504,6 @@ module.exports = {
   updateProfile,
   followUnfollow,
   upvoteDownvote,
+  uploadAnswer,
+  updateAnswer,
 };

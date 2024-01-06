@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
   badge: {
     type: String,
     default: "newbie",
+    enum: ["newbie", "intermediate", "expert"],
   },
   points: {
     type: Number,
@@ -33,7 +34,10 @@ const userSchema = new mongoose.Schema({
     default: 0,
   },
   subscription: {
-    status: Boolean,
+    status: {
+      type: Boolean,
+      default: false,
+    },
     plan: String,
     expire: Date,
   },

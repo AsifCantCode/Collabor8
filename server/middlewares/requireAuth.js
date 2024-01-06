@@ -12,12 +12,17 @@ const requireAuth = async (req, res, next) => {
   const token = authorization.split(" ")[1];
 
   try {
-    const { _id, email, fullname } = jwt.verify(token, process.env.JWT_SECRET); //can add other properties during sign
+    const { _id, email, fullname, badge, subscriptionStatus } = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    ); //can add other properties during sign
 
     req.body.profile = {
       _id,
       email,
       fullname,
+      badge,
+      subscriptionStatus,
     };
     next();
   } catch (error) {

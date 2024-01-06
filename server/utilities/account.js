@@ -3,10 +3,14 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const generateToken = (_id, fullname, email) => {
-  return jwt.sign({ _id, fullname, email }, process.env.JWT_SECRET, {
-    expiresIn: "30d",
-  });
+const generateToken = (_id, fullname, email, badge, subscriptionStatus) => {
+  return jwt.sign(
+    { _id, fullname, email, subscriptionStatus, badge },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "30d",
+    }
+  );
 };
 
 const generatedHashedPassword = async (password) => {

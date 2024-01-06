@@ -28,7 +28,7 @@ const answerSchema = new mongoose.Schema({
       required: true,
     },
   },
-  question_id: {
+  questionId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Question",
     required: true,
