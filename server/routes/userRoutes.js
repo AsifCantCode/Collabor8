@@ -20,6 +20,8 @@ const {
   upvoteDownvote,
   uploadAnswer,
   updateAnswer,
+  upvoteDownvoteAnswer,
+  markAnswerAsCorrect,
 } = require("../controllers/userControllers");
 
 const router = express.Router();
@@ -57,6 +59,8 @@ router.route("/all-tags").get(getAllTags);
 router.route("/follow-unfollow").put(requireAuth, followUnfollow);
 router.route("/upvote-downvote").put(requireAuth, upvoteDownvote);
 router.route("/single-question").get(getWholeQuestion);
+router.route("/upvote-downvote-ans").put(requireAuth, upvoteDownvoteAnswer);
+router.route("/mark-as-correct").put(requireAuth, markAnswerAsCorrect);
 //Dummy function
 
 module.exports = router;

@@ -14,6 +14,7 @@ const {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body)
   try {
     const exists = await User.findOne({ email });
     if (!exists) {
@@ -45,6 +46,7 @@ const login = async (req, res) => {
 
 const signup = async (req, res) => {
   const { email, password, fullname, confirmPassword } = req.body;
+  console.log(req.body)
 
   try {
     await validateUser(email, fullname, password, confirmPassword);
@@ -95,9 +97,15 @@ const getProfileInfo = async (req, res) => {
 // Function to enter tags
 async function enterTags(tagList) {
   try {
-    for (const tagName of tagList) {
-      const tag = await Tag.findOrCreate(tagName);
-      console.log(`Tag '${tagName}' found or created:`, tag);
+    if(typeof(tagList) === "string"){
+      const tag = await Tag.findOrCreate(tagList);
+      console.log(`Tag '${tagList}' found or created:`, tag);
+    }
+    else{
+      for (const tagName of tagList) {
+        const tag = await Tag.findOrCreate(tagName);
+        console.log(`Tag '${tagName}' found or created:`, tag);
+      }
     }
   } catch (error) {
     console.error("Error:", error);
@@ -488,6 +496,51 @@ const updateAnswer = async (req, res) => {
   }
 };
 
+const upvoteDownvoteAnswer = async (req, res) => {
+  const { answerId, upvote } = req.body;
+  const { _id } = req.body.profile;
+
+  try {
+    const answer = await Answer.findById(answerId);
+    let updatedAnswer;
+    if (upvote) {
+      updatedAnswer = await answer.upVote(_id);
+    } else {
+      updatedAnswer = await answer.downVote(_id);
+    }
+
+    res.status(200).json({ updatedAnswer });
+  } catch (error) {
+    res.status(400).json({
+      from: "from upvote-downvote-ans",
+      error: error.message,
+    });
+  }
+}
+const markAnswerAsCorrect = async (req, res) => {
+  const {answerId} = req.body;
+  try {
+    const updatedAnswer = await Answer.findByIdAndUpdate(
+      answerId,
+      { isAccepted: true },
+      { new: true }
+    );
+
+    // Access the associated question ID from the updated answer
+    const questionId = updatedAnswer.questionId;
+
+    // Update the corresponding question to mark it as solved
+    await Question.updateOne(
+      { _id: questionId },
+      { isSolved: true }
+    );
+
+    console.log(`Answer marked as correct: ${updatedAnswer}`);
+  } catch (error) {
+    console.error("Error marking answer as correct:", error.message);
+  }
+};
+
 module.exports = {
   getWholeQuestion,
   relatedQuestions,
@@ -506,4 +559,6 @@ module.exports = {
   upvoteDownvote,
   uploadAnswer,
   updateAnswer,
+  upvoteDownvoteAnswer,
+  markAnswerAsCorrect,
 };
