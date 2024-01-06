@@ -59,7 +59,7 @@
     color: var(--danger);
     transition: all 0.3s ease;
     display: none;
-    z-index: 111;
+    z-index: 1000;
 }
 .imageBox svg {
     width: 2rem;

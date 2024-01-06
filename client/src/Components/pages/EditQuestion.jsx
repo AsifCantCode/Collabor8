@@ -72,6 +72,7 @@ const EditQuestion = () => {
         }
         console.log("TITLE: ", title);
         console.log("TEXT: ", textContent);
+        console.log("Previous Images: ", previousImages);
         console.log("IMAGEs ", selectedImage);
         console.log("TAGLIST: ", tagList);
 

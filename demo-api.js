@@ -32,7 +32,7 @@ const singleQuestion = {
     images: ["image1.jpg", "image2.jpg"],
     createdAt: "2021-01-01",
     updatedAt: "2021-01-01",
-    createdBy: {
+    author: {
         _id: "123",
         fullname: "John Doe",
     },

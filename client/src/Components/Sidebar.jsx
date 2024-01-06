@@ -25,7 +25,7 @@ const Sidebar = ({ sidebarState, setSidebarState }) => {
         {
             name: "Profile",
             icon: <FaUserGraduate />,
-            path: `profile/${newUser?._id}`,
+            path: `/profile/${newUser?._id}`,
         },
 
         {

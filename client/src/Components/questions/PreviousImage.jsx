@@ -1,6 +1,7 @@
 import classes from "../../Styles/AskQuestion.module.css";
 import { LuImagePlus } from "react-icons/lu";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { makeQuestionImageURL } from "../../Utilities/utilities";
 const PreviousImage = ({ previousImages, setPreviousImages }) => {
     const handleDeleteImage = (index) => {
         console.log(index);
@@ -24,7 +25,10 @@ const PreviousImage = ({ previousImages, setPreviousImages }) => {
                             <span className={`${classes["delete-btn"]}`}>
                                 <RiDeleteBin5Fill />
                             </span>
-                            <img src={image} alt="Selected" />
+                            <img
+                                src={makeQuestionImageURL(image)}
+                                alt="Selected"
+                            />
                         </div>
                     ))}
             </div>
