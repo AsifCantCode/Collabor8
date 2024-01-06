@@ -1,6 +1,22 @@
 .AllTags {
     padding: 1rem;
 }
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.page-header input {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    outline: none;
+    width: 60%;
+    max-width: 300px;
+    background: transparent;
+    color: var(--white);
+}
 .tag-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

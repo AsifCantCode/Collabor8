@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const moment = require("moment");
 
 const Question = require("../model/questionModel");
 const User = require("../model/userModel");
@@ -271,10 +272,65 @@ const updateProfile = async (req, res) => {
 };
 
 const getAllTags = async (req, res) => {
-    try {
-        const tags = await Tag.find();
+    // try {
+    //     const tags = await Tag.find();
 
-        res.json(tags);
+    //     res.json(tags);
+    // } catch (error) {
+    //     console.error(error.message);
+    //     res.status(500).send("Server error");
+    // }
+
+    try {
+        // Calculate the date one week ago
+        const lastWeekDate = moment().subtract(1, "week").toDate();
+
+        // Aggregate tags and count of posts within the last week
+        const tagsCountLastWeek = await Question.aggregate([
+            {
+                $match: {
+                    postTime: { $gte: lastWeekDate },
+                },
+            },
+            {
+                $unwind: "$tagList",
+            },
+            {
+                $group: {
+                    _id: "$tagList",
+                    questionCount: { $sum: 1 },
+                    questionInLastWeek: {
+                        $sum: {
+                            $cond: [
+                                { $gte: ["$postTime", lastWeekDate] },
+                                1,
+                                0,
+                            ],
+                        },
+                    },
+                },
+            },
+        ]);
+
+        // Get all tags
+        const allTags = await Tag.find({}, { name: 1, _id: 0 });
+
+        // Left outer join between allTags and tagsCountLastWeek
+        const result = allTags.map((tag) => {
+            const matchingTag = tagsCountLastWeek.find(
+                (t) => t._id === tag.name
+            );
+            return {
+                id: tag.name,
+                name: tag.name,
+                questionCount: matchingTag ? matchingTag.questionCount : 0,
+                questionInLastWeek: matchingTag
+                    ? matchingTag.questionInLastWeek
+                    : 0,
+            };
+        });
+
+        res.json(result);
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server error");
@@ -282,12 +338,69 @@ const getAllTags = async (req, res) => {
 };
 
 const getPopularTags = async (req, res) => {
-    try {
-        const popularTags = await Tag.find()
-            .sort({ count: -1 }) // Sort in descending order of count
-            .exec();
+    // try {
+    //     const popularTags = await Tag.find()
+    //         .sort({ count: -1 }) // Sort in descending order of count
+    //         .exec();
 
-        res.json(popularTags);
+    //     res.json(popularTags);
+    // } catch (error) {
+    //     console.error(error.message);
+    //     res.status(500).send("Server error");
+    // }
+
+    try {
+        // Calculate the date one week ago
+        const lastWeekDate = moment().subtract(1, "week").toDate();
+
+        // Aggregate tags and count of posts within the last week
+        const tagsCountLastWeek = await Question.aggregate([
+            {
+                $match: {
+                    postTime: { $gte: lastWeekDate },
+                },
+            },
+            {
+                $unwind: "$tagList",
+            },
+            {
+                $group: {
+                    _id: "$tagList",
+                    questionCount: { $sum: 1 },
+                    questionInLastWeek: {
+                        $sum: {
+                            $cond: [
+                                { $gte: ["$postTime", lastWeekDate] },
+                                1,
+                                0,
+                            ],
+                        },
+                    },
+                },
+            },
+        ]);
+
+        // Get all tags
+        const allTags = await Tag.find({}, { name: 1, _id: 0 });
+
+        // Left outer join between allTags and tagsCountLastWeek
+        const result = allTags
+            .map((tag) => {
+                const matchingTag = tagsCountLastWeek.find(
+                    (t) => t._id === tag.name
+                );
+                return {
+                    id: tag.name,
+                    name: tag.name,
+                    questionCount: matchingTag ? matchingTag.questionCount : 0,
+                    questionInLastWeek: matchingTag
+                        ? matchingTag.questionInLastWeek
+                        : 0,
+                };
+            })
+            .sort((a, b) => b.questionInLastWeek - a.questionInLastWeek);
+
+        res.json(result);
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server error");
