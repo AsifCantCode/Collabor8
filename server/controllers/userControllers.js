@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-
-const Question = require("../model/questionModel");
 const User = require("../model/userModel");
+const Question = require("../model/questionModel");
 const Answer = require("../model/answerModel");
 const {
   generatedHashedPassword,
@@ -25,7 +24,6 @@ const login = async (req, res) => {
       throw Error("Invalid password");
     }
 
-    //create a token
     const token = generateToken(
       exists._id,
       exists.fullname,
@@ -82,7 +80,11 @@ const signup = async (req, res) => {
 const getPersonalInfo = async (req, res) => {
   const { _id } = req.body.profile;
   try {
-    const info = await User.findById(_id).select("-password");
+    const info = await User.findById(_id).select("-password").lean();
+    const questionCount = await Question.countDocuments({ AuthorId: _id });
+    const answerCount = await Answer.countDocuments({ "createdBy._id": _id });
+    info.questionCount = questionCount;
+    info.answerCount = answerCount;
 
     res.status(200).json(info);
   } catch (error) {
@@ -94,9 +96,14 @@ const getPersonalInfo = async (req, res) => {
 };
 const getProfileInfo = async (req, res) => {
   const { userId } = req.query;
-  console.log("USER ID: ", userId);
   try {
-    const info = await User.findById(userId).select("-password");
+    const info = await User.findById(userId).select("-password").lean();
+    const questionCount = await Question.countDocuments({ AuthorId: userId });
+    const answerCount = await Answer.countDocuments({
+      "createdBy._id": userId,
+    });
+    info.questionCount = questionCount;
+    info.answerCount = answerCount;
 
     res.status(200).json(info);
   } catch (error) {

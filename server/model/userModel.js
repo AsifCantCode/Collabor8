@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
   },
   points: {
     type: Number,
-    default: 10,
+    default: 0,
   },
   followers: {
     type: Number,
