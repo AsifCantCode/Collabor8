@@ -121,3 +121,23 @@
 .tag-list input:focus {
     outline: none;
 }
+.tag-input-field {
+    position: relative;
+}
+.tag-suggestion {
+    position: absolute;
+    background-color: var(--dark-light);
+    width: 250px;
+    border-radius: 0.5rem;
+    /* margin-bottom: 1rem; */
+}
+
+.tag-suggestion ul li {
+    padding: 0.3rem 1rem;
+    /* border-radius: 0.5rem; */
+}
+.tag-suggestion ul li:hover {
+    background-color: var(--dark);
+    cursor: pointer;
+    /* border-radius: 0.5rem; */
+}
