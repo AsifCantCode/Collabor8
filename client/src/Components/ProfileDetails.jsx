@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "../Styles/ProfileDetails.module.css";
 import {
     ButtonWithIconOnlyTransparent,
@@ -10,11 +10,44 @@ import {
     SmallButtonLiteAc,
 } from "./Buttons";
 import SingleQuestion from "./questions/SingleQuestion";
+import _ from "lodash";
 
 // Icons
 import { GoSidebarExpand } from "react-icons/go";
-const ProfileDetails = ({ rightSidebarState, setRightSidebarState }) => {
+import { useAuthContext } from "../Hooks/useAuthContext";
+const ProfileDetails = ({
+    rightSidebarState,
+    setRightSidebarState,
+    profile,
+    profileLoading,
+    profileError,
+    question,
+    questionLoading,
+    questionError,
+}) => {
     const [followState, setFollowState] = useState(false);
+    const { newUser } = useAuthContext();
+    const [currentUser, setCurrentUser] = useState(
+        newUser?._id === profile?._id
+    );
+    useEffect(() => {
+        setCurrentUser(newUser?._id === profile?._id);
+    }, [newUser, profile]);
+    //     {
+    //     "subscription": {
+    //         "status": false
+    //     },
+    //     "badge": "newbie",
+    //     "points": 10,
+    //     "followers": 0,
+    //     "_id": "659635cee5a8a34b156eabdf",
+    //     "fullname": "Tanvir Hossain Dihan",
+    //     "email": "tanvirh.dihan@gmail.com",
+    //     "password": "$2b$10$fuX1RkUdk7mZSYbyYPcPCez3/.c46bJs1IP3bRDW.yTIPIxpzFGVG",
+    //     "favTags": [],
+    //     "following": [],
+    //     "__v": 0
+    // }
     return (
         <div className={`${classes["ProfileDetails"]}`}>
             <div className={`${classes["responsive-button"]}`}>
@@ -37,36 +70,44 @@ const ProfileDetails = ({ rightSidebarState, setRightSidebarState }) => {
                     </div>
                     <div className={`${classes["info"]}`}>
                         <h2 className={`${classes["username"]}`}>
-                            User Fullname
+                            {profile?.fullname}
                         </h2>
                         <p className={`${classes["email"]}`}>
-                            username@email.com
+                            {profile?.email}
                         </p>
                         <p className={`${classes["bio"]}`}>
-                            Bio: Lorem ipsum dolor sit amet consectetur
-                            adipisicing elit. Blanditiis, voluptates.
+                            {profile?.bio || ""}
                         </p>
-                        {followState ? (
-                            <SmallButtonLiteAc
-                                text={`+ Follow`}
-                                func={() => {
-                                    setFollowState((prev) => !prev);
-                                }}
-                            />
-                        ) : (
-                            <SmallButtonDeepAc
-                                text={`- Unfollow`}
-                                func={() => {
-                                    setFollowState((prev) => !prev);
-                                }}
-                            />
+                        {!currentUser && newUser && (
+                            <>
+                                {followState ? (
+                                    <SmallButtonLiteAc
+                                        text={`+ Follow`}
+                                        func={() => {
+                                            setFollowState((prev) => !prev);
+                                        }}
+                                    />
+                                ) : (
+                                    <SmallButtonDeepAc
+                                        text={`- Unfollow`}
+                                        func={() => {
+                                            setFollowState((prev) => !prev);
+                                        }}
+                                    />
+                                )}
+                            </>
                         )}
                     </div>
                 </div>
                 <div className={`${classes["profile-btn"]}`}>
-                    <div className={`${classes["desktop-view-button"]}`}>
-                        <LinkButton text="Edit Profile" to="/edit-profile" />
-                    </div>
+                    {currentUser && (
+                        <div className={`${classes["desktop-view-button"]}`}>
+                            <LinkButton
+                                text="Edit Profile"
+                                to="/edit-profile"
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
             <div className={`${classes["personal-cards"]}`}>
@@ -84,21 +125,21 @@ const ProfileDetails = ({ rightSidebarState, setRightSidebarState }) => {
                 </div>
                 <div className={`${classes["card"]} ${classes["points"]}`}>
                     <div>
-                        <span>4</span>
-                        <span>Follower</span>
+                        <span>{profile?.followers}</span>
+                        <span>Followers</span>
                     </div>
                     <div>
-                        <span>10</span>
+                        <span>{profile?.following?.length}</span>
                         <span>Following</span>
                     </div>
                 </div>
                 <div className={`${classes["card"]} ${classes["badge"]}`}>
                     <div>
-                        <span>0</span>
+                        <span>{profile?.points}</span>
                         <span>Points</span>
                     </div>
                     <div>
-                        <span>Beginner</span>
+                        <span>{_.capitalize(profile?.badge)}</span>
                         <span>Badge</span>
                     </div>
                 </div>
@@ -118,9 +159,16 @@ const ProfileDetails = ({ rightSidebarState, setRightSidebarState }) => {
             </div>
             <div className={`${classes["questions"]}`}>
                 <h3>My Questions</h3>
-                <SingleQuestion />
-                <SingleQuestion />
-                <SingleQuestion />
+                {!questionLoading &&
+                    !questionError &&
+                    question &&
+                    question?.map((question, index) => (
+                        <SingleQuestion
+                            key={index}
+                            question={question}
+                            editPost={newUser?._id === profile?._id}
+                        />
+                    ))}
             </div>
         </div>
     );

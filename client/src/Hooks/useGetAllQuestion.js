@@ -2,25 +2,25 @@ import { useEffect, useState } from "react";
 import UserApi from "../apis/UserApi";
 import { useAuthContext } from "./useAuthContext";
 
-export const useGetSingleQuestion = (id) => {
+export const useGetAllQuestion = () => {
     const [question, setQuestion] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const { user } = useAuthContext();
 
     useEffect(() => {
         const getQuestion = async () => {
-            // API CALL HERE...
+            // console.log("User: ", user);
             try {
-                const response = await UserApi.get("/single-question", {
-                    params: {
-                        questionId: id,
-                    },
+                /** GET ALL QUESTIONS */
+                const response = await UserApi.get("/all-questions", {
+                    params: { token: user },
                     headers: {
                         "Content-Type": "application/json",
                     },
                 });
-                console.log("GET QUESTION RESPONSE: ", response.data.question);
-                setQuestion(response.data.question);
+                // console.log("GET QUESTION RESPONSE: ", response.data.questions);
+                setQuestion(response.data.questions);
                 setLoading(false);
             } catch (error) {
                 setError(true);
@@ -28,7 +28,7 @@ export const useGetSingleQuestion = (id) => {
             }
         };
         getQuestion();
-    }, [id]);
+    }, [user]);
 
     return { question, loading, error };
 };

@@ -11,9 +11,11 @@ import { RiMastercardFill } from "react-icons/ri";
 import { FaClipboardList } from "react-icons/fa";
 import { FaQuinscape } from "react-icons/fa6";
 import { ImCross } from "react-icons/im";
+import { useAuthContext } from "../Hooks/useAuthContext";
 
 const Sidebar = ({ sidebarState, setSidebarState }) => {
     const [activeIndex, setActiveIndex] = useState(0);
+    const { newUser } = useAuthContext();
     const navItems = [
         {
             name: "Home",
@@ -23,7 +25,7 @@ const Sidebar = ({ sidebarState, setSidebarState }) => {
         {
             name: "Profile",
             icon: <FaUserGraduate />,
-            path: "/profile",
+            path: `profile/${newUser?._id}`,
         },
 
         {

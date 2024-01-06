@@ -2,25 +2,25 @@ import { useEffect, useState } from "react";
 import UserApi from "../apis/UserApi";
 import { useAuthContext } from "./useAuthContext";
 
-export const useGetSingleQuestion = (id) => {
-    const [question, setQuestion] = useState();
+export const useGetProfileInfo = (userId) => {
+    const [profile, setProfile] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
     useEffect(() => {
         const getQuestion = async () => {
-            // API CALL HERE...
+            console.log("User: ", userId);
             try {
-                const response = await UserApi.get("/single-question", {
+                const response = await UserApi.get("/get-profile", {
                     params: {
-                        questionId: id,
+                        userId: userId,
                     },
                     headers: {
                         "Content-Type": "application/json",
                     },
                 });
-                console.log("GET QUESTION RESPONSE: ", response.data.question);
-                setQuestion(response.data.question);
+                console.log("GET PROFILE RESPONSE: ", response.data);
+                setProfile(response.data);
                 setLoading(false);
             } catch (error) {
                 setError(true);
@@ -28,7 +28,7 @@ export const useGetSingleQuestion = (id) => {
             }
         };
         getQuestion();
-    }, [id]);
+    }, [userId]);
 
-    return { question, loading, error };
+    return { profile, loading, error };
 };

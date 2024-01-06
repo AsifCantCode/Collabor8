@@ -31,7 +31,7 @@ const App = () => {
                     {/* Main Routes  */}
                     <Route path="/*" element={<Layout />}>
                         <Route path="" element={<AllQuestions />} />
-                        <Route path="profile" element={<Profile />} />
+                        <Route path="profile/:userId" element={<Profile />} />
                         <Route path="new-question" element={<AskQuestion />} />
                         <Route
                             path="edit-question/:id"
