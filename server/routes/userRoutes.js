@@ -19,6 +19,11 @@ const {
 } = require("../controllers/answerControllers.js");
 
 const {
+  addToCollection,
+  removeFromCollection,
+} = require("../controllers/collectionControllers.js");
+
+const {
   uploadQuestions,
   updateQuestion,
   getWholeQuestion,
@@ -74,4 +79,7 @@ router
   .route("/update-answer")
   .put(requireAuth, answerUpload.array("images"), updateAnswer);
 
+//Collection Routes
+router.route("/add-to-collection").post(requireAuth, addToCollection);
+router.route("/remove-from-collection").delete(removeFromCollection);
 module.exports = router;
