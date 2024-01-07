@@ -101,6 +101,7 @@ userSchema.methods.assignBadge = async function () {
     await this.save();
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 // Function to increase points
@@ -111,13 +112,13 @@ userSchema.methods.increasePoints = async function (amount) {
     await this.assignBadge();
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
 // Function to decrease points
 userSchema.methods.decreasePoints = async function (amount) {
   try {
-    // Calculate the new points, ensuring it's not negative
     this.points = Math.max(0, this.points - amount);
     await this.save();
     await this.assignBadge();

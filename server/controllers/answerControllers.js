@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const Question = require("../model/questionModel");
 const Answer = require("../model/answerModel");
+const User = require("../model/userModel");
 const { removeFile } = require("../utilities/account");
 
 const uploadAnswer = async (req, res) => {
@@ -23,6 +24,10 @@ const uploadAnswer = async (req, res) => {
       { $push: { answers: answer._id } },
       { new: true }
     );
+    //Assigning points
+    const user = await User.findById(_id);
+    await user.increasePoints(2);
+
     res.status(200).json(answer);
   } catch (error) {
     res.status(400).json({
@@ -87,11 +92,18 @@ const upvoteDownvoteAnswer = async (req, res) => {
 
   try {
     const answer = await Answer.findById(answerId);
+    const answerAuthor = await User.findById(answer.createdBy._id);
     let updatedAnswer;
     if (upvote) {
       updatedAnswer = await answer.upVote(_id);
+      if (updatedAnswer) {
+        await answerAuthor.increasePoints(2);
+      }
     } else {
       updatedAnswer = await answer.downVote(_id);
+      if (updatedAnswer) {
+        await answerAuthor.decreasePoints(1);
+      }
     }
 
     res.status(200).json({ updatedAnswer });
@@ -111,11 +123,20 @@ const markAnswerAsCorrect = async (req, res) => {
       { new: true }
     );
 
-    // Access the associated question ID from the updated answer
-    const questionId = updatedAnswer.questionId;
+    // Increase the points of the user who posted the answer
+    const answerAuthor = await User.findById(updatedAnswer.createdBy._id);
+    await answerAuthor.increasePoints(10);
 
     // Update the corresponding question to mark it as solved
-    await Question.updateOne({ _id: questionId }, { isSolved: true });
+    const updatedQuestion = await Question.findOneAndUpdate(
+      { _id: updatedAnswer.questionId },
+      { isSolved: true },
+      { new: true }
+    );
+
+    // Increase the points of the user who posted the question
+    const questionAuthor = await User.findById(updatedQuestion.AuthorId);
+    await questionAuthor.increasePoints(5);
 
     console.log(`Answer marked as correct: ${updatedAnswer}`);
   } catch (error) {

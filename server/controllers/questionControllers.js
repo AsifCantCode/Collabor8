@@ -1,5 +1,5 @@
 const moment = require("moment");
-
+const User = require("../model/userModel");
 const jwt = require("jsonwebtoken");
 const Question = require("../model/questionModel");
 const Tag = require("../model/tagModel");
@@ -61,6 +61,9 @@ const uploadQuestions = async (req, res) => {
       tagList,
       title,
     });
+    //Assigning points
+    const user = await User.findById(_id);
+    await user.increasePoints(1);
     res.status(200).json(question);
   } catch (error) {
     res.status(400).json({
@@ -391,11 +394,21 @@ const upvoteDownvoteQuestion = async (req, res) => {
 
   try {
     const question = await Question.findById(questionId);
+    if (!question) {
+      return res.status(404).json({ error: "Question not found" });
+    }
     let updatedQuestion;
+    const questionAuthor = await User.findById(question.AuthorId);
     if (upvote) {
       updatedQuestion = await question.upVote(_id);
+      if (updateQuestion) {
+        await questionAuthor.increasePoints(2);
+      }
     } else {
       updatedQuestion = await question.downVote(_id);
+      if (updatedQuestion) {
+        await questionAuthor.decreasePoints(1);
+      }
     }
 
     res.status(200).json({ updatedQuestion });
