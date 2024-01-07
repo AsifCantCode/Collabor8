@@ -69,6 +69,8 @@ const AnswerBox = () => {
 
   const handleConfirmAnswer = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(false);
     const questionId = "60b9b6b6e6b9c2b4e0f7f7b5"; //dummy
 
     console.log(answerText, selectedImage);

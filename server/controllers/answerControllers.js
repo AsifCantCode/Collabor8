@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const Question = require("../model/questionModel");
 const Answer = require("../model/answerModel");
+const { removeFile } = require("../utilities/account");
 
 const uploadAnswer = async (req, res) => {
   const { answerText, questionId } = req.body;
@@ -32,11 +33,15 @@ const uploadAnswer = async (req, res) => {
 };
 
 const updateAnswer = async (req, res) => {
-  const { textContent, answerId } = req.body;
+  const { answerText, answerId, previousImages } = req.body;
   const { authorization } = req.headers;
   const token = authorization.split(" ")[1];
 
-  const selectedImage = req.files.map((file) => file.filename);
+  const selectedImages = req.files.map((file) => file.filename);
+  const prevValid = previousImages.split(",");
+  console.log("PreviousImages: ", typeof prevValid, prevValid);
+  console.log("selectedImages: ", selectedImages);
+  const newImageArray = [...prevValid, ...selectedImages];
   try {
     const { _id } = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -49,10 +54,19 @@ const updateAnswer = async (req, res) => {
     if (!existingAnswer) {
       throw Error("Answer not found or unauthorized");
     }
+    let absentElements = existingAnswer.images.filter(
+      (image) => !newImageArray.includes(image)
+    );
+    console.log("ABSENT: ", absentElements.length);
 
     // Update the question fields
-    existingAnswer.answer = textContent;
-    existingAnswer.images = selectedImage;
+    existingAnswer.answerText = answerText;
+    if (absentElements.length > 0) {
+      for (const filename of absentElements) {
+        await removeFile(filename, "answers");
+      }
+      existingQuestion.images = newImageArray;
+    }
     existingAnswer.updatedAt = new Date();
 
     // Save the updated question

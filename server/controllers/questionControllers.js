@@ -88,14 +88,14 @@ const updateQuestion = async (req, res) => {
       _id: questionId,
       AuthorId: _id,
     });
+    if (!existingQuestion) {
+      throw Error("Question not found or unauthorized");
+    }
     let absentElements = existingQuestion.selectedImage.filter(
       (image) => !newImageArray.includes(image)
     );
     console.log("ABSENT: ", absentElements.length);
 
-    if (!existingQuestion) {
-      throw Error("Question not found or unauthorized");
-    }
     //Update tag counts
     updateTagCounts(existingQuestion.tagList, tagList);
 
