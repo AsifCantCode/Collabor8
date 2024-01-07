@@ -3,7 +3,7 @@ const Question = require("../model/questionModel");
 const Answer = require("../model/answerModel");
 
 const uploadAnswer = async (req, res) => {
-  const { textContent, questionId } = req.body;
+  const { answerText, questionId } = req.body;
   const { authorization } = req.headers;
   const token = authorization.split(" ")[1];
 
@@ -12,7 +12,7 @@ const uploadAnswer = async (req, res) => {
   try {
     const { _id, fullname } = jwt.verify(token, process.env.JWT_SECRET);
     const answer = await Answer.create({
-      answer: textContent,
+      answerText,
       images: selectedImage,
       createdBy: { _id, fullname },
       questionId,

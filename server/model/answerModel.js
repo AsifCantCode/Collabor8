@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const answerSchema = new mongoose.Schema({
-  answer: {
+  answerText: {
     type: String,
     required: true,
   },
@@ -49,20 +49,19 @@ const answerSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  comments: {
-    commentList: [
-      {
-        fullname: {
-          type: String,
-          required: true,
-        },
-        comment: {
-          type: String,
-          required: true,
-        },
+  comments: [
+    {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
       },
-    ],
-  },
+      commentText: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
   // Array to store users who upvoted
   upvotes: [
     {
