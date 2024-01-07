@@ -123,9 +123,47 @@ const markAnswerAsCorrect = async (req, res) => {
   }
 };
 
+const addComment = async (req, res) => {
+  const { answerId, commentText } = req.body;
+  const { _id, fullname } = req.body.profile;
+  try {
+    const answer = await Answer.findById(answerId);
+    const comment = {
+      commentText,
+      createdBy: { _id, fullname },
+    };
+    answer.comments.push(comment);
+    await answer.save();
+    res.status(200).json(answer);
+  } catch (error) {
+    res.status(400).json({
+      from: "addComment",
+      error: error.message,
+    });
+  }
+};
+
+const updateComment = async (req, res) => {
+  const { answerId, commentArray } = req.body;
+  const { _id, fullname } = req.body.profile;
+  try {
+    const answer = await Answer.findById(answerId);
+    answer.comments = commentArray;
+    await answer.save();
+    res.status(200).json(answer);
+  } catch (error) {
+    res.status(400).json({
+      from: "updateComment",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   uploadAnswer,
   updateAnswer,
   upvoteDownvoteAnswer,
   markAnswerAsCorrect,
+  addComment,
+  updateComment,
 };

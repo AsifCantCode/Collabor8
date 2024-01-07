@@ -16,6 +16,8 @@ const {
   updateAnswer,
   upvoteDownvoteAnswer,
   markAnswerAsCorrect,
+  addComment,
+  updateComment,
 } = require("../controllers/answerControllers.js");
 
 const {
@@ -78,8 +80,12 @@ router
 router
   .route("/update-answer")
   .put(requireAuth, answerUpload.array("images"), updateAnswer);
+router.route("/add-comment").post(requireAuth, addComment);
+router.route("/update-comment").put(requireAuth, updateComment);
 
 //Collection Routes
 router.route("/add-to-collection").post(requireAuth, addToCollection);
-router.route("/remove-from-collection").delete(requireAuth, removeFromCollection);
+router
+  .route("/remove-from-collection")
+  .delete(requireAuth, removeFromCollection);
 module.exports = router;

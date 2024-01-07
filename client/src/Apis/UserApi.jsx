@@ -89,3 +89,19 @@ export default axios.create({
 //     "Content-Type": "application/json",
 //   },
 // });
+
+/**ADD COMMENT*/
+// const response = await UserApi.post("/add-comment",{ answerId, commentText },{
+//   headers: {
+// Authorization: `Bearer ${user}`,
+//     "Content-Type": "application/json",
+//   },
+// });
+
+/**UPDATE COMMENT*/
+// const response = await UserApi.put("/update-comment",{ answerId, commentArray },{
+//   headers: {
+// Authorization: `Bearer ${user}`,
+//     "Content-Type": "application/json",
+//   },
+// });

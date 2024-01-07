@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
     plan: String,
     expire: Date,
   },
-  expertUser: Boolean,
+  instructor: Boolean,
   following: [
     {
       _id: {
