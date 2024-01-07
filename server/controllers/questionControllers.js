@@ -344,6 +344,10 @@ const getPersonalQuestions = async (req, res) => {
             AuthorId: userId,
         })
             .sort({ postTime: -1 })
+            .populate([
+                { path: "AuthorId", model: "User" },
+                { path: "answers", model: "Answer" },
+            ])
             .exec();
         res.json({ questions });
     } catch (error) {

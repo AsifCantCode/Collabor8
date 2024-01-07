@@ -73,26 +73,26 @@ const EditProfile = () => {
     const [searchTag, setSearchTag] = useState("");
 
     useEffect(() => {
+        const temp = tagList?.map((tag) => tag.name);
         if (searchTag.length > 0) {
-            const tempTagList = tagList.filter((tag) =>
-                tag?.name.includes(searchTag)
-            );
+            const tempTagList = temp?.filter((tag) => tag.includes(searchTag));
             setFilteredTag(tempTagList);
         } else {
-            setFilteredTag(tagList);
+            setFilteredTag(temp);
         }
     }, [searchTag, tagList]);
 
     // const [tag, setTag] = useState("");
 
     const handleTagChange = (tag) => {
-        const index = selectedTag.indexOf(tag.name);
+        const index = selectedTag.indexOf(tag);
         console.log(selectedTag, index);
-        if (index === -1) setSelectedTag([...selectedTag, tag?.name]);
-        else setSelectedTag(selectedTag.filter((t) => t !== tag.name));
+        if (index === -1) setSelectedTag([...selectedTag, tag]);
+        else setSelectedTag(selectedTag.filter((t) => t !== tag));
     };
     const checkSelected = (tag) => {
-        return selectedTag.indexOf(tag?.name) !== -1;
+        console.log("Selected tag", selectedTag);
+        return selectedTag?.indexOf(tag) !== -1;
     };
 
     // Previous Data
@@ -109,7 +109,7 @@ const EditProfile = () => {
             setFullname(profile?.fullname);
             setBio(profile?.bio);
             setPreviousImage([profile?.image]);
-            setSelectedTag(profile?.favTags);
+            setSelectedTag(profile?.favTags || []);
 
             console.log("New User: ", profile);
             console.log("Previous Image: ", profile?.image);
@@ -321,7 +321,7 @@ const EditProfile = () => {
                                             }}
                                             key={index}
                                         >
-                                            {tag.name}
+                                            {tag}
                                         </span>
                                     ))}
                             </div>
