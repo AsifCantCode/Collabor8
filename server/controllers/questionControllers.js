@@ -1,36 +1,9 @@
 const moment = require("moment");
-const fs = require("fs").promises; // Using the promisified version of fs
-const path = require("path");
+
 const jwt = require("jsonwebtoken");
 const Question = require("../model/questionModel");
 const Tag = require("../model/tagModel");
-
-async function removeFile(filename, imageOf) {
-    const filePath = path.join(
-        __dirname,
-        "..",
-        "public",
-        "images",
-        imageOf,
-        filename
-    );
-    console.log("IMAGE PATH: ", filePath);
-    try {
-        // Check if the file exists before attempting to remove it
-        await fs.access(filePath);
-
-        // Remove the file
-        await fs.unlink(filePath);
-
-        console.log(`File '${filename}' has been successfully removed.`);
-    } catch (err) {
-        if (err.code === "ENOENT") {
-            console.warn(`File '${filename}' not found.`);
-        } else {
-            console.error(`Error removing file: ${err.message}`);
-        }
-    }
-}
+const { removeFile } = require("../utilities/account");
 
 // Function to enter tags
 async function enterTags(tagList) {
