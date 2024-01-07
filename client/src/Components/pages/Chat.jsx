@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useGetAllUsers } from "../../Hooks/useGetAllUser";
 import classes from "../../Styles/Chat.module.css";
 import { makeProfileImageURL } from "../../Utilities/utilities";
+import { useChatContext } from "../../Hooks/useChatContext";
+import ChatApi from "../../Apis/ChatApi";
+import { useAuthContext } from "../../Hooks/useAuthContext";
 const Chat = () => {
+    const { newUser } = useAuthContext();
     const { users, loading, error } = useGetAllUsers();
     console.log("users", users);
     const [userSearch, setUserSearch] = useState("");
@@ -19,6 +23,35 @@ const Chat = () => {
             setFilteredUsers(filtered);
         }
     }, [userSearch, users]);
+
+    const { selectedChat, setSelectedChat, chats, setChats } = useChatContext();
+    const [chatLoading, setLoadingChat] = useState(false);
+
+    const accessChat = async (userId) => {
+        console.log(userId);
+
+        try {
+            setLoadingChat(true);
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                },
+            };
+            const { data } = await ChatApi.post(
+                `/post`,
+                { ownId: newUser._id, otherId: userId },
+                config
+            );
+            console.log("Chat Data", data);
+            if (!chats?.find((c) => c?._id === data?._id))
+                setChats([data, ...chats]);
+            setSelectedChat(data);
+            setLoadingChat(false);
+        } catch (error) {
+            console.log(error);
+            setLoadingChat(false);
+        }
+    };
     return (
         <div className={`${classes["Chat"]}`}>
             <div className={`${classes["user-box"]}`}>
@@ -33,7 +66,7 @@ const Chat = () => {
                     />
                 </div>
                 <div className={`${classes["user-list"]}`}>
-                    {!loading && !error && filteredUsers.length === 0 && (
+                    {!loading && !error && filteredUsers?.length === 0 && (
                         <h1>No User Found</h1>
                     )}
                     {loading && <h1>Loading...</h1>}
@@ -41,6 +74,7 @@ const Chat = () => {
                     {userSearch &&
                         filteredUsers.map((user) => (
                             <div
+                                onClick={() => accessChat(user._id)}
                                 className={`${classes["single-chat"]}`}
                                 key={user._id}
                             >

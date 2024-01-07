@@ -15,8 +15,8 @@ export const ChatContextProvider = (props) => {
         setChats,
     };
     return (
-        <ChatContextProvider.Provider value={value}>
+        <ChatContext.Provider value={value}>
             {props.children}
-        </ChatContextProvider.Provider>
+        </ChatContext.Provider>
     );
 };
