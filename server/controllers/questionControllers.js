@@ -269,18 +269,11 @@ const getAllQuestions = async (req, res) => {
 
     const questions = await Question.find(query)
       .sort({ postTime: -1 })
-      .populate([
-        { path: "AuthorId", model: "User", select: "-password" },
-        {
-          path: "answers",
-          model: "Answer",
-          populate: {
-            path: "comments.commentList.fullname",
-            model: "User",
-            select: "-password",
-          },
-        },
-      ])
+      .populate({
+        path: "AuthorId",
+        model: "User",
+        select: "fullname email _id",
+      })
       .exec();
 
     res.json({ questions });
@@ -300,6 +293,11 @@ const tagBasedQuestions = async (req, res) => {
       tagList: { $in: tagName },
     })
       .sort({ postTime: -1 })
+      .populate({
+        path: "AuthorId",
+        model: "User",
+        select: "fullname email _id",
+      })
       .exec();
 
     res.json({ questions });
@@ -319,7 +317,13 @@ const relatedQuestions = async (req, res) => {
       tagList: { $in: tagNames },
     };
 
-    const questions = await Question.find(query).exec();
+    const questions = await Question.find(query)
+      .populate({
+        path: "AuthorId",
+        model: "User",
+        select: "fullname email _id",
+      })
+      .exec();
 
     res.json({ questions });
   } catch (error) {
@@ -338,18 +342,11 @@ const getPersonalQuestions = async (req, res) => {
       AuthorId: userId,
     })
       .sort({ postTime: -1 })
-      .populate([
-        { path: "AuthorId", model: "User", select: "-password" },
-        {
-          path: "answers",
-          model: "Answer",
-          populate: {
-            path: "comments.commentList.fullname",
-            model: "User",
-            select: "-password",
-          },
-        },
-      ])
+      .populate({
+        path: "AuthorId",
+        model: "User",
+        select: "fullname email _id",
+      })
       .exec();
     res.json({ questions });
   } catch (error) {
@@ -367,14 +364,14 @@ const getWholeQuestion = async (req, res) => {
 
     const question = await Question.findById(questionId)
       .populate([
-        { path: "AuthorId", model: "User", select: "-password" },
+        { path: "AuthorId", model: "User", select: "fullname email _id" },
         {
           path: "answers",
           model: "Answer",
           populate: {
-            path: "comments.commentList.fullname",
+            path: "comments.userId",
             model: "User",
-            select: "-password",
+            select: "fullname email _id",
           },
         },
       ])
