@@ -2,7 +2,12 @@ import classes from "../../Styles/AskQuestion.module.css";
 import { LuImagePlus } from "react-icons/lu";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { makeQuestionImageURL } from "../../Utilities/utilities";
-const PreviousImage = ({ previousImages, setPreviousImages }) => {
+const PreviousImage = ({
+    previousImages,
+    setPreviousImages,
+    width = "15rem",
+    height = "15rem",
+}) => {
     const handleDeleteImage = (index) => {
         console.log(index);
         const newImages = previousImages.filter((image, i) => i !== index);
@@ -21,6 +26,7 @@ const PreviousImage = ({ previousImages, setPreviousImages }) => {
                             onClick={() => {
                                 handleDeleteImage(index);
                             }}
+                            style={{ width: width, height: height }}
                         >
                             <span className={`${classes["delete-btn"]}`}>
                                 <RiDeleteBin5Fill />
