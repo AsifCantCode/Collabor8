@@ -1,10 +1,16 @@
 import classes from "../../Styles/AnswerBox.module.css";
-import { SmallButtonAc } from "../Buttons";
+import {
+    SmallButtonAc,
+    SmallButtonDeepAc,
+    SmallButtonLiteAc,
+} from "../Buttons";
 
 import { FaCircleUser } from "react-icons/fa6";
 import { FaThumbsUp } from "react-icons/fa";
 import { FaThumbsDown } from "react-icons/fa";
 import textImage from "../../assets/Screenshot 2023-10-14 172945.png";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 const SingleAnswer = (props) => {
     const {
         upvote,
@@ -15,6 +21,22 @@ const SingleAnswer = (props) => {
         handleDownvote,
         setEditMode,
     } = props;
+
+    const [replyMode, setReplyMode] = useState(false);
+    const [replyText, setReplyText] = useState("");
+    const [editReplyMode, setEditReplyMode] = useState(false);
+    const handleReply = () => {
+        setReplyMode((prev) => !prev);
+    };
+
+    const submitReply = () => {
+        console.log(replyText);
+        setReplyMode(false);
+    };
+    const handleSubmitReply = () => {
+        console.log(replyText);
+        setEditReplyMode(false);
+    };
     return (
         <div className={`${classes["answer"]}`}>
             <SmallButtonAc
@@ -62,6 +84,86 @@ const SingleAnswer = (props) => {
                         <img src={textImage} alt="" />
                     </div>
                 </div>
+            </div>
+            <div className={`${classes["replies"]}`}>
+                <h3>Replies</h3>
+                <div className={`${classes["reply"]}`}>
+                    <div className={`${classes["reply-header"]}`}>
+                        <h4>Tanvir Hossain Dihan</h4>
+                        {!editReplyMode && (
+                            <SmallButtonAc
+                                func={() => setEditReplyMode(true)}
+                                text={"Edit Reply"}
+                            />
+                        )}
+                    </div>
+
+                    {editReplyMode ? (
+                        <div className={`${classes["reply-input"]}`}>
+                            <textarea name="" id=""></textarea>
+                            <SmallButtonDeepAc
+                                text={"Confirm Edit"}
+                                func={handleSubmitReply}
+                            />
+                        </div>
+                    ) : (
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Dignissimos sed esse explicabo. Officiis
+                            aspernatur itaque, accusamus quidem dolorum quisquam
+                            omnis.
+                        </p>
+                    )}
+                </div>
+                <div className={`${classes["reply"]}`}>
+                    <div className={`${classes["reply-header"]}`}>
+                        <h4>Tanvir Hossain Dihan</h4>
+                        {!editReplyMode && (
+                            <SmallButtonAc
+                                func={() => setEditReplyMode(true)}
+                                text={"Edit Reply"}
+                            />
+                        )}
+                    </div>
+
+                    {editReplyMode ? (
+                        <div className={`${classes["reply-input"]}`}>
+                            <textarea name="" id=""></textarea>
+                            <SmallButtonDeepAc
+                                text={"Confirm Edit"}
+                                func={handleSubmitReply}
+                            />
+                        </div>
+                    ) : (
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Dignissimos sed esse explicabo. Officiis
+                            aspernatur itaque, accusamus quidem dolorum quisquam
+                            omnis.
+                        </p>
+                    )}
+                </div>
+
+                {replyMode && (
+                    <div className={`${classes["reply-input"]}`}>
+                        <textarea name="" id=""></textarea>
+                    </div>
+                )}
+                {replyMode ? (
+                    <div className={`${classes["reply-btn"]}`}>
+                        <SmallButtonDeepAc
+                            text={"Submit Reply"}
+                            func={submitReply}
+                        />
+                    </div>
+                ) : (
+                    <div className={`${classes["reply-btn"]}`}>
+                        <SmallButtonDeepAc
+                            func={() => setReplyMode((prev) => !prev)}
+                            text={"Reply to Answer"}
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );
