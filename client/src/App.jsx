@@ -22,6 +22,7 @@ import Subscription from "./Components/pages/Subscription";
 import EditQuestion from "./Components/pages/EditQuestion";
 import SingleQuestion from "./Components/questions/SingleQuestion";
 import SingleQuestionDetails from "./Components/pages/SingleQuestionDetails";
+import Chat from "./Components/pages/Chat";
 
 const App = () => {
     return (
@@ -46,6 +47,7 @@ const App = () => {
                     <Route path="/accounts" element={<LoginSignup />} />
                     <Route path="/edit-profile" element={<EditProfile />} />
                     <Route path="/subscription" element={<Subscription />} />
+                    <Route path="/chat" element={<Chat />} />
                     {/* Ui Test Routes  */}
                     <Route path="/ui-test/navbar" element={<Navbar />} />
                     <Route path="/ui-test/button" element={<Button />} />
