@@ -78,7 +78,30 @@ const removeFromCollection = async (req, res) => {
   }
 };
 
+const getCollections = async (req, res) => {
+  const { _id } = req.body.profile;
+  try {
+    const userQuestions = await Collection.findById(_id)
+      .populate({
+        path: "questionIds",
+        select: "-answers",
+        populate: {
+          path: "AuthorId",
+        },
+      });
+
+    const allQuestionsWithDetails = userQuestions ? userQuestions.questionIds : [];
+    console.log(allQuestionsWithDetails);
+
+    return res.status(200).json(allQuestionsWithDetails);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   addToCollection,
   removeFromCollection,
+  getCollections,
 };

@@ -23,6 +23,7 @@ const {
 const {
   addToCollection,
   removeFromCollection,
+  getCollections,
 } = require("../controllers/collectionControllers.js");
 
 const {
@@ -88,4 +89,5 @@ router.route("/add-to-collection").post(requireAuth, addToCollection);
 router
   .route("/remove-from-collection")
   .delete(requireAuth, removeFromCollection);
+router.route("/get-all-collections").get(requireAuth, getCollections);
 module.exports = router;
