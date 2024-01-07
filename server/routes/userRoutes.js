@@ -81,5 +81,5 @@ router
 
 //Collection Routes
 router.route("/add-to-collection").post(requireAuth, addToCollection);
-router.route("/remove-from-collection").delete(removeFromCollection);
+router.route("/remove-from-collection").delete(requireAuth, removeFromCollection);
 module.exports = router;
