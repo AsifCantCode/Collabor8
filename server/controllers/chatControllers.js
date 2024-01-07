@@ -1,6 +1,6 @@
 const Chat = require("../model/chatModel");
 const User = require("../model/userModel");
-
+const Message = require("../model/messageModel");
 const accessChat = async (req, res) => {
     const { ownId, otherId } = req.body;
     console.log("ownId", ownId);
@@ -68,7 +68,44 @@ const fetchChats = async (req, res) => {
         throw new Error(error.message);
     }
 };
+
+const sendMessage = async (req, res) => {
+    const { chatId, content } = req.body;
+    const { userId } = req.query;
+    if (!chatId || !content) {
+        console.log("Invalid data passed into request");
+        return res.sendStatus(400);
+    }
+
+    const newMessage = {
+        sender: userId,
+        content: content,
+        chat: chatId,
+    };
+
+    try {
+        const message = await Message.create(newMessage);
+        const populatedMessage = await Message.findById(message._id)
+            .populate("sender", "-password")
+            .populate({
+                path: "chat",
+                populate: {
+                    path: "users",
+                    model: "User",
+                },
+            });
+        await Chat.findByIdAndUpdate(chatId, {
+            latestMessage: populatedMessage,
+        });
+
+        res.json(populatedMessage);
+    } catch (error) {
+        res.status(400);
+        throw new Error(error.message);
+    }
+};
 module.exports = {
     accessChat,
     fetchChats,
+    sendMessage,
 };

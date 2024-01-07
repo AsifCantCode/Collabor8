@@ -5,6 +5,7 @@ import { makeProfileImageURL } from "../../Utilities/utilities";
 import { useChatContext } from "../../Hooks/useChatContext";
 import ChatApi from "../../Apis/ChatApi";
 import { useAuthContext } from "../../Hooks/useAuthContext";
+import _ from "lodash";
 const Chat = () => {
     const { newUser } = useAuthContext();
     const { users, loading, error } = useGetAllUsers();
@@ -127,7 +128,16 @@ const Chat = () => {
                                             className={`${classes["user-info"]}`}
                                         >
                                             <h3>{user.fullname}</h3>
-                                            <p>{user.email}</p>
+                                            <p>
+                                                {_.truncate(
+                                                    chat?.latestMessage
+                                                        ?.content,
+                                                    {
+                                                        length: 20,
+                                                        omission: "...",
+                                                    }
+                                                )}
+                                            </p>
                                         </div>
                                     </div>
                                 );
