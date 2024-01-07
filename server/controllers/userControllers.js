@@ -209,6 +209,16 @@ const followUnfollow = async (req, res) => {
     }
 };
 
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find();
+        console.log("users: ", users);
+        res.json(users);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
 module.exports = {
     signup,
     login,
@@ -216,4 +226,5 @@ module.exports = {
     getPersonalInfo,
     updateProfile,
     followUnfollow,
+    getAllUsers,
 };
