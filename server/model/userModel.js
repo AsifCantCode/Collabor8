@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
   badge: {
     type: String,
     default: "newbie",
-    enum: ["newbie", "intermediate", "expert"],
+    enum: ["newbie", "intermediate", "expert", "master", "legend"],
   },
   points: {
     type: Number,
@@ -87,6 +87,44 @@ userSchema.methods.unfollowUser = async function (userToUnfollow) {
 
   await this.save();
   return this;
+};
+
+// Function to assign a badge
+userSchema.methods.assignBadge = async function () {
+  try {
+    let badges = ["newbie", "intermediate", "expert", "master", "legend"];
+    if (this.points >= 500) this.badge = badges[1];
+    else if (this.points >= 1500) this.badge = badges[2];
+    else if (this.points >= 3000) this.badge = badges[3];
+    else if (this.points >= 5000) this.badge = badges[4];
+    else this.badge = badges[0];
+    await this.save();
+  } catch (error) {
+    console.error(error);
+  }
+};
+// Function to increase points
+userSchema.methods.increasePoints = async function (amount) {
+  try {
+    this.points += amount;
+    await this.save();
+    await this.assignBadge();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Function to decrease points
+userSchema.methods.decreasePoints = async function (amount) {
+  try {
+    // Calculate the new points, ensuring it's not negative
+    this.points = Math.max(0, this.points - amount);
+    await this.save();
+    await this.assignBadge();
+  } catch (error) {
+    console.error(error);
+    throw error; // Re-throw the error for proper handling
+  }
 };
 
 module.exports = mongoose.model("User", userSchema);
