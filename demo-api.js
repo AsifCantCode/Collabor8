@@ -12,7 +12,7 @@ const profile = {
         plan: "monthly",
         expire: "2021-12-31",
     },
-    expertUser: true,
+    instructor: true,
     following: {
         count: 2,
         users: [
@@ -113,3 +113,9 @@ const tags = [
         questionInLastWeek: 4,
     },
 ];
+
+const access = {
+    beginner: {
+        imageLimit: 2,
+    },
+};
