@@ -12,6 +12,11 @@ const {
 } = require("../controllers/userControllers");
 
 const {
+  subscribe,
+  checkSubscription,
+} = require("../controllers/subscriptionControllers");
+
+const {
   uploadAnswer,
   updateAnswer,
   upvoteDownvoteAnswer,
@@ -90,4 +95,8 @@ router
   .route("/remove-from-collection")
   .delete(requireAuth, removeFromCollection);
 router.route("/get-all-collections").get(requireAuth, getCollections);
+
+//Subscription routes
+router.route("/subscribe").post(requireAuth, subscribe);
+router.route("/check-for-subscribe").put(requireAuth, checkSubscription);
 module.exports = router;
