@@ -27,6 +27,8 @@ const Chat = () => {
     const { selectedChat, setSelectedChat, chats, setChats } = useChatContext();
     const [chatLoading, setLoadingChat] = useState(false);
 
+    console.log("Chat", chats);
+
     const accessChat = async (userId) => {
         console.log(userId);
 
@@ -71,25 +73,68 @@ const Chat = () => {
                     )}
                     {loading && <h1>Loading...</h1>}
                     {error && <h1>{error}</h1>}
-                    {userSearch &&
-                        filteredUsers.map((user) => (
-                            <div
-                                onClick={() => accessChat(user._id)}
-                                className={`${classes["single-chat"]}`}
-                                key={user._id}
-                            >
-                                <div className={`${classes["user-image"]}`}>
-                                    <img
-                                        src={makeProfileImageURL(user.image)}
-                                        alt="Avatar"
-                                    />
-                                </div>
-                                <div className={`${classes["user-info"]}`}>
-                                    <h3>{user.fullname}</h3>
-                                    <p>{user.email}</p>
-                                </div>
-                            </div>
-                        ))}
+                    {userSearch ? (
+                        <>
+                            {userSearch &&
+                                filteredUsers.map((user) => (
+                                    <div
+                                        onClick={() => accessChat(user._id)}
+                                        className={`${classes["single-chat"]}`}
+                                        key={user._id}
+                                    >
+                                        <div
+                                            className={`${classes["user-image"]}`}
+                                        >
+                                            <img
+                                                src={makeProfileImageURL(
+                                                    user.image
+                                                )}
+                                                alt="Avatar"
+                                            />
+                                        </div>
+                                        <div
+                                            className={`${classes["user-info"]}`}
+                                        >
+                                            <h3>{user.fullname}</h3>
+                                            <p>{user.email}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                        </>
+                    ) : (
+                        <>
+                            {chats?.map((chat) => {
+                                const user = chat?.users?.find(
+                                    (user) => user?._id !== newUser._id
+                                );
+                                return (
+                                    <div
+                                        onClick={() => selectedChat(chat)}
+                                        className={`${classes["single-chat"]}`}
+                                        key={user._id}
+                                    >
+                                        <div
+                                            className={`${classes["user-image"]}`}
+                                        >
+                                            <img
+                                                src={makeProfileImageURL(
+                                                    user.image
+                                                )}
+                                                alt="Avatar"
+                                            />
+                                        </div>
+                                        <div
+                                            className={`${classes["user-info"]}`}
+                                        >
+                                            <h3>{user.fullname}</h3>
+                                            <p>{user.email}</p>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </>
+                    )}
+
                     {/* <div className={`${classes["single-chat"]}`}>
                         <div className={`${classes["user-image"]}`}>
                             <img
