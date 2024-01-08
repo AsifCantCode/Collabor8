@@ -1,6 +1,7 @@
 const io = require("socket.io");
 
 let socketServer;
+const { addNotification } = require("../controllers/notificationController");
 const initializeSocket = (server) => {
     socketServer = io(server, {
         pingTimeout: 60000,
@@ -33,6 +34,13 @@ const initializeSocket = (server) => {
                 socket
                     .in(user?._id)
                     .emit("message recieved", newMessageRecieved);
+                // socketServer.in(userTo).emit("notification", newNotification);
+                addNotification(
+                    user?._id,
+                    "message",
+                    newMessageRecieved?._id,
+                    socket
+                );
             });
         });
 

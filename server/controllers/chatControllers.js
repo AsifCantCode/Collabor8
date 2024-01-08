@@ -1,6 +1,9 @@
 const Chat = require("../model/chatModel");
 const User = require("../model/userModel");
 const Message = require("../model/messageModel");
+// const { socketServer } = require("../utilities/socketService");
+
+// const { addNotification } = require("./notificationController");
 const accessChat = async (req, res) => {
     const { ownId, otherId } = req.body;
     console.log("ownId", ownId);
@@ -101,6 +104,16 @@ const sendMessage = async (req, res) => {
             latestMessage: populatedMessage,
         });
 
+        const receiverId = populatedMessage.chat.users.find(
+            (user) => user._id.toString() !== userId
+        );
+        // console.log("SocketServer", socketServer);
+        // addNotification(
+        //     receiverId._id,
+        //     "message",
+        //     populatedMessage._id,
+        //     socketServer
+        // );
         res.json(populatedMessage);
     } catch (error) {
         res.status(400);

@@ -45,6 +45,25 @@ export const ChatContextProvider = (props) => {
             setSocketConnected(true);
         });
     }, [newUser, socket]);
+
+    useEffect(() => {
+        console.log("USEEFFECT");
+        console.log("Socket", socket);
+        socket.on("notification", (newNotification) => {
+            console.log("NEW NOTIFICATION", newNotification);
+            console.log("NOTIFICATION", notification);
+            if (!notification.includes(newNotification))
+                setNotification((prevNotifications) => [
+                    ...prevNotifications,
+                    newNotification,
+                ]);
+        });
+    }, [socket]);
+
+    useEffect(() => {
+        console.log("NEW NOTIFICATION", notification);
+    }, [notification]);
+
     // useEffect(() => {
     //     async function getMessages() {
     //         try {

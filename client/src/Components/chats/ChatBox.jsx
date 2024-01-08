@@ -20,9 +20,11 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
         socket,
         selectedChatCompare,
         setSelectedChatCompare,
+        notification,
     } = useChatContext();
     const { newUser } = useAuthContext();
 
+    // console.log("Notification", notification);
     // Socket Connection
     // const [socketConnected, setSocketConnected] = useState(false);
     // useEffect(() => {
@@ -40,6 +42,7 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
 
     useEffect(() => {
         socket.on("message recieved", (newMessageRecieved) => {
+            console.log("Message Recieved", newMessageRecieved);
             if (
                 !selectedChatCompare ||
                 selectedChatCompare._id !== newMessageRecieved.chat._id
