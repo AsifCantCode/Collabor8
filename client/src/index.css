@@ -43,3 +43,10 @@ a:not(.jodit-wysiwyg a, .post-description a):hover {
 li:not(.jodit-wysiwyg li, .post-description li) {
     list-style: none;
 }
+
+/* .global-message-box {
+    overflow-y: scroll;
+}
+.global-message-box::-webkit-scrollbar {
+    display: none;
+} */

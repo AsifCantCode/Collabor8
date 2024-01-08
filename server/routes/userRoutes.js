@@ -3,45 +3,46 @@ const requireAuth = require("../middlewares/requireAuth");
 const isLoggedIn = require("../middlewares/isLoggedIn.js");
 
 const {
-  signup,
-  login,
-  getProfileInfo,
-  getPersonalInfo,
-  updateProfile,
-  followUnfollow,
+    signup,
+    login,
+    getProfileInfo,
+    getPersonalInfo,
+    updateProfile,
+    followUnfollow,
+    getAllUsers,
 } = require("../controllers/userControllers");
 
 const {
-  subscribe,
-  checkSubscription,
+    subscribe,
+    checkSubscription,
 } = require("../controllers/subscriptionControllers");
 
 const {
-  uploadAnswer,
-  updateAnswer,
-  upvoteDownvoteAnswer,
-  markAnswerAsCorrect,
-  addComment,
-  updateComment,
+    uploadAnswer,
+    updateAnswer,
+    upvoteDownvoteAnswer,
+    markAnswerAsCorrect,
+    addComment,
+    updateComment,
 } = require("../controllers/answerControllers.js");
 
 const {
-  addToCollection,
-  removeFromCollection,
-  getCollections,
+    addToCollection,
+    removeFromCollection,
+    getCollections,
 } = require("../controllers/collectionControllers.js");
 
 const {
-  uploadQuestions,
-  updateQuestion,
-  getWholeQuestion,
-  getPersonalQuestions,
-  relatedQuestions,
-  tagBasedQuestions,
-  getAllQuestions,
-  getPopularTags,
-  getAllTags,
-  upvoteDownvoteQuestion,
+    uploadQuestions,
+    updateQuestion,
+    getWholeQuestion,
+    getPersonalQuestions,
+    relatedQuestions,
+    tagBasedQuestions,
+    getAllQuestions,
+    getPopularTags,
+    getAllTags,
+    upvoteDownvoteQuestion,
 } = require("../controllers/questionControllers.js");
 
 const router = express.Router();
@@ -57,17 +58,17 @@ router.route("/login").post(login);
 router.route("/").get(requireAuth, getPersonalInfo);
 router.route("/get-profile").get(getProfileInfo);
 router
-  .route("/update-profile")
-  .put(requireAuth, profileImageUpload.array("images"), updateProfile);
+    .route("/update-profile")
+    .put(requireAuth, profileImageUpload.array("images"), updateProfile);
 router.route("/follow-unfollow").put(requireAuth, followUnfollow);
 
 /**QUESTION ROUTES */
 router
-  .route("/add-question")
-  .post(requireAuth, questionUpload.array("images"), uploadQuestions);
+    .route("/add-question")
+    .post(requireAuth, questionUpload.array("images"), uploadQuestions);
 router
-  .route("/update-question")
-  .put(requireAuth, questionUpload.array("images"), updateQuestion);
+    .route("/update-question")
+    .put(requireAuth, questionUpload.array("images"), updateQuestion);
 router.route("/all-questions").get(isLoggedIn, getAllQuestions);
 router.route("/tag-questions").get(tagBasedQuestions);
 router.route("/related-questions").get(relatedQuestions);
@@ -81,19 +82,22 @@ router.route("/single-question").get(getWholeQuestion);
 router.route("/upvote-downvote-ans").put(requireAuth, upvoteDownvoteAnswer);
 router.route("/mark-as-correct").put(requireAuth, markAnswerAsCorrect);
 router
-  .route("/add-answer")
-  .post(requireAuth, answerUpload.array("images"), uploadAnswer);
+    .route("/add-answer")
+    .post(requireAuth, answerUpload.array("images"), uploadAnswer);
 router
-  .route("/update-answer")
-  .put(requireAuth, answerUpload.array("images"), updateAnswer);
+    .route("/update-answer")
+    .put(requireAuth, answerUpload.array("images"), updateAnswer);
 router.route("/add-comment").post(requireAuth, addComment);
 router.route("/update-comment").put(requireAuth, updateComment);
 
 //Collection Routes
 router.route("/add-to-collection").post(requireAuth, addToCollection);
 router
-  .route("/remove-from-collection")
-  .delete(requireAuth, removeFromCollection);
+    .route("/remove-from-collection")
+    .delete(requireAuth, removeFromCollection);
+
+// Chat Route
+router.route("/get-all-user").get(getAllUsers);
 router.route("/get-all-collections").get(requireAuth, getCollections);
 
 //Subscription routes
