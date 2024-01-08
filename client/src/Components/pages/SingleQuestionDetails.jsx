@@ -53,7 +53,7 @@ const SingleQuestionDetails = () => {
     // Populate Data
     const { id } = useParams();
     const { question, loading, error } = useGetSingleQuestion(id);
-
+    console.log("QUESTION", question);
     return (
         <div className={`${classes["SingleQuestionDetails"]}`}>
             <div className={`${classes["SingleQuestion"]}`}>
@@ -111,7 +111,10 @@ const SingleQuestionDetails = () => {
                         ))}
                     </div>
                 </div>
-                <AnswerBox />
+                <AnswerBox
+                    answers={question?.answers}
+                    questionId={question?._id}
+                />
             </div>
             <RightSidebar>
                 <PopularTagsCard />

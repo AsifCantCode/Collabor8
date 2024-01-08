@@ -11,17 +11,44 @@ import { FaThumbsDown } from "react-icons/fa";
 import textImage from "../../assets/Screenshot 2023-10-14 172945.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import {
+    formatDateAndTimeFromString,
+    makeAnswerImageURL,
+} from "../../Utilities/utilities";
 const SingleAnswer = (props) => {
-    const {
-        upvote,
-        downvote,
-        upvoted,
-        downvoted,
-        handleUpvote,
-        handleDownvote,
-        setEditMode,
-    } = props;
+    const { setEditMode, answer } = props;
 
+    const [upvote, setUpvote] = useState(0);
+    const [downvote, setDownvote] = useState(0);
+    const [upvoted, setUpvoted] = useState(false);
+    const [downvoted, setDownvoted] = useState(false);
+
+    const handleUpvote = () => {
+        if (upvoted) {
+            setUpvote(upvote - 1);
+            setUpvoted(false);
+        } else {
+            setUpvote(upvote + 1);
+            setUpvoted(true);
+        }
+        if (downvoted) {
+            setDownvote(downvote - 1);
+            setDownvoted(false);
+        }
+    };
+    const handleDownvote = () => {
+        if (downvoted) {
+            setDownvote(downvote - 1);
+            setDownvoted(false);
+        } else {
+            setDownvote(downvote + 1);
+            setDownvoted(true);
+        }
+        if (upvoted) {
+            setUpvote(upvote - 1);
+            setUpvoted(false);
+        }
+    };
     const [replyMode, setReplyMode] = useState(false);
     const [replyText, setReplyText] = useState("");
     const [editReplyMode, setEditReplyMode] = useState(false);
@@ -46,10 +73,11 @@ const SingleAnswer = (props) => {
             <div className={`${classes["answer-header"]}`}>
                 <div className={`${classes["info"]}`}>
                     <h4 className={`${classes["answer-author"]}`}>
-                        <FaCircleUser /> <span>Tanvir Hossain Dihan</span>
+                        <FaCircleUser />{" "}
+                        <span>{answer?.createdBy?.fullname}</span>
                     </h4>
                     <p className={`${classes["answer-date"]}`}>
-                        Answered 2 days ago
+                        {formatDateAndTimeFromString(answer?.createdAt)}
                     </p>
                 </div>
                 <div className={`${classes["up-down-votes"]}`}>
@@ -71,18 +99,16 @@ const SingleAnswer = (props) => {
             </div>
             <div className={`${classes["answer-body"]}`}>
                 <div className={`${classes["answer-text"]}`}>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quisquam, voluptatum voluptates. Quibusdam,
-                        voluptatibus. Quae molestias, voluptates, quod, quia
-                        accusamus voluptatibus autem iusto voluptate quibusdam
-                        doloremque quos tempore? Repellat, voluptatum quibusdam.
-                    </p>
+                    <p>{answer?.answerText}</p>
                 </div>
                 <div className={`${classes["answer-attachments"]}`}>
-                    <div className={`${classes["image"]}`}>
-                        <img src={textImage} alt="" />
-                    </div>
+                    {answer?.images?.map((image, index) => {
+                        return (
+                            <div key={index} className={`${classes["image"]}`}>
+                                <img src={makeAnswerImageURL(image)} alt="" />
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
             <div className={`${classes["replies"]}`}>
