@@ -67,3 +67,118 @@
     color: var(--border);
     font-weight: 400;
 }
+
+.chat-box {
+    position: fixed;
+    left: 25%;
+    width: 75%;
+    height: 100%;
+    background-color: var(--dark);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    /* background-color: aqua; */
+}
+.chat-header {
+    /* background-color: red; */
+    padding: 0.5rem;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.75);
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    border: 1px solid var(--border-deep);
+}
+.message-input {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: var(--dark); */
+    padding: 0 1rem;
+    gap: 1rem;
+}
+.message-input input {
+    width: 100%;
+    height: 42px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    padding: 0 1rem;
+    background-color: var(--dark-light);
+    color: var(--white);
+}
+.message-input input:focus {
+    outline: 1px solid var(--border);
+}
+.no-chat-selected {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    color: var(--white);
+    font-weight: 400;
+}
+.messages {
+    width: 100%;
+    padding: 0 1rem;
+    overflow-y: scroll;
+    /* position: relative; */
+    /* scrollbar-width: none !important; */
+}
+.messages::-webkit-scrollbar {
+    display: none !important;
+}
+.messages {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.message {
+    width: 100%;
+}
+.message-sender {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+.message-sender p {
+    background-color: var(--yellow);
+    color: var(--dark);
+    font-weight: 400;
+    padding: 0.5rem 1.3rem;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border-top-left-radius: 0.5rem;
+}
+.message-receiver {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+.message-receiver p {
+    background-color: var(--dark-light);
+    color: var(--white);
+    font-weight: 400;
+    padding: 0.5rem 1.3rem;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}

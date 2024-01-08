@@ -71,7 +71,10 @@ const fetchChats = async (req, res) => {
 
 const sendMessage = async (req, res) => {
     const { chatId, content } = req.body;
+    console.log("chatId", chatId);
+    console.log("content", content);
     const { userId } = req.query;
+    console.log("userId", userId);
     if (!chatId || !content) {
         console.log("Invalid data passed into request");
         return res.sendStatus(400);
@@ -104,8 +107,28 @@ const sendMessage = async (req, res) => {
         throw new Error(error.message);
     }
 };
+
+const getMessage = async (req, res) => {
+    const { chatId } = req.query;
+    try {
+        const messages = await Message.find({ chat: chatId })
+            .populate("sender", "-password")
+            .populate({
+                path: "chat",
+                populate: {
+                    path: "users",
+                    model: "User",
+                },
+            });
+        res.json(messages);
+    } catch (error) {
+        res.status(400);
+        throw new Error(error.message);
+    }
+};
 module.exports = {
     accessChat,
     fetchChats,
     sendMessage,
+    getMessage,
 };

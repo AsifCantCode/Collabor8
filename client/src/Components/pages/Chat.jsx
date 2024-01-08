@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGetAllUsers } from "../../Hooks/useGetAllUser";
 import classes from "../../Styles/Chat.module.css";
 import { makeProfileImageURL } from "../../Utilities/utilities";
@@ -6,6 +6,8 @@ import { useChatContext } from "../../Hooks/useChatContext";
 import ChatApi from "../../Apis/ChatApi";
 import { useAuthContext } from "../../Hooks/useAuthContext";
 import _ from "lodash";
+import { Button } from "../Buttons";
+import ScrollableFeed from "react-scrollable-feed";
 const Chat = () => {
     const { newUser } = useAuthContext();
     const { users, loading, error } = useGetAllUsers();
@@ -25,7 +27,14 @@ const Chat = () => {
         }
     }, [userSearch, users]);
 
-    const { selectedChat, setSelectedChat, chats, setChats } = useChatContext();
+    const {
+        selectedChat,
+        setSelectedChat,
+        chats,
+        setChats,
+        messages,
+        setMessages,
+    } = useChatContext();
     const [chatLoading, setLoadingChat] = useState(false);
 
     console.log("Chat", chats);
@@ -55,6 +64,45 @@ const Chat = () => {
             setLoadingChat(false);
         }
     };
+
+    // Message Sending
+    const [messageContent, setMessageContent] = useState("");
+    const sendMessage = async () => {
+        try {
+            const config = {
+                params: {
+                    userId: newUser?._id,
+                },
+                headers: {
+                    "Content-type": "application/json",
+                },
+            };
+            const { data } = await ChatApi.post(
+                `/sendmessage`,
+                {
+                    chatId: selectedChat?._id,
+                    content: messageContent,
+                },
+                config
+            );
+            console.log("Message Data", data);
+            setMessageContent("");
+            setMessages([...messages, data]);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    console.log("All Messages", messages);
+    const scrollableFeedRef = useRef(null);
+
+    useEffect(() => {
+        // Scroll to the bottom when messages change
+        if (scrollableFeedRef.current) {
+            scrollableFeedRef.current.scrollTop =
+                scrollableFeedRef.current.scrollHeight;
+        }
+    }, [messages]);
     return (
         <div className={`${classes["Chat"]}`}>
             <div className={`${classes["user-box"]}`}>
@@ -110,7 +158,7 @@ const Chat = () => {
                                 );
                                 return (
                                     <div
-                                        onClick={() => selectedChat(chat)}
+                                        onClick={() => setSelectedChat(chat)}
                                         className={`${classes["single-chat"]}`}
                                         key={user._id}
                                     >
@@ -144,34 +192,100 @@ const Chat = () => {
                             })}
                         </>
                     )}
-
-                    {/* <div className={`${classes["single-chat"]}`}>
-                        <div className={`${classes["user-image"]}`}>
-                            <img
-                                src="https://thumbs.dreamstime.com/z/student-avatar-illustration-user-profile-icon-youth-avatar-student-avatar-illustration-simple-cartoon-user-portrait-user-profile-276214170.jpg?w=768"
-                                alt="Avatar"
-                            />
-                        </div>
-                        <div className={`${classes["user-info"]}`}>
-                            <h3>Tanvir Hossain Dihan</h3>
-                            <p>tanvirh.dihan@gmail.com</p>
-                        </div>
-                    </div>
-                    <div className={`${classes["single-chat"]}`}>
-                        <div className={`${classes["user-image"]}`}>
-                            <img
-                                src="https://thumbs.dreamstime.com/z/student-avatar-illustration-user-profile-icon-youth-avatar-student-avatar-illustration-simple-cartoon-user-portrait-user-profile-276214170.jpg?w=768"
-                                alt="Avatar"
-                            />
-                        </div>
-                        <div className={`${classes["user-info"]}`}>
-                            <h3>Tanvir Hossain Dihan</h3>
-                            <p>tanvirh.dihan@gmail.com</p>
-                        </div>
-                    </div> */}
                 </div>
             </div>
-            <div className={`${classes["chat-box"]}`}></div>
+
+            {/* Chat Box  */}
+            <div className={`${classes["chat-box"]}`}>
+                {/* Chat Header  */}
+                {selectedChat && (
+                    <div className={`${classes["chat-header"]}`}>
+                        <div
+                            className={`${classes["user-image"]}`}
+                            onClick={() => setSelectedChat(null)}
+                        >
+                            <img
+                                src={makeProfileImageURL(
+                                    selectedChat?.users?.find(
+                                        (user) => user?._id !== newUser._id
+                                    ).image
+                                )}
+                                alt="Avatar"
+                            />
+                        </div>
+                        <div
+                            className={`${classes["user-info"]}`}
+                            onClick={() => setSelectedChat(null)}
+                        >
+                            <h3>
+                                {
+                                    selectedChat?.users?.find(
+                                        (user) => user?._id !== newUser._id
+                                    ).fullname
+                                }
+                            </h3>
+                            <p>
+                                {
+                                    selectedChat?.users?.find(
+                                        (user) => user?._id !== newUser._id
+                                    ).email
+                                }
+                            </p>
+                        </div>
+                    </div>
+                )}
+                {/* Chat Messages  */}
+                <div
+                    ref={scrollableFeedRef}
+                    className={`${classes["messages"]}`}
+                >
+                    {chatLoading && <h1>Loading...</h1>}
+                    {!chatLoading && !selectedChat && (
+                        <h3 className={`${classes["no-chat-selected"]}`}>
+                            Select a chat to start messaging
+                        </h3>
+                    )}
+
+                    {!chatLoading && selectedChat && (
+                        <>
+                            <ScrollableFeed>
+                                {messages?.map((message) => (
+                                    <div
+                                        className={`${classes["message"]}`}
+                                        key={message?._id}
+                                    >
+                                        <div
+                                            className={`${
+                                                message?.sender?._id ===
+                                                newUser?._id
+                                                    ? classes["message-sender"]
+                                                    : classes[
+                                                          "message-receiver"
+                                                      ]
+                                            }`}
+                                        >
+                                            <p>{message.content}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </ScrollableFeed>
+                        </>
+                    )}
+                </div>
+                {selectedChat && (
+                    <div className={`${classes["message-input"]}`}>
+                        <input
+                            type="text"
+                            name=""
+                            id=""
+                            placeholder="Type a message"
+                            value={messageContent}
+                            onChange={(e) => setMessageContent(e.target.value)}
+                        />
+                        <Button text="Send" func={sendMessage} />
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
