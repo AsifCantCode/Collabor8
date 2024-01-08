@@ -41,7 +41,10 @@ const userSchema = new mongoose.Schema({
     plan: String,
     expire: Date,
   },
-  instructor: Boolean,
+  instructor: {
+    type: Boolean,
+    default: false,
+  },
   following: [
     {
       _id: {
@@ -95,8 +98,10 @@ userSchema.methods.assignBadge = async function () {
     let badges = ["newbie", "intermediate", "expert", "master", "legend"];
     if (this.points >= 500) this.badge = badges[1];
     else if (this.points >= 1500) this.badge = badges[2];
-    else if (this.points >= 3000) this.badge = badges[3];
-    else if (this.points >= 5000) this.badge = badges[4];
+    else if (this.points >= 3000) {
+      this.badge = badges[3];
+      this.instructor = true;
+    } else if (this.points >= 5000) this.badge = badges[4];
     else this.badge = badges[0];
     await this.save();
   } catch (error) {

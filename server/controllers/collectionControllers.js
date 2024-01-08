@@ -81,16 +81,18 @@ const removeFromCollection = async (req, res) => {
 const getCollections = async (req, res) => {
   const { _id } = req.body.profile;
   try {
-    const userQuestions = await Collection.findById(_id)
-      .populate({
-        path: "questionIds",
-        select: "-answers",
-        populate: {
-          path: "AuthorId",
-        },
-      });
+    const userQuestions = await Collection.findById(_id).populate({
+      path: "questionIds",
+      select: "-answers",
+      populate: {
+        path: "AuthorId",
+        select: "fullname email _id",
+      },
+    });
 
-    const allQuestionsWithDetails = userQuestions ? userQuestions.questionIds : [];
+    const allQuestionsWithDetails = userQuestions
+      ? userQuestions.questionIds
+      : [];
     console.log(allQuestionsWithDetails);
 
     return res.status(200).json(allQuestionsWithDetails);
