@@ -16,7 +16,7 @@ import {
     makeAnswerImageURL,
 } from "../../Utilities/utilities";
 const SingleAnswer = (props) => {
-    const { setEditMode, answer } = props;
+    const { setEditMode, answer, setEditId } = props;
 
     const [upvote, setUpvote] = useState(0);
     const [downvote, setDownvote] = useState(0);
@@ -67,7 +67,10 @@ const SingleAnswer = (props) => {
     return (
         <div className={`${classes["answer"]}`}>
             <SmallButtonAc
-                func={() => setEditMode((prev) => !prev)}
+                func={() => {
+                    setEditMode((prev) => !prev);
+                    setEditId(answer._id);
+                }}
                 text="Edit Answer"
             />
             <div className={`${classes["answer-header"]}`}>

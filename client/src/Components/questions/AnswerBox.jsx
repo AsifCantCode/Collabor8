@@ -19,6 +19,7 @@ const AnswerBox = ({ questionId, answers }) => {
     const [imageViewer, setImageViewer] = useState([]);
     const imageInputRef = useRef(null);
     const [fileError, setFileError] = useState(false);
+    const [previousImages, setPreviousImages] = useState([]);
 
     // Submit Answer Section
     const [loading, setLoading] = useState(false);
@@ -74,8 +75,43 @@ const AnswerBox = ({ questionId, answers }) => {
     };
     // Edit Answer Mode
     const [editMode, setEditMode] = useState(false);
-    const handleConfirmEdit = () => {
+    const [editId, setEditId] = useState(null);
+    const handleConfirmEdit = async (e) => {
         setEditMode(false);
+        e.preventDefault();
+        setLoading(true);
+        setError(false);
+
+        console.log(answerText, selectedImage);
+        const formData = new FormData();
+        formData.append("answerId", editId);
+        formData.append("answerText", answerText);
+        formData.append("previousImages", previousImages);
+        for (let i = 0; i < selectedImage.length; i++) {
+            formData.append("images", selectedImage[i]);
+        }
+
+        try {
+            const response = await UserApi.put("/update-answer", formData, {
+                headers: {
+                    Authorization: `Bearer ${user}`,
+                },
+            });
+            setLoading(false);
+
+            // toast.success(
+            //     "Question Added Successfully !! Navigating to home page...",
+            //     {
+            //         position: toast.POSITION.TOP_RIGHT,
+            //         autoClose: 1500,
+            //     }
+            // );
+            console.log("UPDATE ANSWER Response: ", response.data);
+        } catch (err) {
+            console.log("UPDATE ANSWER ERROR: ", err);
+            setLoading(false);
+            setError(err.response.data.error);
+        }
     };
     return (
         <div className={`${classes["AnswerBox"]}`}>
@@ -87,41 +123,61 @@ const AnswerBox = ({ questionId, answers }) => {
                     return (
                         <>
                             {editMode ? (
-                                <NewAnswer
-                                    selectedImage={selectedImage}
-                                    setSelectedImage={setSelectedImage}
-                                    imageViewer={imageViewer}
-                                    setImageViewer={setImageViewer}
-                                    imageInputRef={imageInputRef}
-                                    fileError={fileError}
-                                    setFileError={setFileError}
-                                    editMode={editMode}
-                                    handleConfirmEdit={handleConfirmEdit}
-                                    setPreviousImages={setImageViewer}
-                                    previousImages={imageViewer}
-                                />
+                                <>
+                                    {editId === answer._id ? (
+                                        <NewAnswer
+                                            answer={answer}
+                                            answerText={answerText}
+                                            previousImages={previousImages}
+                                            setPreviousImages={
+                                                setPreviousImages
+                                            }
+                                            setAnswerText={setAnswerText}
+                                            selectedImage={selectedImage}
+                                            setSelectedImage={setSelectedImage}
+                                            imageViewer={imageViewer}
+                                            setImageViewer={setImageViewer}
+                                            imageInputRef={imageInputRef}
+                                            fileError={fileError}
+                                            setFileError={setFileError}
+                                            handleConfirmEdit={
+                                                handleConfirmEdit
+                                            }
+                                            editMode={editMode}
+                                        />
+                                    ) : (
+                                        <SingleAnswer
+                                            answer={answer}
+                                            setEditMode={setEditMode}
+                                            setEditId={setEditId}
+                                        />
+                                    )}
+                                </>
                             ) : (
                                 <SingleAnswer
                                     answer={answer}
                                     setEditMode={setEditMode}
+                                    setEditId={setEditId}
                                 />
                             )}
                         </>
                     );
                 })}
 
-                <NewAnswer
-                    answerText={answerText}
-                    setAnswerText={setAnswerText}
-                    selectedImage={selectedImage}
-                    setSelectedImage={setSelectedImage}
-                    imageViewer={imageViewer}
-                    setImageViewer={setImageViewer}
-                    imageInputRef={imageInputRef}
-                    fileError={fileError}
-                    setFileError={setFileError}
-                    handleConfirmAnswer={handleConfirmAnswer}
-                />
+                {!editMode && (
+                    <NewAnswer
+                        answerText={answerText}
+                        setAnswerText={setAnswerText}
+                        selectedImage={selectedImage}
+                        setSelectedImage={setSelectedImage}
+                        imageViewer={imageViewer}
+                        setImageViewer={setImageViewer}
+                        imageInputRef={imageInputRef}
+                        fileError={fileError}
+                        setFileError={setFileError}
+                        handleConfirmAnswer={handleConfirmAnswer}
+                    />
+                )}
             </div>
         </div>
     );

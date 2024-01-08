@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import classes from "../../Styles/AnswerBox.module.css";
 import { SmallButtonLiteAc } from "../Buttons";
 import ImageInputAndViewer from "./ImageInputAndViewer";
 import PreviousImage from "./PreviousImage";
+import { makeAnswerImageURL } from "../../Utilities/utilities";
 const NewAnswer = (props) => {
     const {
         selectedImage,
@@ -18,7 +20,16 @@ const NewAnswer = (props) => {
         handleConfirmAnswer,
         answerText,
         setAnswerText,
+        answer,
     } = props;
+
+    useEffect(() => {
+        if (editMode) {
+            console.log("answer", answer);
+            setAnswerText(answer?.answerText);
+            setPreviousImages(answer?.images);
+        }
+    }, [editMode, answer, setAnswerText, setPreviousImages]);
     return (
         <div className={`${classes["answer"]}`}>
             <textarea
@@ -33,6 +44,7 @@ const NewAnswer = (props) => {
                     setPreviousImages={setPreviousImages}
                     width="5rem"
                     height="5rem"
+                    imageFetchFunction={makeAnswerImageURL}
                 />
             )}
             <ImageInputAndViewer

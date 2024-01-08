@@ -7,6 +7,7 @@ const PreviousImage = ({
     setPreviousImages,
     width = "15rem",
     height = "15rem",
+    imageFetchFunction = makeQuestionImageURL,
 }) => {
     const handleDeleteImage = (index) => {
         console.log(index);
@@ -32,7 +33,7 @@ const PreviousImage = ({
                                 <RiDeleteBin5Fill />
                             </span>
                             <img
-                                src={makeQuestionImageURL(image)}
+                                src={imageFetchFunction(image)}
                                 alt="Selected"
                             />
                         </div>
