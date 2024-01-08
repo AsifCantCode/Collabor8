@@ -1,14 +1,20 @@
 import { createContext, useEffect, useState } from "react";
 import { useAuthContext } from "../Hooks/useAuthContext";
 import ChatApi from "../Apis/ChatApi";
+import io from "socket.io-client";
 
 export const ChatContext = createContext();
 
+const ENDPOINT = "http://localhost:5001";
+// let socket, selectedChatCompare;
 export const ChatContextProvider = (props) => {
     const [selectedChat, setSelectedChat] = useState();
     const [notification, setNotification] = useState([]);
     const [chats, setChats] = useState();
     const [messages, setMessages] = useState([]);
+    const [socketConnected, setSocketConnected] = useState(false);
+    const [socket, setSocket] = useState(io(ENDPOINT));
+    const [selectedChatCompare, setSelectedChatCompare] = useState();
 
     const { newUser } = useAuthContext();
     console.log("newUser", newUser);
@@ -26,6 +32,19 @@ export const ChatContextProvider = (props) => {
         getChats();
     }, [newUser]);
 
+    useEffect(() => {
+        // socket = io(ENDPOINT);
+        // setSocket(io(ENDPOINT));
+        socket.emit("setup", newUser, (error) => {
+            if (error) {
+                alert(error);
+            }
+        });
+        socket.on("connection", () => {
+            console.log("Connected to Socket");
+            setSocketConnected(true);
+        });
+    }, [newUser, socket]);
     // useEffect(() => {
     //     async function getMessages() {
     //         try {
@@ -50,6 +69,12 @@ export const ChatContextProvider = (props) => {
         setChats,
         messages,
         setMessages,
+        socketConnected,
+        setSocketConnected,
+        socket,
+        setSocket,
+        selectedChatCompare,
+        setSelectedChatCompare,
     };
     return (
         <ChatContext.Provider value={value}>

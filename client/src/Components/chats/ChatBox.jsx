@@ -6,9 +6,9 @@ import { makeProfileImageURL } from "../../Utilities/utilities";
 import ChatApi from "../../Apis/ChatApi";
 import ScrollableFeed from "react-scrollable-feed";
 import { Button } from "../Buttons";
-import io from "socket.io-client";
-const ENDPOINT = "http://localhost:5001";
-let socket, selectedChatCompare;
+// import io from "socket.io-client";
+// const ENDPOINT = "http://localhost:5001";
+// let socket, selectedChatCompare;
 const ChatBox = ({ chatLoading, setLoadingChat }) => {
     const {
         selectedChat,
@@ -17,23 +17,26 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
         setChats,
         messages,
         setMessages,
+        socket,
+        selectedChatCompare,
+        setSelectedChatCompare,
     } = useChatContext();
     const { newUser } = useAuthContext();
 
     // Socket Connection
-    const [socketConnected, setSocketConnected] = useState(false);
-    useEffect(() => {
-        socket = io(ENDPOINT);
-        socket.emit("setup", newUser, (error) => {
-            if (error) {
-                alert(error);
-            }
-        });
-        socket.on("connection", () => {
-            console.log("Connected to Socket");
-            setSocketConnected(true);
-        });
-    }, [newUser]);
+    // const [socketConnected, setSocketConnected] = useState(false);
+    // useEffect(() => {
+    //     socket = io(ENDPOINT);
+    //     socket.emit("setup", newUser, (error) => {
+    //         if (error) {
+    //             alert(error);
+    //         }
+    //     });
+    //     socket.on("connection", () => {
+    //         console.log("Connected to Socket");
+    //         setSocketConnected(true);
+    //     });
+    // }, [newUser]);
 
     useEffect(() => {
         socket.on("message recieved", (newMessageRecieved) => {
@@ -95,8 +98,9 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
             }
         };
         if (selectedChat) fetchMessages();
-        selectedChatCompare = selectedChat;
-    }, [selectedChat, setMessages]);
+        // selectedChatCompare = selectedChat;
+        setSelectedChatCompare(selectedChat);
+    }, [selectedChat, setMessages, socket, setSelectedChatCompare]);
     useEffect(() => {
         // Scroll to the bottom when messages change
         if (scrollableFeedRef.current) {
