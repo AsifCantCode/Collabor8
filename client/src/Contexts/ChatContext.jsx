@@ -26,19 +26,20 @@ export const ChatContextProvider = (props) => {
         getChats();
     }, [newUser]);
 
-    useEffect(() => {
-        async function getMessages() {
-            try {
-                const { data } = await ChatApi.get(`/getmessage`, {
-                    params: { chatId: selectedChat?._id },
-                });
-                setMessages(data);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        if (selectedChat) getMessages();
-    }, [selectedChat]);
+    // useEffect(() => {
+    //     async function getMessages() {
+    //         try {
+    //             const { data } = await ChatApi.get(`/getmessage`, {
+    //                 params: { chatId: selectedChat?._id },
+    //             });
+    //             setMessages(data);
+
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    //     if (selectedChat) getMessages();
+    // }, [selectedChat]);
 
     const value = {
         selectedChat,
