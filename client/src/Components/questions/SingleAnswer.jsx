@@ -10,14 +10,16 @@ import { FaThumbsUp } from "react-icons/fa";
 import { FaThumbsDown } from "react-icons/fa";
 import textImage from "../../assets/Screenshot 2023-10-14 172945.png";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     formatDateAndTimeFromString,
     makeAnswerImageURL,
 } from "../../Utilities/utilities";
+import { useAuthContext } from "../../Hooks/useAuthContext";
+import UserApi from "../../apis/UserApi";
 const SingleAnswer = (props) => {
     const { setEditMode, answer, setEditId } = props;
-
+    const { user, newUser } = useAuthContext();
     const [upvote, setUpvote] = useState(0);
     const [downvote, setDownvote] = useState(0);
     const [upvoted, setUpvoted] = useState(false);
@@ -52,17 +54,77 @@ const SingleAnswer = (props) => {
     const [replyMode, setReplyMode] = useState(false);
     const [replyText, setReplyText] = useState("");
     const [editReplyMode, setEditReplyMode] = useState(false);
+    const [editReplyId, setEditReplyId] = useState(null);
+
+    const [replies, setReplies] = useState([]);
+
+    useEffect(() => {
+        setReplies(answer?.comments);
+    }, [answer]);
     const handleReply = () => {
         setReplyMode((prev) => !prev);
     };
 
-    const submitReply = () => {
+    const submitReply = async () => {
         console.log(replyText);
         setReplyMode(false);
+        // const tempReply = {
+        //     userId: {
+        //         _id: newUser?._id,
+        //         fullname: newUser?.fullname,
+        //         email: newUser?.email,
+        //     },
+        //     commentText: replyText,
+        //     _id: null,
+        // };
+        try {
+            /**ADD COMMENT*/
+            const response = await UserApi.post(
+                "/add-comment",
+                { answerId: answer?._id, commentText: replyText },
+                {
+                    headers: {
+                        Authorization: `Bearer ${user}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            console.log("ADD REPLY :", response.data);
+
+            const temp = [...replies];
+            temp.push(
+                response?.data?.comments[response?.data?.comments?.length - 1]
+            );
+            setReplies(temp);
+            setReplyText("");
+        } catch (error) {
+            console.log(error);
+        }
     };
-    const handleSubmitReply = () => {
+    const handleReplyEdit = async (index) => {
         console.log(replyText);
+        const tempReplies = [...replies];
+        tempReplies[index].commentText = replyText;
+        setReplies(tempReplies);
+
         setEditReplyMode(false);
+
+        try {
+            /**UPDATE COMMENT*/
+            const response = await UserApi.put(
+                "/update-comment",
+                { answerId: answer?._id, commentArray: replies },
+                {
+                    headers: {
+                        Authorization: `Bearer ${user}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            console.log("UPDATE REPLY :", response.data);
+        } catch (error) {
+            console.log(error);
+        }
     };
     return (
         <div className={`${classes["answer"]}`}>
@@ -115,67 +177,54 @@ const SingleAnswer = (props) => {
                 </div>
             </div>
             <div className={`${classes["replies"]}`}>
-                <h3>Replies</h3>
-                <div className={`${classes["reply"]}`}>
-                    <div className={`${classes["reply-header"]}`}>
-                        <h4>Tanvir Hossain Dihan</h4>
-                        {!editReplyMode && (
-                            <SmallButtonAc
-                                func={() => setEditReplyMode(true)}
-                                text={"Edit Reply"}
-                            />
+                {replies?.length > 0 && <h3>Replies</h3>}
+                {replies?.map((reply, index) => (
+                    <div key={index} className={`${classes["reply"]}`}>
+                        <div className={`${classes["reply-header"]}`}>
+                            <h4>{reply?.userId?.fullname}</h4>
+                            {!editReplyMode && (
+                                <SmallButtonAc
+                                    func={() => {
+                                        setEditReplyMode(true);
+                                        setReplyText(reply?.commentText);
+                                        setEditReplyId(index);
+                                    }}
+                                    text={"Edit Reply"}
+                                />
+                            )}
+                        </div>
+
+                        {editReplyMode && editReplyId === index ? (
+                            <div className={`${classes["reply-input"]}`}>
+                                <textarea
+                                    name=""
+                                    id=""
+                                    value={replyText}
+                                    onChange={(e) =>
+                                        setReplyText(e.target.value)
+                                    }
+                                ></textarea>
+                                <SmallButtonDeepAc
+                                    text={"Confirm Edit"}
+                                    func={() => {
+                                        handleReplyEdit(index);
+                                    }}
+                                />
+                            </div>
+                        ) : (
+                            <p>{reply?.commentText}</p>
                         )}
                     </div>
-
-                    {editReplyMode ? (
-                        <div className={`${classes["reply-input"]}`}>
-                            <textarea name="" id=""></textarea>
-                            <SmallButtonDeepAc
-                                text={"Confirm Edit"}
-                                func={handleSubmitReply}
-                            />
-                        </div>
-                    ) : (
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Dignissimos sed esse explicabo. Officiis
-                            aspernatur itaque, accusamus quidem dolorum quisquam
-                            omnis.
-                        </p>
-                    )}
-                </div>
-                <div className={`${classes["reply"]}`}>
-                    <div className={`${classes["reply-header"]}`}>
-                        <h4>Tanvir Hossain Dihan</h4>
-                        {!editReplyMode && (
-                            <SmallButtonAc
-                                func={() => setEditReplyMode(true)}
-                                text={"Edit Reply"}
-                            />
-                        )}
-                    </div>
-
-                    {editReplyMode ? (
-                        <div className={`${classes["reply-input"]}`}>
-                            <textarea name="" id=""></textarea>
-                            <SmallButtonDeepAc
-                                text={"Confirm Edit"}
-                                func={handleSubmitReply}
-                            />
-                        </div>
-                    ) : (
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Dignissimos sed esse explicabo. Officiis
-                            aspernatur itaque, accusamus quidem dolorum quisquam
-                            omnis.
-                        </p>
-                    )}
-                </div>
+                ))}
 
                 {replyMode && (
                     <div className={`${classes["reply-input"]}`}>
-                        <textarea name="" id=""></textarea>
+                        <textarea
+                            name=""
+                            id=""
+                            value={replyText}
+                            onChange={(e) => setReplyText(e.target.value)}
+                        ></textarea>
                     </div>
                 )}
                 {replyMode ? (
