@@ -7,9 +7,11 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserApi from "../../Apis/UserApi";
 import { useAuthContext } from "../../Hooks/useAuthContext";
+import { useChatContext } from "../../Hooks/useChatContext";
 import NewAnswer from "./NewAnswer";
 import SingleAnswer from "./SingleAnswer";
 const AnswerBox = ({ questionId, answers }) => {
+    const { socket } = useChatContext();
     // Answer Input Section
 
     // Text
@@ -67,6 +69,7 @@ const AnswerBox = ({ questionId, answers }) => {
             //     }
             // );
             console.log("ANSWER QUESTION Response: ", response.data);
+            socket.emit("new answer", response.data);
         } catch (err) {
             console.log("ANSWER QUESTION ERROR: ", err);
             setLoading(false);

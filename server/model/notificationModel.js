@@ -5,7 +5,7 @@ const notificationSchema = mongoose.Schema(
         userTo: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         notificationType: {
             type: String,
-            enum: ["message", "post", "other"],
+            enum: ["message", "answer", "other"],
             required: true,
         },
         opened: { type: Boolean, default: false },

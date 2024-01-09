@@ -19,6 +19,8 @@ const uploadAnswer = async (req, res) => {
             createdBy: { _id, fullname },
             questionId,
         });
+        const populatedAnswer = await answer.populate("questionId");
+
         const question = await Question.findByIdAndUpdate(
             questionId,
             { $push: { answers: answer._id } },
@@ -28,7 +30,7 @@ const uploadAnswer = async (req, res) => {
         const user = await User.findById(_id);
         await user.increasePoints(2);
 
-        res.status(200).json(answer);
+        res.status(200).json(populatedAnswer);
     } catch (error) {
         res.status(400).json({
             from: "uploadAnswers",

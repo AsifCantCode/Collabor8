@@ -7,18 +7,45 @@ const addNotification = async (
     socketServer
 ) => {
     try {
-        const newNotification = await Notification.create({
+        const notification = await Notification.create({
             userTo,
             notificationType,
             entityId,
         });
 
         console.log("userTo", userTo);
-        console.log("newNotification", newNotification);
+        console.log("newNotification", notification);
         // Emit the notification to the user
-        socketServer.to(userTo).emit("notification", newNotification);
+        let newNotificationWithUserandEntityDetails;
+        if (notification.notificationType === "message") {
+            const entityId = await notification.populate({
+                path: "entityId",
+                model: "Message",
+                populate: {
+                    path: "sender",
+                },
+            });
+            newNotificationWithUserandEntityDetails = {
+                ...notification._doc,
+                userTo,
+                entityId,
+            };
+        } else if (notification.notificationType === "answer") {
+            const entityId = await notification.populate({
+                path: "entityId",
+                model: "Question",
+            });
+            newNotificationWithUserandEntityDetails = {
+                ...notification._doc,
+                userTo,
+                entityId,
+            };
+        }
+        socketServer
+            .to(userTo)
+            .emit("notification", newNotificationWithUserandEntityDetails);
 
-        return newNotification;
+        return newNotificationWithUserandEntityDetails;
     } catch (error) {
         console.error("Error adding notification:", error);
         throw error;
@@ -44,7 +71,7 @@ const getNotifications = async (req, res) => {
                         },
                     });
                     return { ...notification._doc, userTo, entityId };
-                } else if (notification.notificationType === "post") {
+                } else if (notification.notificationType === "answer") {
                     const entityId = await notification.populate({
                         path: "entityId",
                         model: "Question",

@@ -156,14 +156,23 @@ const Navbar = ({ setSidebarState }) => {
                     {unOpenedNotification &&
                         unOpenedNotification?.map((noti, index) => {
                             console.log("NOTI", noti);
-                            const message =
-                                noti?.notificationType === "message"
-                                    ? `You have a new message from ${noti?.entityId?.entityId?.sender?.fullname}`
-                                    : "Request";
-                            const link =
-                                noti?.notificationType === "message"
-                                    ? `/chat`
-                                    : "";
+                            let message = "";
+                            let link = "";
+                            if (noti?.notificationType === "message") {
+                                message = `You have a new message from ${noti?.entityId?.entityId?.sender?.fullname}`;
+                                link = `/chat`;
+                            } else if (noti?.notificationType === "answer") {
+                                message = `You question ${noti?.entityId?.entityId?.title} has new answer`;
+                                link = `/single-question/${noti?.entityId?.entityId?._id}`;
+                            }
+                            // const message =
+                            //     noti?.notificationType === "message"
+                            //         ? `You have a new message from ${noti?.entityId?.entityId?.sender?.fullname}`
+                            //         : "Request";
+                            // const link =
+                            //     noti?.notificationType === "message"
+                            //         ? `/chat`
+                            //         : "";
                             return (
                                 <li key={index}>
                                     <Link to={link}>{message}</Link>
