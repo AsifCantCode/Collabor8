@@ -10,11 +10,17 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { Button, ButtonTransarent, LinkButtonTransarent } from "./Buttons";
 import { useAuthContext } from "../Hooks/useAuthContext";
+import { useChatContext } from "../Hooks/useChatContext";
 // Icons
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
+import { FaAward } from "react-icons/fa6";
+import { MdNotifications } from "react-icons/md";
+import { MdNotificationsActive } from "react-icons/md";
 const Navbar = ({ setSidebarState }) => {
     const [tempState, setTempState] = useState(false);
+    const [notificationBox, setNotificationBox] = useState(false);
+
     const navRef = useRef();
     const { user, newUser, logout } = useAuthContext();
     console.log("NEW USER From Navbar", newUser);
@@ -26,6 +32,15 @@ const Navbar = ({ setSidebarState }) => {
         e.preventDefault();
         logout();
     };
+    const { notification } = useChatContext();
+    const [unOpenedNotification, setUnOpenedNotification] = useState([]);
+    useEffect(() => {
+        if (notification) {
+            const temp = notification.filter((noti) => !noti.opened);
+            setUnOpenedNotification(temp);
+        }
+    }, [notification]);
+
     return (
         <div ref={navRef} className={classes.navbar}>
             <Helmet>
@@ -83,12 +98,26 @@ const Navbar = ({ setSidebarState }) => {
                         </div>
 
                         <div className={classes.navbarItem}>
-                            <img
-                                src={inbox_logo}
-                                alt="Icon"
-                                className={classes.icon}
-                            />
-                            <span className={classes.navbarText}>Inbox</span>
+                            {unOpenedNotification?.length > 0 ? (
+                                <div
+                                    onClick={() => {
+                                        setNotificationBox((prev) => !prev);
+                                    }}
+                                >
+                                    <MdNotificationsActive
+                                        className={
+                                            classes.notificationIconActive
+                                        }
+                                    />
+                                    <span className={classes.navbarText}>
+                                        {unOpenedNotification?.length}
+                                    </span>
+                                </div>
+                            ) : (
+                                <MdNotifications
+                                    className={classes.notificationIcon}
+                                />
+                            )}
                         </div>
                         <Link to="/profile" className={classes.navbarItem}>
                             <img
@@ -117,6 +146,31 @@ const Navbar = ({ setSidebarState }) => {
                         />
                     </div>
                 )}
+            </div>
+            <div
+                className={`${classes["floating-notification"]} ${
+                    notificationBox ? classes["active"] : ""
+                }`}
+            >
+                <ul>
+                    {unOpenedNotification &&
+                        unOpenedNotification?.map((noti, index) => {
+                            console.log("NOTI", noti);
+                            const message =
+                                noti?.notificationType === "message"
+                                    ? `You have a new message from ${noti?.entityId?.entityId?.sender?.fullname}`
+                                    : "Request";
+                            const link =
+                                noti?.notificationType === "message"
+                                    ? `/chat`
+                                    : "";
+                            return (
+                                <li key={index}>
+                                    <Link to={link}>{message}</Link>
+                                </li>
+                            );
+                        })}
+                </ul>
             </div>
         </div>
     );

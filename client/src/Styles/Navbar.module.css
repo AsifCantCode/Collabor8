@@ -74,6 +74,19 @@
     align-items: center;
     margin-right: 30px;
 }
+.navItems svg {
+    color: var(--white);
+    width: 1.5rem;
+    height: 1.5rem;
+    vertical-align: middle;
+}
+.navItems .notificationIconActive {
+    color: var(--danger);
+}
+.navItems .notificationIconActive ~ span {
+    color: var(--danger);
+    font-weight: 800;
+}
 .navbarItem {
     display: flex;
     align-items: center;
@@ -124,6 +137,47 @@
     margin-right: 8px;
 }
 
+.floating-notification {
+    position: fixed;
+    top: 74px;
+    right: 10px;
+    color: red;
+    z-index: 999999999;
+    width: 300px;
+    background-color: var(--dark);
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-deep);
+    border-radius: 5px;
+    box-shadow: 0px 0px 15px rgb(0, 0, 0);
+    display: none;
+}
+.floating-notification.active {
+    display: block;
+}
+.floating-notification ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.floating-notification ul li {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border-deep);
+}
+.floating-notification ul li:last-child {
+    border-bottom: none;
+}
+.floating-notification ul li a {
+    color: var(--white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+.floating-notification ul li a svg {
+    margin-right: 0.5rem;
+}
+.floating-notification ul li a:hover {
+    color: var(--yellow);
+}
 @media screen and (max-width: 1000px) {
     .navbar {
         flex-direction: column;

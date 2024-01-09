@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { useAuthContext } from "../Hooks/useAuthContext";
 import ChatApi from "../Apis/ChatApi";
 import io from "socket.io-client";
+import NotificationApi from "../Apis/NotificationApi";
 
 export const ChatContext = createContext();
 
@@ -61,8 +62,19 @@ export const ChatContextProvider = (props) => {
     }, [socket]);
 
     useEffect(() => {
-        console.log("NEW NOTIFICATION", notification);
-    }, [notification]);
+        const fetchNotification = async () => {
+            try {
+                const { data } = await NotificationApi.get(`/`, {
+                    params: { userId: newUser?._id },
+                });
+                setNotification(data);
+                console.log("NOTIFICATION", data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchNotification();
+    }, [newUser]);
 
     // useEffect(() => {
     //     async function getMessages() {

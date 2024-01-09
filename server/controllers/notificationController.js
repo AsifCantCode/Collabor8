@@ -39,6 +39,9 @@ const getNotifications = async (req, res) => {
                     const entityId = await notification.populate({
                         path: "entityId",
                         model: "Message",
+                        populate: {
+                            path: "sender",
+                        },
                     });
                     return { ...notification._doc, userTo, entityId };
                 } else if (notification.notificationType === "post") {
