@@ -16,10 +16,11 @@ app.use(express.static("public"));
 //route imports
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
-
+const notificationRoutes = require("./routes/notificationRoutes");
 //routes
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/notification", notificationRoutes);
 
 //db connection
 mongoose
