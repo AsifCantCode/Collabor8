@@ -417,7 +417,31 @@ const upvoteDownvoteQuestion = async (req, res) => {
   }
 };
 
+const getAllRelatedQuestions = async (req, res) => {
+  try {
+    const query = req.query.q;
+    const results = await Question.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { textContent: { $regex: query, $options: 'i' } },
+      ],
+    })
+      .populate({
+        path: 'AuthorId',
+        model: User,
+        select: 'fullname email', 
+      });
+
+
+    res.json(results);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 module.exports = {
+  getAllRelatedQuestions,
   uploadQuestions,
   updateQuestion,
   getWholeQuestion,

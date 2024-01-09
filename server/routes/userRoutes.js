@@ -43,6 +43,7 @@ const {
     getPopularTags,
     getAllTags,
     upvoteDownvoteQuestion,
+    getAllRelatedQuestions,
 } = require("../controllers/questionControllers.js");
 
 const router = express.Router();
@@ -103,4 +104,7 @@ router.route("/get-all-collections").get(requireAuth, getCollections);
 //Subscription routes
 router.route("/subscribe").post(requireAuth, subscribe);
 router.route("/check-for-subscribe").put(requireAuth, checkSubscription);
+
+//Search Routes
+router.route("/search").get(getAllRelatedQuestions);
 module.exports = router;
