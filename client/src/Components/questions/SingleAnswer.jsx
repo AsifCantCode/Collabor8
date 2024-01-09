@@ -16,10 +16,12 @@ import {
     makeAnswerImageURL,
 } from "../../Utilities/utilities";
 import { useAuthContext } from "../../Hooks/useAuthContext";
+import { useChatContext } from "../../Hooks/useChatContext";
 import UserApi from "../../apis/UserApi";
 const SingleAnswer = (props) => {
     const { setEditMode, answer, setEditId } = props;
     const { user, newUser } = useAuthContext();
+    const { socket } = useChatContext();
     const [upvote, setUpvote] = useState(0);
     const [downvote, setDownvote] = useState(0);
     const [upvoted, setUpvoted] = useState(false);
@@ -97,6 +99,10 @@ const SingleAnswer = (props) => {
             );
             setReplies(temp);
             setReplyText("");
+            socket.emit("new reply", {
+                data: response?.data,
+                author: newUser?._id,
+            });
         } catch (error) {
             console.log(error);
         }

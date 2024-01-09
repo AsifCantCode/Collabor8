@@ -49,45 +49,36 @@ const initializeSocket = (server) => {
             const userId = newAnswerRecieved?.questionId?.AuthorId;
             const questionId = newAnswerRecieved?.questionId?._id;
             addNotification(userId, "answer", questionId, socket);
-            //            newAnswerRecieved {
-            //   answerText: 'notification check',
-            //   images: [ 'images_1704814453354.png' ],
+        });
+        socket.on("new reply", (newReplyRecieved) => {
+            console.log("newReplyRecieved", newReplyRecieved);
+            const { data, author } = newReplyRecieved;
+            const userId = data?.createdBy?._id;
+            const questionId = data?.questionId;
+            if (userId !== author)
+                addNotification(userId, "reply", questionId, socket);
+            //             newReplyRecieved {
             //   createdBy: { _id: '659abe1b5efa51ca31fdcda1', fullname: 'Asif Abrar' },
-            //   questionId: {
-            //     _id: '659a3a7d40c3234842c5fba6',
-            //     AuthorId: '659a345bc895bcd08d5a3ef3',
-            //     title: 'TEST QUESTION',
-            //     textContent: '<p>ABCD</p>',
-            //     selectedImage: [ 'images_1704606332982.png' ],
-            //     tagList: [ 'mern', 'react' ],
-            //     countUpVotes: 0,
-            //     countDownVotes: 0,
-            //     upVotes: [],
-            //     downVotes: [],
-            //     countAnswers: 0,
-            //     isSolved: false,
-            //     answers: [
-            //       '659c064756501befa0860959',
-            //       '659c090956501befa0860997',
-            //       '659c0ee956501befa0860a2e',
-            //       '659d65999dccf97058f46a2e',
-            //       '659d65dfac57e03bdd898e5f'
-            //     ],
-            //     postTime: '2024-01-07T05:45:33.013Z',
-            //     updateTime: '2024-01-07T05:45:33.013Z',
-            //     __v: 0
-            //   },
+            //   _id: '659d6b011dae51067764d5d9',
+            //   answerText: 'hello',
+            //   images: [],
+            //   questionId: '659a3a7d40c3234842c5fba6',
             //   isAccepted: false,
             //   countUpvotes: 0,
             //   countDownvotes: 0,
             //   countComments: 0,
             //   upvotes: [],
             //   downvotes: [],
-            //   _id: '659d6775911cc8803f6e07c0',
-            //   createdAt: '2024-01-09T15:34:13.361Z',
-            //   updatedAt: '2024-01-09T15:34:13.361Z',
-            //   comments: [],
-            //   __v: 0
+            //   createdAt: '2024-01-09T15:49:21.437Z',
+            //   updatedAt: '2024-01-09T15:49:21.437Z',
+            //   comments: [
+            //     {
+            //       userId: [Object],
+            //       commentText: 'hello',
+            //       _id: '659d6c401be22ee56812ef57'
+            //     }
+            //   ],
+            //   __v: 1
             // }
         });
 

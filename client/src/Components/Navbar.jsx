@@ -36,7 +36,7 @@ const Navbar = ({ setSidebarState }) => {
     const [unOpenedNotification, setUnOpenedNotification] = useState([]);
     useEffect(() => {
         if (notification) {
-            const temp = notification.filter((noti) => !noti.opened);
+            const temp = notification?.filter((noti) => !noti?.opened);
             setUnOpenedNotification(temp);
         }
     }, [notification]);
@@ -162,17 +162,13 @@ const Navbar = ({ setSidebarState }) => {
                                 message = `You have a new message from ${noti?.entityId?.entityId?.sender?.fullname}`;
                                 link = `/chat`;
                             } else if (noti?.notificationType === "answer") {
-                                message = `You question ${noti?.entityId?.entityId?.title} has new answer`;
+                                message = `You question "${noti?.entityId?.entityId?.title}" has new answer`;
+                                link = `/single-question/${noti?.entityId?.entityId?._id}`;
+                            } else if (noti?.notificationType === "reply") {
+                                console.log("REPLY", noti);
+                                message = `Someone replied to your answer in the question "${noti?.entityId?.entityId?.title}"`;
                                 link = `/single-question/${noti?.entityId?.entityId?._id}`;
                             }
-                            // const message =
-                            //     noti?.notificationType === "message"
-                            //         ? `You have a new message from ${noti?.entityId?.entityId?.sender?.fullname}`
-                            //         : "Request";
-                            // const link =
-                            //     noti?.notificationType === "message"
-                            //         ? `/chat`
-                            //         : "";
                             return (
                                 <li key={index}>
                                     <Link to={link}>{message}</Link>

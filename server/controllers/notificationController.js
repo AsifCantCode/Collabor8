@@ -40,6 +40,20 @@ const addNotification = async (
                 userTo,
                 entityId,
             };
+        } else if (notification.notificationType === "reply") {
+            const entityId = await notification.populate({
+                path: "entityId",
+                model: "Question",
+            });
+            newNotificationWithUserandEntityDetails = {
+                ...notification._doc,
+                userTo,
+                entityId,
+            };
+            console.log(
+                "notification reply",
+                newNotificationWithUserandEntityDetails
+            );
         }
         socketServer
             .to(userTo)
@@ -72,6 +86,12 @@ const getNotifications = async (req, res) => {
                     });
                     return { ...notification._doc, userTo, entityId };
                 } else if (notification.notificationType === "answer") {
+                    const entityId = await notification.populate({
+                        path: "entityId",
+                        model: "Question",
+                    });
+                    return { ...notification._doc, userTo, entityId };
+                } else if (notification.notificationType === "reply") {
                     const entityId = await notification.populate({
                         path: "entityId",
                         model: "Question",
