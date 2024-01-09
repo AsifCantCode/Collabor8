@@ -188,6 +188,11 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
                         placeholder="Type a message"
                         value={messageContent}
                         onChange={(e) => setMessageContent(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                sendMessage();
+                            }
+                        }}
                     />
                     <Button text="Send" func={sendMessage} />
                 </div>
