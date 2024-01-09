@@ -107,4 +107,25 @@ const getNotifications = async (req, res) => {
     }
 };
 
-module.exports = { addNotification, getNotifications };
+const markAsOpened = async (req, res) => {
+    const { notificationId } = req.body;
+    try {
+        // Find the notification by ID and update the 'opened' field
+        const notification = await Notification.findByIdAndUpdate(
+            notificationId,
+            { opened: true },
+            { new: true } // Return the updated notification
+        );
+
+        if (!notification) {
+            return res.status(404).json({ error: "Notification not found" });
+        }
+
+        // Respond with the updated notification
+        res.json(notification);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+module.exports = { addNotification, getNotifications, markAsOpened };

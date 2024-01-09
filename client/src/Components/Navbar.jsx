@@ -17,6 +17,7 @@ import { ImCross } from "react-icons/im";
 import { FaAward } from "react-icons/fa6";
 import { MdNotifications } from "react-icons/md";
 import { MdNotificationsActive } from "react-icons/md";
+import NotificationApi from "../Apis/NotificationApi";
 const Navbar = ({ setSidebarState }) => {
     const [tempState, setTempState] = useState(false);
     const [notificationBox, setNotificationBox] = useState(false);
@@ -41,6 +42,27 @@ const Navbar = ({ setSidebarState }) => {
         }
     }, [notification]);
 
+    const handleMarkAsOpened = async (notificationId) => {
+        try {
+            const { data } = await NotificationApi.put(
+                `/markAsOpened`,
+                { notificationId },
+                {
+                    header: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            console.log("MARKED AS OPENED", data);
+            setNotificationBox((prev) => !prev);
+            const temp = unOpenedNotification?.filter(
+                (noti) => noti?._id !== notificationId
+            );
+            setUnOpenedNotification(temp);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <div ref={navRef} className={classes.navbar}>
             <Helmet>
@@ -171,7 +193,14 @@ const Navbar = ({ setSidebarState }) => {
                             }
                             return (
                                 <li key={index}>
-                                    <Link to={link}>{message}</Link>
+                                    <Link
+                                        onClick={() =>
+                                            handleMarkAsOpened(noti?._id)
+                                        }
+                                        to={link}
+                                    >
+                                        {message}
+                                    </Link>
                                 </li>
                             );
                         })}
