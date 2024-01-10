@@ -13,6 +13,7 @@ import { Button } from "../Buttons";
 // const ENDPOINT = "http://localhost:5001";
 // let socket, selectedChatCompare;
 import { LuImagePlus } from "react-icons/lu";
+import { RiDeleteBin5Fill } from "react-icons/ri";
 const ChatBox = ({ chatLoading, setLoadingChat }) => {
     const {
         selectedChat,
@@ -88,6 +89,13 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
             setFileError(true);
         }
     };
+    const handleDeleteImage = (index) => {
+        console.log(index);
+        const newImages = selectedImage.filter((image, i) => i !== index);
+        const newImageViewer = imageViewer.filter((image, i) => i !== index);
+        setImageViewer(newImageViewer);
+        setSelectedImage(newImages);
+    };
     const sendMessage = async () => {
         const formData = new FormData();
         formData.append("content", messageContent);
@@ -116,6 +124,7 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
             console.log("Message Data", data);
             setMessageContent("");
             setSelectedImage([]);
+            setImageViewer([]);
             socket.emit("new message", data);
             setMessages([...messages, data]);
         } catch (error) {
@@ -237,6 +246,28 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
             </div>
             {selectedChat && (
                 <div className={`${classes["message-input"]}`}>
+                    {imageViewer?.length > 0 && (
+                        <div className={`${classes["image-previwer"]}`}>
+                            {imageViewer &&
+                                imageViewer.length > 0 &&
+                                imageViewer.map((image, index) => (
+                                    <div
+                                        key={index}
+                                        className={classes.imageBox}
+                                        onClick={() => {
+                                            handleDeleteImage(index);
+                                        }}
+                                    >
+                                        <span
+                                            className={`${classes["delete-btn"]}`}
+                                        >
+                                            <RiDeleteBin5Fill />
+                                        </span>
+                                        <img src={image} alt="Selected" />
+                                    </div>
+                                ))}
+                        </div>
+                    )}
                     <input
                         type="text"
                         name=""

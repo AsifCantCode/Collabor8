@@ -8,6 +8,8 @@ import { useAuthContext } from "../../Hooks/useAuthContext";
 import _ from "lodash";
 import { Button } from "../Buttons";
 import ChatBox from "../chats/ChatBox";
+import { Link } from "react-router-dom";
+import { FaLongArrowAltLeft } from "react-icons/fa";
 const Chat = () => {
     const { newUser } = useAuthContext();
     const { users, loading, error } = useGetAllUsers();
@@ -106,6 +108,12 @@ const Chat = () => {
     return (
         <div className={`${classes["Chat"]}`}>
             <div className={`${classes["user-box"]}`}>
+                <div className={`${classes["page-header"]}`}>
+                    <Link to={`/`}>
+                        <FaLongArrowAltLeft />
+                        <span>Go to Home</span>
+                    </Link>
+                </div>
                 <div className={`${classes["search"]}`}>
                     <input
                         type="text"
