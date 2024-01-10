@@ -6,12 +6,12 @@ import SingleQuestion from "./SingleQuestion";
 // Icons
 import { GoSidebarExpand } from "react-icons/go";
 import { MdOutlineEditCalendar } from "react-icons/md";
-const QuestionBox = ({ question, loading, error }) => {
+const QuestionBox = ({ question, loading, error, title = "Question Box" }) => {
     const { rightSidebarState, setRightSidebarState } = useGlobalContext();
     return (
         <div className={`${classes["QuestionBox"]}`}>
             <div className={`${classes["questionBox-header"]}`}>
-                <h2>Question Box</h2>
+                <h2>{title}</h2>
                 <div className={`${classes["desktop-view-button"]}`}>
                     <LinkButton text="Ask a question" to="/new-question" />
                 </div>

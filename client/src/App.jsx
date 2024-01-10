@@ -26,6 +26,7 @@ import Chat from "./Components/pages/Chat";
 import { ChatContextProvider } from "./Contexts/ChatContext";
 import LayoutWithSidebar from "./Components/LayoutWithSidebar";
 import { GlobalContextProvider } from "./Contexts/GlobalContext";
+import { AllCollection } from "./Components/pages/AllCollection";
 
 const App = () => {
     return (
@@ -48,7 +49,10 @@ const App = () => {
                             </Route>
                             <Route path="/*" element={<LayoutWithSidebar />}>
                                 <Route path="" element={<AllQuestions />} />
-                                <Route path="" element={<AllQuestions />} />
+                                <Route
+                                    path="collection"
+                                    element={<AllCollection />}
+                                />
                                 <Route
                                     path="profile/:userId"
                                     element={<Profile />}

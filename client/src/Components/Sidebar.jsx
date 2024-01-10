@@ -41,7 +41,7 @@ const Sidebar = ({ sidebarState, setSidebarState }) => {
         {
             name: "Collections",
             icon: <FaStar />,
-            path: "/",
+            path: "/collection",
         },
         {
             name: "Tags",

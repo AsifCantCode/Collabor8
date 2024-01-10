@@ -8,20 +8,21 @@ import { BsChatSquareHeart } from "react-icons/bs";
 import { Button, SmallButton } from "../Buttons";
 import { FaRegStar } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../Hooks/useAuthContext";
 import UserApi from "../../apis/UserApi.jsx";
 const SingleQuestion = ({ question, editPost }) => {
     const [collected, setCollected] = useState(false);
     const { user, newUser } = useAuthContext();
+
     const addToCollection = async (questionId) => {
         setCollected((prev) => !prev);
         try {
             /**ADD TO COLLECTION */
             const response = await UserApi.post(
                 "/add-to-collection",
-                { questionId, profile: { _id: newUser?._id } },
+                { questionId },
                 {
                     headers: {
                         Authorization: `Bearer ${user}`,
@@ -30,6 +31,23 @@ const SingleQuestion = ({ question, editPost }) => {
                 }
             );
             console.log("Add to collection", response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const deleteCollection = async (questionId) => {
+        setCollected((prev) => !prev);
+        try {
+            /**DELETE FROM COLLECTION */
+            const response = await UserApi.delete("/remove-from-collection", {
+                headers: {
+                    Authorization: `Bearer ${user}`,
+                    "Content-Type": "application/json",
+                },
+                params: { questionId },
+            });
+            console.log("Delete from collection", response.data);
         } catch (error) {
             console.log(error);
         }
@@ -57,6 +75,19 @@ const SingleQuestion = ({ question, editPost }) => {
     //     "updateTime": "2024-01-05T13:39:17.315Z",
     //     "__v": 0
     // }
+
+    useEffect(() => {
+        if (newUser) {
+            const temp = question?.collectedBy?.find(
+                (item) => item === newUser?._id
+            );
+            if (temp) {
+                setCollected(true);
+            } else {
+                setCollected(false);
+            }
+        }
+    }, [newUser, question]);
     return (
         <div className={`${classes["SingleQuestion"]}`}>
             <div className={`${classes["edit-btn"]}`}>
@@ -68,7 +99,7 @@ const SingleQuestion = ({ question, editPost }) => {
                 ) : null}
                 {/* <SmallButton to={`/edit-question/3`} text={`Edit Post`} /> */}
                 {collected ? (
-                    <FaStar onClick={addToCollection} />
+                    <FaStar onClick={() => deleteCollection(question?._id)} />
                 ) : (
                     <FaRegStar onClick={() => addToCollection(question?._id)} />
                 )}
