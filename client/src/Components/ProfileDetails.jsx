@@ -15,9 +15,8 @@ import _ from "lodash";
 // Icons
 import { GoSidebarExpand } from "react-icons/go";
 import { useAuthContext } from "../Hooks/useAuthContext";
+import { useGlobalContext } from "../Hooks/useGlobalContext";
 const ProfileDetails = ({
-    rightSidebarState,
-    setRightSidebarState,
     profile,
     profileLoading,
     profileError,
@@ -30,24 +29,12 @@ const ProfileDetails = ({
     const [currentUser, setCurrentUser] = useState(
         newUser?._id === profile?._id
     );
+
+    const { rightSidebarState, setRightSidebarState } = useGlobalContext();
     useEffect(() => {
         setCurrentUser(newUser?._id === profile?._id);
     }, [newUser, profile]);
-    //     {
-    //     "subscription": {
-    //         "status": false
-    //     },
-    //     "badge": "newbie",
-    //     "points": 10,
-    //     "followers": 0,
-    //     "_id": "659635cee5a8a34b156eabdf",
-    //     "fullname": "Tanvir Hossain Dihan",
-    //     "email": "tanvirh.dihan@gmail.com",
-    //     "password": "$2b$10$fuX1RkUdk7mZSYbyYPcPCez3/.c46bJs1IP3bRDW.yTIPIxpzFGVG",
-    //     "favTags": [],
-    //     "following": [],
-    //     "__v": 0
-    // }
+
     return (
         <div className={`${classes["ProfileDetails"]}`}>
             <div className={`${classes["responsive-button"]}`}>

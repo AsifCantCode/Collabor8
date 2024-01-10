@@ -1,3 +1,4 @@
+import { useGlobalContext } from "../../Hooks/useGlobalContext";
 import classes from "../../Styles/QuestionBox.module.css";
 import { ButtonWithIconOnlyTransparent, LinkButton } from "../Buttons";
 import SingleQuestion from "./SingleQuestion";
@@ -5,13 +6,8 @@ import SingleQuestion from "./SingleQuestion";
 // Icons
 import { GoSidebarExpand } from "react-icons/go";
 import { MdOutlineEditCalendar } from "react-icons/md";
-const QuestionBox = ({
-    setRightSidebarState,
-    rightSidebarState,
-    question,
-    loading,
-    error,
-}) => {
+const QuestionBox = ({ question, loading, error }) => {
+    const { rightSidebarState, setRightSidebarState } = useGlobalContext();
     return (
         <div className={`${classes["QuestionBox"]}`}>
             <div className={`${classes["questionBox-header"]}`}>
@@ -25,7 +21,8 @@ const QuestionBox = ({
                         icon={<MdOutlineEditCalendar />}
                     />
                     <ButtonWithIconOnlyTransparent
-                        func={() => {
+                        func={(e) => {
+                            e.preventDefault();
                             console.log("Active Function Called");
                             console.log(rightSidebarState);
                             setRightSidebarState((prev) => !prev);

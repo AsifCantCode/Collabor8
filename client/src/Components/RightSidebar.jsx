@@ -1,12 +1,9 @@
 import classes from "../Styles/RightSidebar.module.css";
-
+import { useGlobalContext } from "../Hooks/useGlobalContext";
 // Icons
 import { ImCross } from "react-icons/im";
-const RightSidebar = ({
-    setRightSidebarState,
-    rightSidebarState,
-    children,
-}) => {
+const RightSidebar = ({ children }) => {
+    const { rightSidebarState, setRightSidebarState } = useGlobalContext();
     return (
         <div
             className={`${classes["RightSidebar"]} ${

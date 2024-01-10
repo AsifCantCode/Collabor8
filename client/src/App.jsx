@@ -24,62 +24,84 @@ import SingleQuestion from "./Components/questions/SingleQuestion";
 import SingleQuestionDetails from "./Components/pages/SingleQuestionDetails";
 import Chat from "./Components/pages/Chat";
 import { ChatContextProvider } from "./Contexts/ChatContext";
+import LayoutWithSidebar from "./Components/LayoutWithSidebar";
+import { GlobalContextProvider } from "./Contexts/GlobalContext";
 
 const App = () => {
     return (
         <AuthContextProvider>
-            <ChatContextProvider>
-                <Router>
-                    <Routes>
-                        {/* Main Routes  */}
-                        <Route path="/*" element={<Layout />}>
-                            <Route path="" element={<AllQuestions />} />
+            <GlobalContextProvider>
+                <ChatContextProvider>
+                    <Router>
+                        <Routes>
+                            {/* Main Routes  */}
+                            <Route path="/question/*" element={<Layout />}>
+                                <Route
+                                    path="new-question"
+                                    element={<AskQuestion />}
+                                />
+                                <Route
+                                    path="edit-question/:id"
+                                    element={<EditQuestion />}
+                                />
+                                <Route path="all-tags" element={<AllTags />} />
+                            </Route>
+                            <Route path="/*" element={<LayoutWithSidebar />}>
+                                <Route path="" element={<AllQuestions />} />
+                                <Route path="" element={<AllQuestions />} />
+                                <Route
+                                    path="profile/:userId"
+                                    element={<Profile />}
+                                />
+                                <Route
+                                    path="single-question/:id"
+                                    element={<SingleQuestionDetails />}
+                                />
+                            </Route>
+                            <Route path="/accounts" element={<LoginSignup />} />
                             <Route
-                                path="profile/:userId"
-                                element={<Profile />}
+                                path="/edit-profile"
+                                element={<EditProfile />}
                             />
                             <Route
-                                path="new-question"
-                                element={<AskQuestion />}
+                                path="/subscription"
+                                element={<Subscription />}
+                            />
+                            <Route path="/chat" element={<Chat />} />
+                            {/* Ui Test Routes  */}
+                            <Route
+                                path="/ui-test/navbar"
+                                element={<Navbar />}
                             />
                             <Route
-                                path="edit-question/:id"
-                                element={<EditQuestion />}
+                                path="/ui-test/button"
+                                element={<Button />}
                             />
-                            <Route path="all-tags" element={<AllTags />} />
                             <Route
-                                path="single-question/:id"
-                                element={<SingleQuestionDetails />}
+                                path="/ui-test/finalnav"
+                                element={<FinalNav />}
                             />
-                        </Route>
-                        <Route path="/accounts" element={<LoginSignup />} />
-                        <Route path="/edit-profile" element={<EditProfile />} />
-                        <Route
-                            path="/subscription"
-                            element={<Subscription />}
-                        />
-                        <Route path="/chat" element={<Chat />} />
-                        {/* Ui Test Routes  */}
-                        <Route path="/ui-test/navbar" element={<Navbar />} />
-                        <Route path="/ui-test/button" element={<Button />} />
-                        <Route
-                            path="/ui-test/finalnav"
-                            element={<FinalNav />}
-                        />
-                        <Route path="/ui-test/button2" element={<Button2 />} />
-                        <Route path="/ui-test/tagbox" element={<TagBox />} />
-                        <Route path="/ui-test/tags" element={<Tags />} />
-                        <Route
-                            path="/ui-test/questionbox"
-                            element={<QuestionBox />}
-                        />
-                        <Route
-                            path="/ui-test/qcomponentdesk"
-                            element={<QcomponentDesk />}
-                        />
-                    </Routes>
-                </Router>
-            </ChatContextProvider>
+                            <Route
+                                path="/ui-test/button2"
+                                element={<Button2 />}
+                            />
+                            <Route
+                                path="/ui-test/tagbox"
+                                element={<TagBox />}
+                            />
+                            <Route path="/ui-test/tags" element={<Tags />} />
+                            <Route
+                                path="/ui-test/questionbox"
+                                element={<QuestionBox />}
+                            />
+                            <Route
+                                path="/ui-test/qcomponentdesk"
+                                element={<QcomponentDesk />}
+                            />
+                        </Routes>
+                    </Router>
+                </ChatContextProvider>
+            </GlobalContextProvider>
         </AuthContextProvider>
     );
 };

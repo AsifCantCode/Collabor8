@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { useGetPersonalQuestion } from "../../Hooks/useGetPersonalQuestion";
 
 const Profile = () => {
-    const [rightSidebarState, setRightSidebarState] = useState(false);
     const { userId } = useParams();
     // console.log("userId", userId);
     const {
@@ -24,8 +23,6 @@ const Profile = () => {
     return (
         <div className={`${classes["Profile"]}`}>
             <ProfileDetails
-                setRightSidebarState={setRightSidebarState}
-                rightSidebarState={rightSidebarState}
                 profile={profile}
                 questionLoading={questionLoading}
                 questionError={questionError}
@@ -33,10 +30,7 @@ const Profile = () => {
                 profileLoading={profileLoading}
                 profileError={profileError}
             />
-            <RightSidebar
-                setRightSidebarState={setRightSidebarState}
-                rightSidebarState={rightSidebarState}
-            />
+            <RightSidebar />
         </div>
     );
 };

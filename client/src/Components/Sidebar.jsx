@@ -31,7 +31,7 @@ const Sidebar = ({ sidebarState, setSidebarState }) => {
         {
             name: "Ask a Question",
             icon: <BsFillQuestionSquareFill />,
-            path: "/new-question",
+            path: "/question/new-question",
         },
         {
             name: "My Questions",
@@ -46,7 +46,7 @@ const Sidebar = ({ sidebarState, setSidebarState }) => {
         {
             name: "Tags",
             icon: <FaTags />,
-            path: "/all-tags",
+            path: "/question/all-tags",
         },
         {
             name: "Subscriptions",
