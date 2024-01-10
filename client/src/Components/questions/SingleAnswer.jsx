@@ -21,7 +21,14 @@ import { useAuthContext } from "../../Hooks/useAuthContext";
 import { useChatContext } from "../../Hooks/useChatContext";
 import UserApi from "../../apis/UserApi";
 const SingleAnswer = (props) => {
-    const { setEditMode, answer, setEditId, isSolved, setIsSolved } = props;
+    const {
+        setEditMode,
+        answer,
+        setEditId,
+        isSolved,
+        setIsSolved,
+        questionAuthorId,
+    } = props;
     const { user, newUser } = useAuthContext();
     const { socket } = useChatContext();
     const [upvote, setUpvote] = useState(0);
@@ -193,19 +200,23 @@ const SingleAnswer = (props) => {
     return (
         <div className={`${classes["answer"]}`}>
             {/* <FaCircleCheck className={`${classes["mark-as-correct"]}`} /> */}
-            {!isAccepted ? (
-                <SmallButtonAc
-                    func={markAsCorrect}
-                    icon={<BiCheckDouble />}
-                    text="Mark As Correct"
-                />
-            ) : (
-                <div className={`${classes["correct-answer"]}`}>
-                    <FaCircleCheck
-                        className={`${classes["mark-as-correct"]}`}
-                    />{" "}
-                    Correct Answer
-                </div>
+            {newUser?._id === questionAuthorId && (
+                <>
+                    {!isAccepted ? (
+                        <SmallButtonAc
+                            func={markAsCorrect}
+                            icon={<BiCheckDouble />}
+                            text="Mark As Correct"
+                        />
+                    ) : (
+                        <div className={`${classes["correct-answer"]}`}>
+                            <FaCircleCheck
+                                className={`${classes["mark-as-correct"]}`}
+                            />{" "}
+                            Correct Answer
+                        </div>
+                    )}
+                </>
             )}
 
             {!isSolved && (

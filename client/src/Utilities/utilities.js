@@ -21,6 +21,13 @@ export function makeAnswerImageURL(image_name) {
         "/images/answers/";
     return url + image_name;
 }
+export function makeChatImageURL(image_name) {
+    const url =
+        "http://localhost:" +
+        import.meta.env.VITE_BACKEND_PORT +
+        "/images/chats/";
+    return url + image_name;
+}
 
 export function isNumber(str) {
     return /^-?\d*\.?\d+$/.test(str);

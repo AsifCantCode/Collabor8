@@ -83,6 +83,8 @@
 }
 .chat-header {
     /* background-color: red; */
+    position: fixed;
+    top: 10px;
     padding: 0.5rem;
     width: 50%;
     display: flex;
@@ -93,6 +95,7 @@
     border-radius: 0.5rem;
     margin-top: 1rem;
     border: 1px solid var(--border-deep);
+    justify-items: start;
 }
 .message-input {
     width: 100%;
@@ -116,6 +119,14 @@
 }
 .message-input input:focus {
     outline: 1px solid var(--border);
+}
+
+.image-selector svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    /* fill: var(--white); */
+    cursor: pointer;
+    vertical-align: middle;
 }
 .no-chat-selected {
     position: fixed;
@@ -149,12 +160,20 @@
 .message {
     width: 100%;
 }
+
+.message img {
+    width: 100px;
+    height: 100px;
+    margin-left: 0.5rem;
+    border: 1px solid var(--border);
+}
 .message-sender {
     width: 100%;
     height: 10%;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
     gap: 1rem;
     margin-bottom: 0.5rem;
 }
@@ -171,8 +190,9 @@
     width: 100%;
     height: 10%;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
     gap: 1rem;
     margin-bottom: 0.5rem;
 }

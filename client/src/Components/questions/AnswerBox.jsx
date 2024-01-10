@@ -1,6 +1,6 @@
 import classes from "../../Styles/AnswerBox.module.css";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -17,6 +17,10 @@ const AnswerBox = ({
     setIsSolved,
     questionAuthorId,
 }) => {
+    const [allAnswers, setAllAnswers] = useState(answers);
+    useEffect(() => {
+        setAllAnswers(answers);
+    }, [answers]);
     const { socket } = useChatContext();
     // Answer Input Section
 
@@ -75,6 +79,11 @@ const AnswerBox = ({
             //     }
             // );
             console.log("ANSWER QUESTION Response: ", response.data);
+            setAnswerText("");
+            setSelectedImage([]);
+            setImageViewer([]);
+            imageInputRef.current.value = "";
+            setAllAnswers((prev) => [...prev, response.data]);
             socket.emit("new answer", response.data);
         } catch (err) {
             console.log("ANSWER QUESTION ERROR: ", err);
@@ -116,6 +125,17 @@ const AnswerBox = ({
             //     }
             // );
             console.log("UPDATE ANSWER Response: ", response.data);
+            setAnswerText("");
+            setSelectedImage([]);
+            setImageViewer([]);
+            imageInputRef.current.value = "";
+            setAllAnswers((prev) => {
+                const index = prev.findIndex(
+                    (answer) => answer._id === response.data._id
+                );
+                prev[index] = response.data;
+                return [...prev];
+            });
         } catch (err) {
             console.log("UPDATE ANSWER ERROR: ", err);
             setLoading(false);
@@ -128,7 +148,7 @@ const AnswerBox = ({
                 <h3>Answers</h3>
             </div>
             <div className={`${classes["answers"]}`}>
-                {answers?.map((answer, index) => {
+                {allAnswers?.map((answer, index) => {
                     return (
                         <>
                             {editMode ? (
@@ -161,6 +181,7 @@ const AnswerBox = ({
                                             setEditId={setEditId}
                                             isSolved={isSolved}
                                             setIsSolved={setIsSolved}
+                                            questionAuthorId={questionAuthorId}
                                         />
                                     )}
                                 </>
@@ -171,6 +192,7 @@ const AnswerBox = ({
                                     setEditId={setEditId}
                                     isSolved={isSolved}
                                     setIsSolved={setIsSolved}
+                                    questionAuthorId={questionAuthorId}
                                 />
                             )}
                         </>

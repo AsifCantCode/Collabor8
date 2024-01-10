@@ -11,6 +11,7 @@ import { RiMastercardFill } from "react-icons/ri";
 import { FaClipboardList } from "react-icons/fa";
 import { FaQuinscape } from "react-icons/fa6";
 import { ImCross } from "react-icons/im";
+import { IoMailUnread } from "react-icons/io5";
 import { useAuthContext } from "../Hooks/useAuthContext";
 
 const Sidebar = ({ sidebarState, setSidebarState }) => {
@@ -47,6 +48,11 @@ const Sidebar = ({ sidebarState, setSidebarState }) => {
             name: "Tags",
             icon: <FaTags />,
             path: "/question/all-tags",
+        },
+        {
+            name: "Inbox",
+            icon: <IoMailUnread />,
+            path: "/chat",
         },
         {
             name: "Subscriptions",

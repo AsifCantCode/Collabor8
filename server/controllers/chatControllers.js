@@ -78,15 +78,17 @@ const sendMessage = async (req, res) => {
     console.log("content", content);
     const { userId } = req.query;
     console.log("userId", userId);
-    if (!chatId || !content) {
+    if (!chatId) {
         console.log("Invalid data passed into request");
         return res.sendStatus(400);
     }
 
+    const selectedImage = req.files.map((file) => file.filename);
     const newMessage = {
         sender: userId,
         content: content,
         chat: chatId,
+        images: selectedImage,
     };
 
     try {

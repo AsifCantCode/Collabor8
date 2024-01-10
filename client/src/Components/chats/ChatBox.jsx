@@ -2,13 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { useAuthContext } from "../../Hooks/useAuthContext";
 import { useChatContext } from "../../Hooks/useChatContext";
 import classes from "../../Styles/Chat.module.css";
-import { makeProfileImageURL } from "../../Utilities/utilities";
+import {
+    makeChatImageURL,
+    makeProfileImageURL,
+} from "../../Utilities/utilities";
 import ChatApi from "../../Apis/ChatApi";
 import ScrollableFeed from "react-scrollable-feed";
 import { Button } from "../Buttons";
 // import io from "socket.io-client";
 // const ENDPOINT = "http://localhost:5001";
 // let socket, selectedChatCompare;
+import { LuImagePlus } from "react-icons/lu";
 const ChatBox = ({ chatLoading, setLoadingChat }) => {
     const {
         selectedChat,
@@ -23,6 +27,7 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
         notification,
     } = useChatContext();
     const { newUser } = useAuthContext();
+    const imageInputRef = useRef(null);
 
     // console.log("Notification", notification);
     // Socket Connection
@@ -58,26 +63,59 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
     });
     // Message Sending
     const [messageContent, setMessageContent] = useState("");
+    const [selectedImage, setSelectedImage] = useState([]);
+    const [imageViewer, setImageViewer] = useState([]);
+    const [fileError, setFileError] = useState(false);
+    const handleImageClick = () => {
+        // Trigger the file input when the box is clicked
+        imageInputRef.current.click();
+    };
+    const handleImageChange = (event) => {
+        setFileError(false);
+        const allowedImageTypes = ["image/jpeg", "image/jpg", "image/png"];
+        const file = event.target.files[0];
+        if (allowedImageTypes.includes(file.type)) {
+            setSelectedImage([...selectedImage, file]);
+            console.log(file);
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setImageViewer([...imageViewer, reader.result]);
+                };
+                reader.readAsDataURL(file);
+            }
+        } else {
+            setFileError(true);
+        }
+    };
     const sendMessage = async () => {
+        const formData = new FormData();
+        formData.append("content", messageContent);
+        formData.append("chatId", selectedChat?._id);
+        for (let i = 0; i < selectedImage.length; i++) {
+            formData.append("images", selectedImage[i]);
+        }
         try {
             const config = {
                 params: {
                     userId: newUser?._id,
                 },
-                headers: {
-                    "Content-type": "application/json",
-                },
+                // headers: {
+                //     "Content-type": "application/json",
+                // },
             };
             const { data } = await ChatApi.post(
                 `/sendmessage`,
-                {
-                    chatId: selectedChat?._id,
-                    content: messageContent,
-                },
+                // {
+                //     chatId: selectedChat?._id,
+                //     content: messageContent,
+                // },
+                formData,
                 config
             );
             console.log("Message Data", data);
             setMessageContent("");
+            setSelectedImage([]);
             socket.emit("new message", data);
             setMessages([...messages, data]);
         } catch (error) {
@@ -171,7 +209,25 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
                                                 : classes["message-receiver"]
                                         }`}
                                     >
-                                        <p>{message.content}</p>
+                                        {message?.content && (
+                                            <p>{message?.content}</p>
+                                        )}
+
+                                        {message?.images && (
+                                            <div>
+                                                {message?.images?.map(
+                                                    (image) => (
+                                                        <img
+                                                            key={image}
+                                                            src={makeChatImageURL(
+                                                                image
+                                                            )}
+                                                            alt="Image"
+                                                        />
+                                                    )
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             ))}
@@ -194,6 +250,17 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
                             }
                         }}
                     />
+                    <div className={`${classes["image-selector"]}`}>
+                        <LuImagePlus onClick={handleImageClick} />
+                        <input
+                            id="fileInput"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            style={{ display: "none" }}
+                            ref={imageInputRef}
+                        />
+                    </div>
                     <Button text="Send" func={sendMessage} />
                 </div>
             )}
