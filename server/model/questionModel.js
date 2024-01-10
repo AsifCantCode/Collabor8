@@ -94,6 +94,15 @@ questionSchema.methods.upVote = async function (userId) {
 
         await this.save();
         return this;
+    } else {
+        this.upVotes = this.upVotes.filter(
+            (id) => id.toString() !== userId.toString()
+        );
+        if (this.countUpVotes > 0) {
+            this.countUpVotes -= 1;
+        }
+        await this.save();
+        return this;
     }
 };
 
@@ -113,6 +122,15 @@ questionSchema.methods.downVote = async function (userId) {
             }
         }
 
+        await this.save();
+        return this;
+    } else {
+        this.downVotes = this.downVotes.filter(
+            (id) => id.toString() !== userId.toString()
+        );
+        if (this.countDownVotes > 0) {
+            this.countDownVotes -= 1;
+        }
         await this.save();
         return this;
     }

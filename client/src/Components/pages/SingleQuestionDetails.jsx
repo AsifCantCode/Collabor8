@@ -9,7 +9,7 @@ import { FaThumbsUp } from "react-icons/fa";
 import { FaThumbsDown } from "react-icons/fa";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { FaRegThumbsDown } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AnswerBox from "../questions/AnswerBox";
 import { useGetSingleQuestion } from "../../Hooks/useGetSingleQuestion";
 import { useParams } from "react-router-dom";
@@ -17,43 +17,78 @@ import {
     formatDateAndTimeFromString,
     makeQuestionImageURL,
 } from "../../Utilities/utilities";
+import UserApi from "../../apis/UserApi";
+import { useAuthContext } from "../../Hooks/useAuthContext";
 const SingleQuestionDetails = () => {
     const [upvote, setUpvote] = useState(0);
     const [downvote, setDownvote] = useState(0);
     const [upvoted, setUpvoted] = useState(false);
     const [downvoted, setDownvoted] = useState(false);
 
+    // Populate Data
+    const { id } = useParams();
+    const { question, loading, error } = useGetSingleQuestion(id);
+    console.log("QUESTION", question);
+
+    const { user, newUser } = useAuthContext();
+    const voteHandler = async (upvote) => {
+        try {
+            /**UPVOTE-DOWNVOTE (if upvote is given true will upvote else downvote for false) */
+            const response = await UserApi.put(
+                "/upvote-downvote",
+                { questionId: id, upvote },
+                {
+                    headers: {
+                        Authorization: `Bearer ${user}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
     const handleUpvote = () => {
         if (upvoted) {
             setUpvote(upvote - 1);
             setUpvoted(false);
+            voteHandler(true);
         } else {
             setUpvote(upvote + 1);
             setUpvoted(true);
+            voteHandler(true);
         }
         if (downvoted) {
             setDownvote(downvote - 1);
             setDownvoted(false);
+            voteHandler(true);
         }
     };
     const handleDownvote = () => {
         if (downvoted) {
             setDownvote(downvote - 1);
             setDownvoted(false);
+            voteHandler(false);
         } else {
             setDownvote(downvote + 1);
             setDownvoted(true);
+            voteHandler(false);
         }
         if (upvoted) {
             setUpvote(upvote - 1);
             setUpvoted(false);
+            voteHandler(false);
         }
     };
 
-    // Populate Data
-    const { id } = useParams();
-    const { question, loading, error } = useGetSingleQuestion(id);
-    console.log("QUESTION", question);
+    useEffect(() => {
+        setUpvote(question?.countUpVotes);
+        setDownvote(question?.countDownVotes);
+        setUpvoted(question?.upVotes?.includes(newUser?._id));
+        setDownvoted(question?.downVotes?.includes(newUser?._id));
+    }, [question, newUser]);
+
     return (
         <div className={`${classes["SingleQuestionDetails"]}`}>
             <div className={`${classes["SingleQuestion"]}`}>

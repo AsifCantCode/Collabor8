@@ -27,32 +27,67 @@ const SingleAnswer = (props) => {
     const [upvoted, setUpvoted] = useState(false);
     const [downvoted, setDownvoted] = useState(false);
 
+    const voteHandler = async (upvote) => {
+        try {
+            /**UPVOTE-DOWNVOTE (if upvote is given true will upvote else downvote for false) */
+            const response = await UserApi.put(
+                "/upvote-downvote-ans",
+                { answerId: answer?._id, upvote },
+                {
+                    headers: {
+                        Authorization: `Bearer ${user}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
     const handleUpvote = () => {
         if (upvoted) {
             setUpvote(upvote - 1);
             setUpvoted(false);
+            voteHandler(true);
         } else {
             setUpvote(upvote + 1);
             setUpvoted(true);
+            voteHandler(true);
         }
         if (downvoted) {
             setDownvote(downvote - 1);
             setDownvoted(false);
+            voteHandler(true);
         }
     };
     const handleDownvote = () => {
         if (downvoted) {
             setDownvote(downvote - 1);
             setDownvoted(false);
+            voteHandler(false);
         } else {
             setDownvote(downvote + 1);
             setDownvoted(true);
+            voteHandler(false);
         }
         if (upvoted) {
             setUpvote(upvote - 1);
             setUpvoted(false);
+            voteHandler(false);
         }
     };
+    useEffect(() => {
+        setUpvote(answer?.upvotes?.length);
+        setDownvote(answer?.downvotes?.length);
+        if (answer?.upvotes?.includes(newUser?._id)) {
+            setUpvoted(true);
+        }
+        if (answer?.downvotes?.includes(newUser?._id)) {
+            setDownvoted(true);
+        }
+    }, [answer, newUser]);
+
     const [replyMode, setReplyMode] = useState(false);
     const [replyText, setReplyText] = useState("");
     const [editReplyMode, setEditReplyMode] = useState(false);
