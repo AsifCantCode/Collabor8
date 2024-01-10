@@ -10,10 +10,29 @@ import { FaRegStar } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa6";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../../Hooks/useAuthContext";
+import UserApi from "../../apis/UserApi.jsx";
 const SingleQuestion = ({ question, editPost }) => {
     const [collected, setCollected] = useState(false);
-    const addToCollection = () => {
+    const { user, newUser } = useAuthContext();
+    const addToCollection = async (questionId) => {
         setCollected((prev) => !prev);
+        try {
+            /**ADD TO COLLECTION */
+            const response = await UserApi.post(
+                "/add-to-collection",
+                { questionId, profile: { _id: newUser?._id } },
+                {
+                    headers: {
+                        Authorization: `Bearer ${user}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            console.log("Add to collection", response.data);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     console.log("Single Question", question);
@@ -51,7 +70,7 @@ const SingleQuestion = ({ question, editPost }) => {
                 {collected ? (
                     <FaStar onClick={addToCollection} />
                 ) : (
-                    <FaRegStar onClick={addToCollection} />
+                    <FaRegStar onClick={() => addToCollection(question?._id)} />
                 )}
             </div>
             <div className={`${classes["question"]}`}>
