@@ -16,6 +16,7 @@ import _ from "lodash";
 import { GoSidebarExpand } from "react-icons/go";
 import { useAuthContext } from "../Hooks/useAuthContext";
 import { useGlobalContext } from "../Hooks/useGlobalContext";
+import { makeProfileImageURL } from "../Utilities/utilities";
 const ProfileDetails = ({
     profile,
     profileLoading,
@@ -51,7 +52,7 @@ const ProfileDetails = ({
                 <div className={`${classes["info-part"]}`}>
                     <div className={`${classes["profile-img"]}`}>
                         <img
-                            src="https://thumbs.dreamstime.com/z/student-avatar-illustration-user-profile-icon-youth-avatar-student-avatar-illustration-simple-cartoon-user-portrait-user-profile-276214170.jpg?w=768"
+                            src={makeProfileImageURL(profile?.image)}
                             alt="Avatar"
                         />
                     </div>
@@ -102,11 +103,11 @@ const ProfileDetails = ({
                     className={`${classes["card"]} ${classes["question-answer"]}`}
                 >
                     <div>
-                        <span>1</span>
+                        <span>{profile?.questionCount}</span>
                         <span>Question</span>
                     </div>
                     <div>
-                        <span>0</span>
+                        <span>{profile?.answerCount}</span>
                         <span>Answer</span>
                     </div>
                 </div>
