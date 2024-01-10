@@ -5,6 +5,7 @@ import { FaCircleUser } from "react-icons/fa6";
 import { TbMessage2Question } from "react-icons/tb";
 import { FiEye } from "react-icons/fi";
 import { BsChatSquareHeart } from "react-icons/bs";
+import { FaCircleCheck } from "react-icons/fa6";
 import { Button, SmallButton } from "../Buttons";
 import { FaRegStar } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa6";
@@ -137,8 +138,14 @@ const SingleQuestion = ({ question, editPost }) => {
                         <FiEye /> <span>0 views</span>
                     </p> */}
                     <p className={`${classes["answers"]}`}>
-                        <TbMessage2Question />{" "}
-                        <span>{question?.countAnswers} answers</span>
+                        {question?.isSolved ? (
+                            <span className={`${classes["solved"]}`}>
+                                <FaCircleCheck />
+                            </span>
+                        ) : (
+                            <TbMessage2Question />
+                        )}{" "}
+                        <span>{question?.answers?.length} answers</span>
                     </p>
                 </div>
             </div>

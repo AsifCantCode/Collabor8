@@ -8,6 +8,8 @@ import {
 import { FaCircleUser } from "react-icons/fa6";
 import { FaThumbsUp } from "react-icons/fa";
 import { FaThumbsDown } from "react-icons/fa";
+import { FaCircleCheck } from "react-icons/fa6";
+import { BiCheckDouble } from "react-icons/bi";
 import textImage from "../../assets/Screenshot 2023-10-14 172945.png";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -19,13 +21,14 @@ import { useAuthContext } from "../../Hooks/useAuthContext";
 import { useChatContext } from "../../Hooks/useChatContext";
 import UserApi from "../../apis/UserApi";
 const SingleAnswer = (props) => {
-    const { setEditMode, answer, setEditId } = props;
+    const { setEditMode, answer, setEditId, isSolved, setIsSolved } = props;
     const { user, newUser } = useAuthContext();
     const { socket } = useChatContext();
     const [upvote, setUpvote] = useState(0);
     const [downvote, setDownvote] = useState(0);
     const [upvoted, setUpvoted] = useState(false);
     const [downvoted, setDownvoted] = useState(false);
+    const [isAccepted, setIsAccepted] = useState(answer?.isAccepted);
 
     const voteHandler = async (upvote) => {
         try {
@@ -167,15 +170,53 @@ const SingleAnswer = (props) => {
             console.log(error);
         }
     };
+
+    const markAsCorrect = async () => {
+        try {
+            const response = await UserApi.put(
+                "/mark-as-correct",
+                { answerId: answer?._id },
+                {
+                    headers: {
+                        Authorization: `Bearer ${user}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            console.log("MARK AS CORRECT :", response.data);
+            setIsAccepted(true);
+            setIsSolved(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <div className={`${classes["answer"]}`}>
-            <SmallButtonAc
-                func={() => {
-                    setEditMode((prev) => !prev);
-                    setEditId(answer._id);
-                }}
-                text="Edit Answer"
-            />
+            {/* <FaCircleCheck className={`${classes["mark-as-correct"]}`} /> */}
+            {!isAccepted ? (
+                <SmallButtonAc
+                    func={markAsCorrect}
+                    icon={<BiCheckDouble />}
+                    text="Mark As Correct"
+                />
+            ) : (
+                <div className={`${classes["correct-answer"]}`}>
+                    <FaCircleCheck
+                        className={`${classes["mark-as-correct"]}`}
+                    />{" "}
+                    Correct Answer
+                </div>
+            )}
+
+            {!isSolved && (
+                <SmallButtonAc
+                    func={() => {
+                        setEditMode((prev) => !prev);
+                        setEditId(answer._id);
+                    }}
+                    text="Edit Answer"
+                />
+            )}
             <div className={`${classes["answer-header"]}`}>
                 <div className={`${classes["info"]}`}>
                     <h4 className={`${classes["answer-author"]}`}>

@@ -13,6 +13,18 @@
     color: var(--white);
 }
 
+.solved {
+    color: var(--success);
+}
+.solved svg {
+    width: 2rem;
+    height: 2rem;
+    fill: var(--success);
+    /* fill: var(--yellow); */
+    cursor: pointer;
+    vertical-align: middle;
+    /* justify-self: end; */
+}
 .tags {
     display: flex;
     flex-wrap: wrap;
@@ -61,7 +73,13 @@
     gap: 0.8rem;
 }
 
-.question-info > p * {
+.question-info > p {
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.question-info > p > * {
     vertical-align: middle;
 }
 .question-info > p svg {
@@ -83,6 +101,7 @@
     cursor: pointer;
     /* justify-self: end; */
 }
+
 @media screen and (max-width: 1000px) {
     .info {
         margin-top: 1rem;

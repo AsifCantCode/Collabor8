@@ -10,7 +10,13 @@ import { useAuthContext } from "../../Hooks/useAuthContext";
 import { useChatContext } from "../../Hooks/useChatContext";
 import NewAnswer from "./NewAnswer";
 import SingleAnswer from "./SingleAnswer";
-const AnswerBox = ({ questionId, answers }) => {
+const AnswerBox = ({
+    questionId,
+    answers,
+    isSolved,
+    setIsSolved,
+    questionAuthorId,
+}) => {
     const { socket } = useChatContext();
     // Answer Input Section
 
@@ -26,7 +32,7 @@ const AnswerBox = ({ questionId, answers }) => {
     // Submit Answer Section
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const { user } = useAuthContext();
+    const { user, newUser } = useAuthContext();
     const navigate = useNavigate();
 
     //   useEffect(() => {
@@ -153,6 +159,8 @@ const AnswerBox = ({ questionId, answers }) => {
                                             answer={answer}
                                             setEditMode={setEditMode}
                                             setEditId={setEditId}
+                                            isSolved={isSolved}
+                                            setIsSolved={setIsSolved}
                                         />
                                     )}
                                 </>
@@ -161,26 +169,30 @@ const AnswerBox = ({ questionId, answers }) => {
                                     answer={answer}
                                     setEditMode={setEditMode}
                                     setEditId={setEditId}
+                                    isSolved={isSolved}
+                                    setIsSolved={setIsSolved}
                                 />
                             )}
                         </>
                     );
                 })}
 
-                {!editMode && (
-                    <NewAnswer
-                        answerText={answerText}
-                        setAnswerText={setAnswerText}
-                        selectedImage={selectedImage}
-                        setSelectedImage={setSelectedImage}
-                        imageViewer={imageViewer}
-                        setImageViewer={setImageViewer}
-                        imageInputRef={imageInputRef}
-                        fileError={fileError}
-                        setFileError={setFileError}
-                        handleConfirmAnswer={handleConfirmAnswer}
-                    />
-                )}
+                {!editMode &&
+                    !isSolved &&
+                    newUser?._id !== questionAuthorId && (
+                        <NewAnswer
+                            answerText={answerText}
+                            setAnswerText={setAnswerText}
+                            selectedImage={selectedImage}
+                            setSelectedImage={setSelectedImage}
+                            imageViewer={imageViewer}
+                            setImageViewer={setImageViewer}
+                            imageInputRef={imageInputRef}
+                            fileError={fileError}
+                            setFileError={setFileError}
+                            handleConfirmAnswer={handleConfirmAnswer}
+                        />
+                    )}
             </div>
         </div>
     );

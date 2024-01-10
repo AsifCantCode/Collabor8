@@ -37,10 +37,12 @@ export function SmallButtonLite({ text, to }) {
         </Link>
     );
 }
-export function SmallButtonAc({ text, func }) {
+export function SmallButtonAc({ text, func, icon }) {
     return (
         <button onClick={func} className={`${classes["SmallButton"]}`}>
-            <span>{text}</span>
+            <span>
+                {text} {icon}
+            </span>
         </button>
     );
 }

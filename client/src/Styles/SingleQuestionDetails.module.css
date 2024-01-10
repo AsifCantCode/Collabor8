@@ -55,6 +55,17 @@
     margin-bottom: 1rem;
     color: var(--yellow);
 }
+.correct-answer {
+    color: var(--success);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.correct-answer svg {
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+}
 .description {
     margin-top: 1rem;
     width: 100%;

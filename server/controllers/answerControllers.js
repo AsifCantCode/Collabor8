@@ -145,8 +145,13 @@ const markAnswerAsCorrect = async (req, res) => {
         await questionAuthor.increasePoints(5);
 
         console.log(`Answer marked as correct: ${updatedAnswer}`);
+        res.status(200).json(updatedAnswer);
     } catch (error) {
         console.error("Error marking answer as correct:", error.message);
+        res.status(400).json({
+            from: "markAnswerAsCorrect",
+            error: error.message,
+        });
     }
 };
 

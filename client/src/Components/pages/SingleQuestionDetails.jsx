@@ -7,6 +7,7 @@ import img from "../../assets/Screenshot 2023-10-14 172945.png";
 import { FaCircleUser } from "react-icons/fa6";
 import { FaThumbsUp } from "react-icons/fa";
 import { FaThumbsDown } from "react-icons/fa";
+import { FaCircleCheck } from "react-icons/fa6";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { FaRegThumbsDown } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -28,8 +29,13 @@ const SingleQuestionDetails = () => {
     // Populate Data
     const { id } = useParams();
     const { question, loading, error } = useGetSingleQuestion(id);
+
+    const [isSolved, setIsSolved] = useState(question?.isSolved);
     console.log("QUESTION", question);
 
+    useEffect(() => {
+        setIsSolved(question?.isSolved);
+    }, [question]);
     const { user, newUser } = useAuthContext();
     const voteHandler = async (upvote) => {
         try {
@@ -127,7 +133,15 @@ const SingleQuestionDetails = () => {
                 </div>
                 <div>
                     <div className={`${classes["title"]}`}>
-                        <h3>{question?.title}</h3>
+                        {isSolved && (
+                            <div className={`${classes["correct-answer"]}`}>
+                                <FaCircleCheck
+                                    className={`${classes["mark-as-correct"]}`}
+                                />{" "}
+                                Solved
+                            </div>
+                        )}
+                        <h3>{question?.title} </h3>
                     </div>
                     <div
                         dangerouslySetInnerHTML={{
@@ -149,6 +163,9 @@ const SingleQuestionDetails = () => {
                 <AnswerBox
                     answers={question?.answers}
                     questionId={question?._id}
+                    isSolved={isSolved}
+                    setIsSolved={setIsSolved}
+                    questionAuthorId={question?.AuthorId?._id}
                 />
             </div>
             <RightSidebar>
