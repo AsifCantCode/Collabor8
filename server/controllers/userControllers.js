@@ -190,6 +190,9 @@ const followUnfollow = async (req, res) => {
     const { userId, follow } = req.body;
     const { _id } = req.body.profile;
 
+    console.log("userId: ", userId);
+    console.log("follow: ", follow);
+    console.log("_id: ", _id);
     try {
         const currentUser = await User.findById(_id);
         const targetUser = await User.findById(userId);

@@ -13,7 +13,10 @@ const QuestionBox = ({ question, loading, error, title = "Question Box" }) => {
             <div className={`${classes["questionBox-header"]}`}>
                 <h2>{title}</h2>
                 <div className={`${classes["desktop-view-button"]}`}>
-                    <LinkButton text="Ask a question" to="/new-question" />
+                    <LinkButton
+                        text="Ask a question"
+                        to="/question/new-question"
+                    />
                 </div>
 
                 <div className={`${classes["responsive-button"]}`}>

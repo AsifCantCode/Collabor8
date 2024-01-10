@@ -17,6 +17,7 @@ import { GoSidebarExpand } from "react-icons/go";
 import { useAuthContext } from "../Hooks/useAuthContext";
 import { useGlobalContext } from "../Hooks/useGlobalContext";
 import { makeProfileImageURL } from "../Utilities/utilities";
+import UserApi from "../apis/UserApi";
 const ProfileDetails = ({
     profile,
     profileLoading,
@@ -26,7 +27,7 @@ const ProfileDetails = ({
     questionError,
 }) => {
     const [followState, setFollowState] = useState(false);
-    const { newUser } = useAuthContext();
+    const { user, newUser } = useAuthContext();
     const [currentUser, setCurrentUser] = useState(
         newUser?._id === profile?._id
     );
@@ -34,8 +35,36 @@ const ProfileDetails = ({
     const { rightSidebarState, setRightSidebarState } = useGlobalContext();
     useEffect(() => {
         setCurrentUser(newUser?._id === profile?._id);
+        const findFollwingUser = newUser?.following?.find(
+            (followingUser) => followingUser._id === profile?._id
+        );
+        if (findFollwingUser) {
+            setFollowState(true);
+        } else {
+            setFollowState(false);
+        }
     }, [newUser, profile]);
 
+    const handleFollowUnfollow = async (follow) => {
+        try {
+            console.log("profile", profile);
+            /**FOLLOW-UNFOLLOW (if follow is given true will follow, if given false will unfollow) */
+            const response = await UserApi.put(
+                "/follow-unfollow",
+                { userId: profile?._id, follow },
+                {
+                    headers: {
+                        Authorization: `Bearer ${user}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+        setFollowState((prev) => !prev);
+    };
     return (
         <div className={`${classes["ProfileDetails"]}`}>
             <div className={`${classes["responsive-button"]}`}>
@@ -68,18 +97,18 @@ const ProfileDetails = ({
                         </p>
                         {!currentUser && newUser && (
                             <>
-                                {followState ? (
+                                {!followState ? (
                                     <SmallButtonLiteAc
                                         text={`+ Follow`}
                                         func={() => {
-                                            setFollowState((prev) => !prev);
+                                            handleFollowUnfollow(true);
                                         }}
                                     />
                                 ) : (
                                     <SmallButtonDeepAc
                                         text={`- Unfollow`}
                                         func={() => {
-                                            setFollowState((prev) => !prev);
+                                            handleFollowUnfollow(false);
                                         }}
                                     />
                                 )}
