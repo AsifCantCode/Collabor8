@@ -112,7 +112,9 @@ const SingleQuestion = ({ question, editPost }) => {
             </div>
             <div className={`${classes["tags"]}`}>
                 {question?.tagList?.map((tag, index) => (
-                    <span key={index}>{tag}</span>
+                    <span key={index}>
+                        <Link to={`/tag/${tag}`}>{tag}</Link>
+                    </span>
                 ))}
             </div>
             <div className={`${classes["info"]}`}>

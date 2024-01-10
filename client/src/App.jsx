@@ -27,6 +27,7 @@ import { ChatContextProvider } from "./Contexts/ChatContext";
 import LayoutWithSidebar from "./Components/LayoutWithSidebar";
 import { GlobalContextProvider } from "./Contexts/GlobalContext";
 import { AllCollection } from "./Components/pages/AllCollection";
+import TagBasedQuestion from "./Components/pages/TagBasedQuestion";
 
 const App = () => {
     return (
@@ -52,6 +53,10 @@ const App = () => {
                                 <Route
                                     path="collection"
                                     element={<AllCollection />}
+                                />
+                                <Route
+                                    path="tag/:tagName"
+                                    element={<TagBasedQuestion />}
                                 />
                                 <Route
                                     path="profile/:userId"
