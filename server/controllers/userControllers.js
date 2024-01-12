@@ -222,6 +222,19 @@ const getAllUsers = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+const updateToInstructor = async (req, res) => {
+    const { _id } = req.body.profile;
+    try {
+        const user = await User.findById(_id);
+        console.log("users: ", user);
+        user.instructor = true;
+        await user.save();
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
 module.exports = {
     signup,
     login,
@@ -230,4 +243,5 @@ module.exports = {
     updateProfile,
     followUnfollow,
     getAllUsers,
+    updateToInstructor,
 };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import classes from "../Styles/ProfileDetails.module.css";
 import {
+    Button,
     ButtonWithIconOnlyTransparent,
     LinkButton,
     SmallButton,
@@ -28,6 +29,8 @@ const ProfileDetails = ({
 }) => {
     const [followState, setFollowState] = useState(false);
     const { user, newUser } = useAuthContext();
+    const { badgeCheck } = useGlobalContext();
+    const [isInstructor, setIsInstructor] = useState(false);
     const [currentUser, setCurrentUser] = useState(
         newUser?._id === profile?._id
     );
@@ -43,6 +46,8 @@ const ProfileDetails = ({
         } else {
             setFollowState(false);
         }
+
+        setIsInstructor(newUser?.instructor);
     }, [newUser, profile]);
 
     const handleFollowUnfollow = async (follow) => {
@@ -64,6 +69,25 @@ const ProfileDetails = ({
             console.log(error);
         }
         setFollowState((prev) => !prev);
+    };
+
+    const handleInstructorOffer = async () => {
+        console.log("user", user);
+        try {
+            const response = await UserApi.put(
+                "/updateToInstructor",
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${user}`,
+                    },
+                }
+            );
+            console.log(response.data);
+            setIsInstructor(true);
+        } catch (error) {
+            console.log(error);
+        }
     };
     return (
         <div className={`${classes["ProfileDetails"]}`}>
@@ -162,18 +186,27 @@ const ProfileDetails = ({
                 </div>
             </div>
 
-            <div className={`${classes["message-area"]}`}>
-                <p>
-                    Do you want to be a instructor? Lorem ipsum dolor sit amet
-                    consectetur adipisicing elit. Distinctio a quod harum
-                    voluptatibus laudantium architecto consectetur, voluptas
-                    magnam tenetur minus!
-                </p>
-                <div className={`${classes["message-btn"]}`}>
-                    <LinkButton text="Apply Now" to="/apply" />
-                    <LinkButton text="Apply Now" to="/apply" />
-                </div>
-            </div>
+            {/* Message Show  */}
+            {badgeCheck[newUser?.badge]?.instructor &&
+                !isInstructor &&
+                currentUser && (
+                    <div className={`${classes["message-area"]}`}>
+                        <p>
+                            Do you want to be a instructor? Lorem ipsum dolor
+                            sit amet consectetur adipisicing elit. Distinctio a
+                            quod harum voluptatibus laudantium architecto
+                            consectetur, voluptas magnam tenetur minus!
+                        </p>
+                        <div className={`${classes["message-btn"]}`}>
+                            <Button
+                                func={handleInstructorOffer}
+                                text="Apply Now"
+                                to="/apply"
+                            />
+                        </div>
+                    </div>
+                )}
+
             <div className={`${classes["questions"]}`}>
                 <h3>My Questions</h3>
                 {!questionLoading &&

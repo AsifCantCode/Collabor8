@@ -10,6 +10,7 @@ const {
     updateProfile,
     followUnfollow,
     getAllUsers,
+    updateToInstructor,
 } = require("../controllers/userControllers");
 
 const {
@@ -64,6 +65,7 @@ router
     .route("/update-profile")
     .put(requireAuth, profileImageUpload.array("images"), updateProfile);
 router.route("/follow-unfollow").put(requireAuth, followUnfollow);
+router.route("/updateToInstructor").put(requireAuth, updateToInstructor);
 
 /**QUESTION ROUTES */
 router

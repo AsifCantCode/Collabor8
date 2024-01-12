@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button, ButtonTransarent, LinkButtonTransarent } from "./Buttons";
 import { useAuthContext } from "../Hooks/useAuthContext";
 import { useChatContext } from "../Hooks/useChatContext";
+import _ from "lodash";
 // Icons
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
@@ -116,7 +117,9 @@ const Navbar = ({ setSidebarState }) => {
                                 alt="Icon"
                                 className={classes.expertIcon}
                             />
-                            <span className={classes.navbarText}>Expert</span>
+                            <span className={classes.navbarText}>
+                                {_.capitalize(newUser?.badge)}
+                            </span>
                         </div>
 
                         <div className={classes.navbarItem}>
