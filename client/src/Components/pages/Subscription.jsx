@@ -64,7 +64,7 @@ const Subscription = () => {
                         </p>
                     )}
                 </div>
-                {!subscription && (
+                {!subscription?.status && (
                     <div className={`${classes["subscription-plan"]}`}>
                         <h3>Subcription Plans</h3>
                         <div className={`${classes["plan-cards"]}`}>

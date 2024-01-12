@@ -13,6 +13,7 @@ import { FaQuinscape } from "react-icons/fa6";
 import { ImCross } from "react-icons/im";
 import { IoMailUnread } from "react-icons/io5";
 import { useAuthContext } from "../Hooks/useAuthContext";
+import { ToastContainer, toast } from "react-toastify";
 
 const Sidebar = ({ sidebarState, setSidebarState }) => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -76,13 +77,43 @@ const Sidebar = ({ sidebarState, setSidebarState }) => {
             </div>
             <ul>
                 {navItems.map((item, index) => {
+                    if (
+                        item.name === "Inbox" &&
+                        !newUser?.subscription?.status &&
+                        !newUser?.instructor
+                    ) {
+                        return (
+                            <li
+                                key={index}
+                                className={`${
+                                    index === activeIndex
+                                        ? classes["active"]
+                                        : ""
+                                }`}
+                                onClick={() => {
+                                    setActiveIndex(index);
+                                    console.log("INBOX");
+                                    toast.error(
+                                        "Please subscribe or register as instructor to use this feature."
+                                    );
+                                }}
+                            >
+                                <Link to={"#"}>
+                                    {item.icon}
+                                    <span>{item.name}</span>
+                                </Link>
+                            </li>
+                        );
+                    }
                     return (
                         <li
                             key={index}
                             className={`${
                                 index === activeIndex ? classes["active"] : ""
                             }`}
-                            onClick={() => setActiveIndex(index)}
+                            onClick={() => {
+                                setActiveIndex(index);
+                            }}
                         >
                             <Link to={item.path}>
                                 {item.icon}

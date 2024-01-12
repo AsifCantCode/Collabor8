@@ -11,7 +11,7 @@ const ENDPOINT = "http://localhost:5001";
 export const ChatContextProvider = (props) => {
     const [selectedChat, setSelectedChat] = useState();
     const [notification, setNotification] = useState([]);
-    const [chats, setChats] = useState();
+    const [chats, setChats] = useState([]);
     const [messages, setMessages] = useState([]);
     const [socketConnected, setSocketConnected] = useState(false);
     const [socket, setSocket] = useState(io(ENDPOINT));
@@ -58,6 +58,13 @@ export const ChatContextProvider = (props) => {
                     ...prevNotifications,
                     newNotification,
                 ]);
+            if (newNotification?.notificationType === "message") {
+                console.log(
+                    "NEW MESSAGE",
+                    newNotification?.entityId?.entityId?.chat
+                );
+                setChats([newNotification?.entityId?.entityId?.chat, ...chats]);
+            }
         });
     }, [socket]);
 

@@ -73,7 +73,7 @@ const fetchChats = async (req, res) => {
 };
 
 const sendMessage = async (req, res) => {
-    const { chatId, content } = req.body;
+    const { chatId, content, messageType } = req.body;
     console.log("chatId", chatId);
     console.log("content", content);
     const { userId } = req.query;
@@ -89,9 +89,19 @@ const sendMessage = async (req, res) => {
         content: content,
         chat: chatId,
         images: selectedImage,
+        messageType: messageType,
     };
 
     try {
+        const fixChatStatus = await Chat.findById(chatId);
+        if (messageType === "request") {
+            fixChatStatus.isOpen = "pending";
+        } else if (messageType === "accept") {
+            fixChatStatus.isOpen = "open";
+        } else if (messageType === "reject") {
+            fixChatStatus.isOpen = "close";
+        }
+        await fixChatStatus.save();
         const message = await Message.create(newMessage);
         const populatedMessage = await Message.findById(message._id)
             .populate("sender", "-password")

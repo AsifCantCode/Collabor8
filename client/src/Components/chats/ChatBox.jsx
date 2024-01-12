@@ -8,12 +8,13 @@ import {
 } from "../../Utilities/utilities";
 import ChatApi from "../../Apis/ChatApi";
 import ScrollableFeed from "react-scrollable-feed";
-import { Button } from "../Buttons";
+import { Button, SmallButtonAc } from "../Buttons";
 // import io from "socket.io-client";
 // const ENDPOINT = "http://localhost:5001";
 // let socket, selectedChatCompare;
 import { LuImagePlus } from "react-icons/lu";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { set } from "lodash";
 const ChatBox = ({ chatLoading, setLoadingChat }) => {
     const {
         selectedChat,
@@ -59,6 +60,20 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
                 // }
             } else {
                 setMessages([...messages, newMessageRecieved]);
+                if (
+                    !chats.find(
+                        (chat) => chat._id === newMessageRecieved.chat._id
+                    )
+                )
+                    setChats([newMessageRecieved?.chat, ...chats]);
+                if (newMessageRecieved?.messageType === "request") {
+                    setSelectedChat({ ...selectedChat, isOpen: "pending" });
+                } else if (newMessageRecieved?.messageType === "accept") {
+                    console.log("Accept");
+                    setSelectedChat({ ...selectedChat, isOpen: "open" });
+                } else if (newMessageRecieved?.messageType === "reject") {
+                    setSelectedChat({ ...selectedChat, isOpen: "close" });
+                }
             }
         });
     });
@@ -96,10 +111,26 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
         setImageViewer(newImageViewer);
         setSelectedImage(newImages);
     };
-    const sendMessage = async () => {
+    const sendMessage = async (acceptOrReject) => {
         const formData = new FormData();
         formData.append("content", messageContent);
         formData.append("chatId", selectedChat?._id);
+
+        let messageType;
+        console.log(
+            !selectedChat?.latestMessage,
+            selectedChat?.isOpen === "close"
+        );
+        if (selectedChat?.isOpen === "close") {
+            messageType = "request";
+        } else if (selectedChat?.isOpen === "pending") {
+            console.log("Accept or Reject", acceptOrReject);
+            messageType = acceptOrReject;
+        } else {
+            messageType = "normal";
+        }
+
+        formData.append("messageType", messageType);
         for (let i = 0; i < selectedImage.length; i++) {
             formData.append("images", selectedImage[i]);
         }
@@ -127,6 +158,13 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
             setImageViewer([]);
             socket.emit("new message", data);
             setMessages([...messages, data]);
+            if (messageType === "request") {
+                setSelectedChat({ ...selectedChat, isOpen: "pending" });
+            } else if (messageType === "accept") {
+                setSelectedChat({ ...selectedChat, isOpen: "open" });
+            } else if (messageType === "reject") {
+                setSelectedChat({ ...selectedChat, isOpen: "close" });
+            }
         } catch (error) {
             console.log(error);
         }
@@ -159,6 +197,7 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
         }
     }, [messages]);
 
+    console.log("Selected Chat", selectedChat);
     return (
         <div className={`${classes["chat-box"]}`}>
             {/* Chat Header  */}
@@ -238,6 +277,56 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
                                             </div>
                                         )}
                                     </div>
+                                    {message?.messageType !== "normal" && (
+                                        // Special Message
+
+                                        <div
+                                            className={`${classes["special-message"]}`}
+                                        >
+                                            {message?.messageType ===
+                                                "request" &&
+                                                selectedChat?.isOpen ===
+                                                    "pending" && (
+                                                    <>
+                                                        <p>
+                                                            Request Pending...
+                                                        </p>
+                                                        {newUser?._id !==
+                                                            message?.sender
+                                                                ?._id && (
+                                                            <>
+                                                                <SmallButtonAc
+                                                                    func={(
+                                                                        e
+                                                                    ) => {
+                                                                        e.preventDefault();
+                                                                        sendMessage(
+                                                                            "accept"
+                                                                        );
+                                                                    }}
+                                                                    text={
+                                                                        "Accept"
+                                                                    }
+                                                                />
+                                                                <SmallButtonAc
+                                                                    func={(
+                                                                        e
+                                                                    ) => {
+                                                                        e.preventDefault();
+                                                                        sendMessage(
+                                                                            "reject"
+                                                                        );
+                                                                    }}
+                                                                    text={
+                                                                        "Reject"
+                                                                    }
+                                                                />
+                                                            </>
+                                                        )}
+                                                    </>
+                                                )}
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </ScrollableFeed>
@@ -268,31 +357,49 @@ const ChatBox = ({ chatLoading, setLoadingChat }) => {
                                 ))}
                         </div>
                     )}
-                    <input
-                        type="text"
-                        name=""
-                        id=""
-                        placeholder="Type a message"
-                        value={messageContent}
-                        onChange={(e) => setMessageContent(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                                sendMessage();
-                            }
-                        }}
-                    />
-                    <div className={`${classes["image-selector"]}`}>
-                        <LuImagePlus onClick={handleImageClick} />
-                        <input
-                            id="fileInput"
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            style={{ display: "none" }}
-                            ref={imageInputRef}
-                        />
-                    </div>
-                    <Button text="Send" func={sendMessage} />
+
+                    {selectedChat?.isOpen !== "pending" && (
+                        <>
+                            <input
+                                type="text"
+                                name=""
+                                id=""
+                                placeholder={
+                                    selectedChat?.isOpen === "open"
+                                        ? "Type a message"
+                                        : "Write Request Message"
+                                }
+                                value={messageContent}
+                                onChange={(e) =>
+                                    setMessageContent(e.target.value)
+                                }
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        sendMessage();
+                                    }
+                                }}
+                            />
+                            <div className={`${classes["image-selector"]}`}>
+                                <LuImagePlus onClick={handleImageClick} />
+                                <input
+                                    id="fileInput"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    style={{ display: "none" }}
+                                    ref={imageInputRef}
+                                />
+                            </div>
+                            <Button
+                                text={
+                                    selectedChat?.isOpen === "open"
+                                        ? "Send"
+                                        : "Request"
+                                }
+                                func={sendMessage}
+                            />
+                        </>
+                    )}
                 </div>
             )}
         </div>

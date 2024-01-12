@@ -7,6 +7,11 @@ const messageSchema = mongoose.Schema(
         chat: { type: mongoose.Schema.Types.ObjectId, ref: "Chat" },
         images: [{ type: String }],
         readBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+        messageType: {
+            type: String,
+            enum: ["normal", "request", "accept", "reject"],
+            default: "normal",
+        },
     },
     { timestamps: true }
 );

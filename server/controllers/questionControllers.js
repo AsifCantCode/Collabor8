@@ -305,7 +305,7 @@ const getAllQuestions = async (req, res) => {
 
 const tagBasedQuestions = async (req, res) => {
     const { tagName } = req.query;
-    console.log("TAGNAME: ", tagName);
+    console.log("=======TAGNAME: ", tagName);
     try {
         const questions = await Question.find({
             tagList: { $in: tagName },
@@ -318,6 +318,7 @@ const tagBasedQuestions = async (req, res) => {
             })
             .exec();
 
+        console.log("=====QUESTIONS: ", questions);
         res.json({ questions });
     } catch (error) {
         console.error(error);

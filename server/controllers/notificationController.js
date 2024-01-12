@@ -18,13 +18,22 @@ const addNotification = async (
         // Emit the notification to the user
         let newNotificationWithUserandEntityDetails;
         if (notification.notificationType === "message") {
-            const entityId = await notification.populate({
-                path: "entityId",
-                model: "Message",
-                populate: {
-                    path: "sender",
+            const entityId = await notification.populate([
+                {
+                    path: "entityId",
+                    model: "Message",
+                    populate: {
+                        path: "sender",
+                    },
+                    populate: {
+                        path: "chat",
+                        populate: {
+                            path: "users",
+                            model: "User",
+                        },
+                    },
                 },
-            });
+            ]);
             newNotificationWithUserandEntityDetails = {
                 ...notification._doc,
                 userTo,

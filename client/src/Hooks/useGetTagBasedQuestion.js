@@ -11,6 +11,7 @@ export const useGetTagBasedQuestion = (tagName) => {
     useEffect(() => {
         const getQuestion = async () => {
             // console.log("User: ", user);
+            console.log("TAG NAME from hooks: ", tagName);
             try {
                 /** TAG BASED QUESTIONS */
                 const response = await UserApi.get("/tag-questions", {
@@ -30,7 +31,7 @@ export const useGetTagBasedQuestion = (tagName) => {
             }
         };
         getQuestion();
-    }, [user]);
+    }, [user, tagName]);
 
     return { question, loading, error };
 };
