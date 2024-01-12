@@ -3,7 +3,7 @@ import { LuImagePlus } from "react-icons/lu";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { useGlobalContext } from "../../Hooks/useGlobalContext";
 import { useAuthContext } from "../../Hooks/useAuthContext";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const ImageInputAndViewer = ({
     selectedImage = [],
@@ -102,6 +102,18 @@ const ImageInputAndViewer = ({
                 onChange={handleImageChange}
                 style={{ display: "none" }}
                 ref={imageInputRef}
+            />
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
             />
         </div>
     );

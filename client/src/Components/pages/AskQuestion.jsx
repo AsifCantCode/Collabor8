@@ -131,18 +131,6 @@ const AskQuestion = () => {
                     <Button func={handleSubmit} text="Confirm Post" />
                 </div>
             </div>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={2000}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="colored"
-            />
         </>
     );
 };
