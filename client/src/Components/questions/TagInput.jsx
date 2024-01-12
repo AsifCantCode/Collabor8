@@ -3,7 +3,11 @@ import { ImCross } from "react-icons/im";
 import _ from "lodash";
 import { useGetAllTags } from "../../Hooks/useGetAllTags";
 import { useEffect, useState } from "react";
+import { useAuthContext } from "../../Hooks/useAuthContext";
+import { useGlobalContext } from "../../Hooks/useGlobalContext";
 const TagInput = ({ tagList, setTagList, tag, setTag }) => {
+    const { user, newUser } = useAuthContext();
+    const { badgeCheck } = useGlobalContext();
     const handleTagChange = (event) => {
         console.log("Tag Change");
         event.stopPropagation();
@@ -92,14 +96,23 @@ const TagInput = ({ tagList, setTagList, tag, setTag }) => {
                                         .toLower()
                                         .value()
                                 ) && (
-                                    <li onClick={() => handleTagAdd(tag)}>
-                                        Create New Tag :{" "}
-                                        {_.chain(tag)
-                                            .words()
-                                            .join("")
-                                            .toLower()
-                                            .value()}
-                                    </li>
+                                    <>
+                                        {badgeCheck[newUser?.badge]
+                                            ?.tagCreate && (
+                                            <li
+                                                onClick={() =>
+                                                    handleTagAdd(tag)
+                                                }
+                                            >
+                                                Create New Tag :{" "}
+                                                {_.chain(tag)
+                                                    .words()
+                                                    .join("")
+                                                    .toLower()
+                                                    .value()}
+                                            </li>
+                                        )}
+                                    </>
                                 )}
                                 {/* <li></li> */}
                             </ul>
