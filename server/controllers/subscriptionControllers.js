@@ -9,7 +9,7 @@ const Collection = require("../model/collectionModel");
 const subscribe = async (req, res) => {
     try {
         const { _id } = req.body.profile;
-        const { plan } = req.query;
+        const { plan } = req.body;
         const user = await User.findById(_id);
         if (!user) {
             return res.status(404).json({ error: "User not found" });
@@ -26,7 +26,9 @@ const subscribe = async (req, res) => {
         await user.save();
 
         console.log(user);
-        return res.status(200).json({ message: "Subscription updated successfully" });
+        return res
+            .status(200)
+            .json({ message: "Subscription updated successfully" });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal Server Error" });
@@ -50,7 +52,7 @@ function calculateSubscriptionExpiration(plan) {
 //Function to check expiration, can be invoked periodically
 const checkSubscription = async (req, res) => {
     try {
-        const {_id} = req.body.profile;
+        const { _id } = req.body.profile;
 
         // Check if the user exists
         const user = await User.findById(_id);
@@ -70,11 +72,16 @@ const checkSubscription = async (req, res) => {
                 user.subscription.expire = null;
                 await user.save();
 
-                return res.status(200).json({ message: "Subscription expired, status updated to false" });
+                return res.status(200).json({
+                    message: "Subscription expired, status updated to false",
+                    status: false,
+                });
             }
         }
 
-        return res.status(200).json({ message: "Subscription is still active" });
+        return res
+            .status(200)
+            .json({ message: "Subscription is still active", status: true });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal Server Error" });
@@ -84,4 +91,4 @@ const checkSubscription = async (req, res) => {
 module.exports = {
     subscribe,
     checkSubscription,
-}
+};

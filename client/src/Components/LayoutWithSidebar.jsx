@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import { useState } from "react";
 import HomeWithSidebar from "./pages/HomeWithSidebar";
-
+// import "react-notifications/lib/notifications.css";
 const LayoutWithSidebar = () => {
     const [sidebarState, setSidebarState] = useState(false);
     return (
@@ -14,6 +14,8 @@ const LayoutWithSidebar = () => {
             >
                 <Outlet />
             </HomeWithSidebar>
+
+            {/* <NotificationContainer /> */}
         </div>
     );
 };

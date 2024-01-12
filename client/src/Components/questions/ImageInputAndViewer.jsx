@@ -1,17 +1,26 @@
 import classes from "../../Styles/AskQuestion.module.css";
 import { LuImagePlus } from "react-icons/lu";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { useGlobalContext } from "../../Hooks/useGlobalContext";
+import { useAuthContext } from "../../Hooks/useAuthContext";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const ImageInputAndViewer = ({
-    selectedImage,
+    selectedImage = [],
     setSelectedImage,
     imageViewer,
     setImageViewer,
+    previousImages = [],
     imageInputRef,
     fileError,
     setFileError,
     width = "15rem",
     height = "15rem",
 }) => {
+    const { newUser } = useAuthContext();
+    const { badgeCheck } = useGlobalContext();
+    const navigate = useNavigate();
+
     const handleImageChange = (event) => {
         setFileError(false);
         const allowedImageTypes = ["image/jpeg", "image/jpg", "image/png"];
@@ -33,7 +42,20 @@ const ImageInputAndViewer = ({
 
     const handleImageClick = () => {
         // Trigger the file input when the box is clicked
-        imageInputRef.current.click();
+        console.log(selectedImage?.length, previousImages?.length);
+        if (
+            newUser?.subscription?.status ||
+            badgeCheck[newUser?.badge]?.imageLimit >
+                selectedImage?.length + previousImages?.length
+        )
+            imageInputRef.current.click();
+        else {
+            // NotificationManager.info("This is a notification message.");
+            toast.error(
+                "You have reached your image limit. Please take subscription."
+            );
+            console.log("You have reached your image limit");
+        }
     };
     const handleDeleteImage = (index) => {
         console.log(index);
@@ -45,6 +67,7 @@ const ImageInputAndViewer = ({
     return (
         <div className={`${classes["attachments"]}`}>
             <p>Attachment Image (Optional)</p>
+
             <div className={`${classes["images"]}`}>
                 {imageViewer &&
                     imageViewer.length > 0 &&

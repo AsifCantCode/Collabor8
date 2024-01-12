@@ -18,13 +18,13 @@ const Signup = ({ setLoginSignup }) => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        toast.onChange((payload) => {
-            if (payload.status === "removed") {
-                navigate("/edit-profile");
-            }
-        });
-    }, [navigate]);
+    // useEffect(() => {
+    //     toast.onChange((payload) => {
+    //         if (payload.status === "removed") {
+    //             navigate("/edit-profile");
+    //         }
+    //     });
+    // }, [navigate]);
 
     const handleSignup = async (e) => {
         e.preventDefault();

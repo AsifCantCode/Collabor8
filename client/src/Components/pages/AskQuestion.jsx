@@ -32,14 +32,14 @@ const AskQuestion = () => {
     const { user } = useAuthContext();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        toast.onChange((payload) => {
-            if (payload.status === "removed") {
-                setLoading(false);
-                navigate("/");
-            }
-        });
-    }, []);
+    // useEffect(() => {
+    //     toast.onChange((payload) => {
+    //         if (payload.status === "removed") {
+    //             setLoading(false);
+    //             navigate("/collection");
+    //         }
+    //     });
+    // }, []);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -78,15 +78,8 @@ const AskQuestion = () => {
                 },
             });
             setLoading(false);
-
-            toast.success(
-                "Question Added Successfully !! Navigating to home page...",
-                {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: 1500,
-                }
-            );
             console.log("ASK QUESTION Response: ", response.data);
+            navigate("/");
         } catch (err) {
             console.log("ASK QUESTION ERROR: ", err);
             setLoading(false);
@@ -138,7 +131,18 @@ const AskQuestion = () => {
                     <Button func={handleSubmit} text="Confirm Post" />
                 </div>
             </div>
-            <ToastContainer position="top-right" />
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </>
     );
 };

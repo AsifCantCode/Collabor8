@@ -54,14 +54,14 @@ const EditProfile = () => {
     const { user } = useAuthContext();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        toast.onChange((payload) => {
-            if (payload.status === "removed") {
-                setLoading(false);
-                navigate("/profile");
-            }
-        });
-    }, [navigate]);
+    // useEffect(() => {
+    //     toast.onChange((payload) => {
+    //         if (payload.status === "removed") {
+    //             setLoading(false);
+    //             navigate("/profile");
+    //         }
+    //     });
+    // }, [navigate]);
 
     const {
         tags: tagList,

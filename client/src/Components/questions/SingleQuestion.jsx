@@ -94,7 +94,7 @@ const SingleQuestion = ({ question, editPost }) => {
             <div className={`${classes["edit-btn"]}`}>
                 {editPost ? (
                     <SmallButton
-                        to={`/edit-question/${question?._id}`}
+                        to={`/question/edit-question/${question?._id}`}
                         text={`Edit Post`}
                     />
                 ) : null}
