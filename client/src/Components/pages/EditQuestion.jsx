@@ -168,7 +168,6 @@ const EditQuestion = () => {
                     <Button func={handleUpdate} text="Update Post" />
                 </div>
             </div>
-            <ToastContainer position="top-right" />
         </>
     );
 };
