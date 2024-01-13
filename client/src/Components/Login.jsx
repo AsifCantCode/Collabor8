@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuthContext } from "../Hooks/useAuthContext";
 import classes from "../Styles/LoginSignup.module.css";
-import { Button } from "./Buttons";
+import { Button, ButtonSpinner } from "./Buttons";
 
 const Login = ({ setLoginSignup }) => {
     const [email, setEmail] = useState("");
@@ -33,12 +33,14 @@ const Login = ({ setLoginSignup }) => {
 
         try {
             const response = await login(email, password);
-            setLoading(false);
-            toast.success("Login Successful !! Navigating to home page...", {
-                position: toast.POSITION.TOP_RIGHT,
-                autoClose: 1500,
-            });
+
+            toast.success("Login Successful !! Navigating to home page...");
             console.log("LOGIN Response Data : ", response.data);
+
+            setTimeout(() => {
+                setLoading(false);
+                navigate("/");
+            }, 1500);
         } catch (err) {
             console.log("LOGIN ERROR: ", err);
             setLoading(false);
@@ -85,7 +87,12 @@ const Login = ({ setLoginSignup }) => {
                     </p>
                 )}
                 <div>
-                    <Button type="submit" text={`Login`} />
+                    {loading ? (
+                        <ButtonSpinner />
+                    ) : (
+                        <Button type="submit" text={`Login`} />
+                    )}
+                    {/* <ButtonSpinner text={"Loading"} /> */}
                 </div>
                 <div>
                     <p className={`${classes["switch-form"]}`}>
@@ -97,7 +104,6 @@ const Login = ({ setLoginSignup }) => {
                     </p>
                 </div>
             </form>
-            <ToastContainer position="top-right" />
         </>
     );
 };

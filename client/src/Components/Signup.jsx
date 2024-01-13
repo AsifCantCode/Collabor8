@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import UserApi from "../Apis/UserApi";
 import { useAuthContext } from "../Hooks/useAuthContext";
 import classes from "../Styles/LoginSignup.module.css";
-import { Button } from "./Buttons";
+import { Button, ButtonSpinner } from "./Buttons";
 
 const Signup = ({ setLoginSignup }) => {
     const [email, setEmail] = useState("");
@@ -41,17 +41,18 @@ const Signup = ({ setLoginSignup }) => {
                     },
                 }
             );
-            setLoading(false);
+            toast.success(
+                "Signup Successful !! Navigating to edit profile page..."
+            );
+
             localStorage.setItem("user", JSON.stringify(response.data.token));
             setUser(response.data.token);
-            toast.success(
-                "Signup Successful !! Navigating to edit profile page...",
-                {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: 1500,
-                }
-            );
+
             console.log("Signup Response Data : ", response.data);
+            setTimeout(() => {
+                setLoading(false);
+                navigate("/edit-profile");
+            }, 1500);
         } catch (err) {
             console.log("SIGNUP ERROR: ", err);
             setLoading(false);
@@ -127,7 +128,11 @@ const Signup = ({ setLoginSignup }) => {
                     </p>
                 )}
                 <div>
-                    <Button type="submit" text={`Signup`} />
+                    {loading ? (
+                        <ButtonSpinner />
+                    ) : (
+                        <Button type="submit" text={`Signup`} />
+                    )}
                 </div>
                 <div>
                     <p className={`${classes["switch-form"]}`}>
@@ -139,7 +144,6 @@ const Signup = ({ setLoginSignup }) => {
                     </p>
                 </div>
             </form>
-            <ToastContainer position="top-right" />
         </>
     );
 };

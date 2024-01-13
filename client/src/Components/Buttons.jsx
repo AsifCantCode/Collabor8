@@ -85,3 +85,12 @@ export function ButtonWithIconOnlyTransparent({ icon, type = "button", func }) {
         </Link>
     );
 }
+
+export function ButtonSpinner({ text, func }) {
+    return (
+        <button onClick={func} className={`${classes["ButtonSpinner"]}`}>
+            {/* <span className={`${classes["text-content"]}`}>{text}</span> */}
+            <span className={`${classes["spninner"]}`}></span>
+        </button>
+    );
+}

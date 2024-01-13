@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuthContext } from "../../Hooks/useAuthContext";
 import classes from "../../Styles/AskQuestion.module.css";
 import UserApi from "../../apis/UserApi";
-import { Button } from "../Buttons";
+import { Button, ButtonSpinner } from "../Buttons";
 import DescriptionInput from "../questions/DescriptionInput";
 import ImageInputAndViewer from "../questions/ImageInputAndViewer";
 import TagInput from "../questions/TagInput";
@@ -77,9 +77,17 @@ const AskQuestion = () => {
                     Authorization: `Bearer ${user}`,
                 },
             });
-            setLoading(false);
             console.log("ASK QUESTION Response: ", response.data);
-            navigate("/");
+            toast.success("Question added successfully.");
+            setTimeout(() => {
+                setLoading(false);
+                setTextContent("");
+                setTitle("");
+                setSelectedImage([]);
+                setImageViewer([]);
+                setTagList([]);
+                setTag("");
+            }, 1500);
         } catch (err) {
             console.log("ASK QUESTION ERROR: ", err);
             setLoading(false);
@@ -128,7 +136,11 @@ const AskQuestion = () => {
                 {error && <p style={{ color: "red" }}>{error}</p>}
                 {/* Submit Button */}
                 <div className={`${classes["submit-btn"]}`}>
-                    <Button func={handleSubmit} text="Confirm Post" />
+                    {loading ? (
+                        <ButtonSpinner />
+                    ) : (
+                        <Button text="Submit" func={handleSubmit} />
+                    )}
                 </div>
             </div>
         </>

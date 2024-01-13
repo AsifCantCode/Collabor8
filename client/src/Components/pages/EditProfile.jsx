@@ -11,7 +11,7 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import { useAuthContext } from "../../Hooks/useAuthContext";
 import { useGetAllTags } from "../../Hooks/useGetAllTags";
 import UserApi from "../../apis/UserApi";
-import { Button } from "../Buttons";
+import { Button, ButtonSpinner } from "../Buttons";
 import { useGetProfileInfo } from "../../Hooks/useGetProfileInfo";
 
 const EditProfile = () => {
@@ -151,16 +151,16 @@ const EditProfile = () => {
                     Authorization: `Bearer ${user}`,
                 },
             });
-            setLoading(false);
 
             toast.success(
-                "Profile Updated Successfully !! Navigating to profile page...",
-                {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: 1500,
-                }
+                "Profile Updated Successfully !! Navigating to profile page..."
             );
             console.log("Update Profile Response: ", response.data);
+
+            setTimeout(() => {
+                setLoading(false);
+                navigate(`/profile/${newUser?._id}`);
+            }, 1500);
         } catch (err) {
             console.log("Update Profile ERROR: ", err);
             setLoading(false);
@@ -336,13 +336,28 @@ const EditProfile = () => {
                                 </p>
                             )}
                             <div className={`${classes["submit-btn"]}`}>
-                                <Button text={`Update Profile`} type="submit" />
+                                {loading ? (
+                                    <ButtonSpinner />
+                                ) : (
+                                    <Button type="submit" text={`Update`} />
+                                )}
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <ToastContainer position="top-right" />
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </>
     );
 };

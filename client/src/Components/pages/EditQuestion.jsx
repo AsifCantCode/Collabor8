@@ -6,7 +6,7 @@ import { useAuthContext } from "../../Hooks/useAuthContext";
 import { useGetSingleQuestion } from "../../Hooks/useGetSingleQuestion";
 import classes from "../../Styles/AskQuestion.module.css";
 import UserApi from "../../apis/UserApi";
-import { Button } from "../Buttons";
+import { Button, ButtonSpinner } from "../Buttons";
 import DescriptionInput from "../questions/DescriptionInput";
 import ImageInputAndViewer from "../questions/ImageInputAndViewer";
 import PreviousImage from "../questions/PreviousImage";
@@ -99,16 +99,22 @@ const EditQuestion = () => {
                     Authorization: `Bearer ${user}`,
                 },
             });
-            setLoading(false);
 
             toast.success(
-                "Question Added Successfully !! Navigating to home page...",
-                {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: 1500,
-                }
+                "Question Added Successfully !! Navigating to home page..."
             );
             console.log("ASK QUESTION Response: ", response.data);
+
+            setTimeout(() => {
+                setLoading(false);
+                setTextContent("");
+                setTitle("");
+                setTagList([]);
+                setPreviousImages([]);
+                setSelectedImage([]);
+                setImageViewer([]);
+                navigate("/");
+            }, 1500);
         } catch (err) {
             console.log("ASK QUESTION ERROR: ", err);
             setLoading(false);
@@ -165,7 +171,15 @@ const EditQuestion = () => {
                 {error && <p style={{ color: "red" }}>{error}</p>}
                 {/* Submit Button */}
                 <div className={`${classes["submit-btn"]}`}>
-                    <Button func={handleUpdate} text="Update Post" />
+                    {loading ? (
+                        <ButtonSpinner />
+                    ) : (
+                        <Button
+                            text="Update Question"
+                            type="submit"
+                            func={handleUpdate}
+                        />
+                    )}
                 </div>
             </div>
         </>
