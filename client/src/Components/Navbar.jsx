@@ -6,7 +6,7 @@ import inbox_logo from "../assets/messages.png";
 import avatar_logo from "../assets/avatar.png";
 import exit_logo from "../assets/exit.png";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { Button, ButtonTransarent, LinkButtonTransarent } from "./Buttons";
 import { useAuthContext } from "../Hooks/useAuthContext";
@@ -65,6 +65,15 @@ const Navbar = ({ setSidebarState }) => {
             console.log(error);
         }
     };
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const navigate = useNavigate();
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchQuery) {
+            navigate(`/search/${searchQuery}`);
+        }
+    };
     return (
         <div ref={navRef} className={classes.navbar}>
             <Helmet>
@@ -89,11 +98,14 @@ const Navbar = ({ setSidebarState }) => {
                     type="text"
                     placeholder="Search"
                     className={classes.searchBar}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <img
                     src={search_logo}
                     alt="Search Icon"
                     className={classes.searchLogo}
+                    onClick={handleSearch}
                 />
             </div>
 

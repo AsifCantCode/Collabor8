@@ -442,7 +442,7 @@ const upvoteDownvoteQuestion = async (req, res) => {
 
 const getAllRelatedQuestions = async (req, res) => {
     try {
-        const query = req.query.q;
+        const { query } = req.query;
         const results = await Question.find({
             $or: [
                 { title: { $regex: query, $options: "i" } },
@@ -466,7 +466,7 @@ const mostUpvotedQuestions = async (req, res) => {
         const questions = await Question.find()
             .sort({ countUpVotes: -1 }) // Sort in descending order based on countUpVotes
             .limit(10); // Limit the result to a specific number, adjust as needed
-        console.log(questions)
+        console.log(questions);
         return res.status(200).json(questions);
     } catch (error) {
         console.error(error);

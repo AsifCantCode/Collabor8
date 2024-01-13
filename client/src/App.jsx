@@ -28,6 +28,7 @@ import LayoutWithSidebar from "./Components/LayoutWithSidebar";
 import { GlobalContextProvider } from "./Contexts/GlobalContext";
 import { AllCollection } from "./Components/pages/AllCollection";
 import TagBasedQuestion from "./Components/pages/TagBasedQuestion";
+import SearchResult from "./Components/pages/SearchResult";
 
 const App = () => {
     return (
@@ -65,6 +66,10 @@ const App = () => {
                                 <Route
                                     path="single-question/:id"
                                     element={<SingleQuestionDetails />}
+                                />
+                                <Route
+                                    path="search/:searchQuery"
+                                    element={<SearchResult />}
                                 />
                             </Route>
                             <Route path="/accounts" element={<LoginSignup />} />
