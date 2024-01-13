@@ -70,6 +70,7 @@ const Navbar = ({ setSidebarState }) => {
     const navigate = useNavigate();
     const handleSearch = (e) => {
         e.preventDefault();
+        setSearchQuery("");
         if (searchQuery) {
             navigate(`/search/${searchQuery}`);
         }
