@@ -461,7 +461,21 @@ const getAllRelatedQuestions = async (req, res) => {
     }
 };
 
+const mostUpvotedQuestions = async (req, res) => {
+    try {
+        const questions = await Question.find()
+            .sort({ countUpVotes: -1 }) // Sort in descending order based on countUpVotes
+            .limit(10); // Limit the result to a specific number, adjust as needed
+        console.log(questions)
+        return res.status(200).json(questions);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 module.exports = {
+    mostUpvotedQuestions,
     getAllRelatedQuestions,
     uploadQuestions,
     updateQuestion,
