@@ -13,16 +13,6 @@ const PopularTagsCard = () => {
                     !error &&
                     tags &&
                     tags?.map((tag) => <span key={tag?._id}>{tag?.name}</span>)}
-                {/* <span>programming</span>
-                <span>javascript</span>
-                <span>python</span>
-                <span>java</span>
-                <span>csharp</span>
-                <span>html</span>
-                <span>css</span>
-                <span>webdevelopment</span>
-                <span>datascience</span>
-                <span>machinelearning</span> */}
             </div>
         </div>
     );

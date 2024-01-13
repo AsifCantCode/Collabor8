@@ -3,6 +3,7 @@ import classes from "../../Styles/Home.module.css";
 import RightSidebar from "../RightSidebar";
 import Sidebar from "../Sidebar";
 import PopularTagsCard from "../PopularTagsCard";
+import PopularQuestionsCard from "../PopularQuestionsCard";
 
 const HomeWithSidebar = (props) => {
     const { sidebarState, setSidebarState, children } = props;
@@ -17,8 +18,7 @@ const HomeWithSidebar = (props) => {
             <RightSidebar>
                 <div>
                     <PopularTagsCard />
-                    <PopularTagsCard />
-                    <PopularTagsCard />
+                    <PopularQuestionsCard />{" "}
                 </div>
             </RightSidebar>
         </div>

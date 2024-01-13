@@ -65,7 +65,7 @@ body {
     margin-bottom: 0.5rem;
     position: relative;
     bottom: 16px;
-    right: -138px;
+    right: -106%;
 }
 
 .sidebar-card-header::before {

@@ -18,8 +18,8 @@ const RightSidebar = ({ children }) => {
 
             {children}
 
-            <div style={{ visibility: "hidden", height: "100px" }}>sfsd</div>
-            <div style={{ visibility: "hidden", height: "100px" }}>sfsd</div>
+            {/* <div style={{ visibility: "hidden", height: "100px" }}>sfsd</div>
+            <div style={{ visibility: "hidden", height: "100px" }}>sfsd</div> */}
             {/* <div style={{ visibility: "hidden", height: "100px" }}>sfsd</div> */}
         </div>
     );

@@ -1,0 +1,32 @@
+.PopularQuestionsCard {
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem 2rem;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    overflow: auto;
+}
+
+.card-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+.question {
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+.question-details {
+    font-size: 0.8rem;
+    color: var(--border);
+}
