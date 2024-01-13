@@ -24,7 +24,7 @@
     padding: 6px 20px;
     border-radius: 5px;
     background: #ffbb26;
-    border: 1px solid #ffbb26;
+    border: 3px solid #ffbb26;
     color: #171821 !important; /* Text color set to #171821 */
     font-family: "Poppins", sans-serif;
     font-size: 16px;
@@ -37,11 +37,13 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
 .Button:hover {
-    background-color: #ffbb26;
-    color: #000000;
+    background-color: transparent;
+    border: 3px solid var(--yellow);
+    color: var(--white) !important;
 }
 .SmallButton {
     padding: 4px 10px;
