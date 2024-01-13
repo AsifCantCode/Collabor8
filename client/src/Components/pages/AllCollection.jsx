@@ -10,14 +10,11 @@ export const AllCollection = () => {
     return (
         <>
             {question?.length > 0 ? (
-                question?.map((item, index) => (
-                    <QuestionBox
-                        key={index}
-                        question={item}
-                        index={index}
-                        loading={loading}
-                    />
-                ))
+                <QuestionBox
+                    question={question}
+                    loading={loading}
+                    error={error}
+                />
             ) : (
                 <div
                     className="text-center"
