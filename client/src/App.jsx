@@ -31,6 +31,7 @@ import TagBasedQuestion from "./Components/pages/TagBasedQuestion";
 import SearchResult from "./Components/pages/SearchResult";
 import PublicRoute from "./Components/PublicRoute";
 import PrivateRoute from "./Components/PrivateRoute";
+import Faq from "./Components/pages/Faq";
 
 const App = () => {
     return (
@@ -40,6 +41,7 @@ const App = () => {
                     <Router>
                         <Routes>
                             {/* Main Routes  */}
+                            <Route path="/faq" element={<Faq />} />
                             <Route path="/*" element={<LayoutWithSidebar />}>
                                 <Route path="" element={<AllQuestions />} />
                                 <Route

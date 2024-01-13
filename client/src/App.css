@@ -86,3 +86,38 @@ body {
     color: var(--yellow);
     text-align: left;
 }
+
+.accordion {
+    width: 100%;
+    max-width: 800px;
+}
+
+.accordion__item {
+    /* background-color: red; */
+    border: 1px solid var(--border-deep);
+}
+.accordion__button::before {
+    display: inline-block;
+    content: "";
+    height: 10px;
+    width: 10px;
+    margin-right: 12px;
+    border-bottom: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    transform: rotate(-45deg);
+}
+.accordion__button[aria-expanded="true"]::before,
+.accordion__button[aria-selected="true"]::before {
+    transform: rotate(45deg);
+}
+.accordion__heading {
+    background-color: var(--dark);
+    padding: 1rem;
+    cursor: pointer;
+}
+.accordion__panel {
+    background-color: var(--dark-light);
+    padding: 1rem;
+    border-top: 1px solid var(--border-deep);
+    transition: all 0.3s ease-in-out;
+}

@@ -1,0 +1,18 @@
+.Faq {
+    padding: 1rem 2rem;
+}
+.faq-list {
+    margin-top: 1rem;
+    background-color: var(--dark-light);
+    width: 100%;
+    padding: 3rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+.faq-list h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+}

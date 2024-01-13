@@ -35,11 +35,11 @@ const Sidebar = ({ sidebarState, setSidebarState }) => {
             icon: <BsFillQuestionSquareFill />,
             path: "/question/new-question",
         },
-        {
-            name: "My Questions",
-            icon: <FaClipboardList />,
-            path: "/",
-        },
+        // {
+        //     name: "My Questions",
+        //     icon: <FaClipboardList />,
+        //     path: "/",
+        // },
         {
             name: "Collections",
             icon: <FaStar />,
@@ -69,7 +69,7 @@ const Sidebar = ({ sidebarState, setSidebarState }) => {
         {
             name: "FAQ",
             icon: <FaQuinscape />,
-            path: "/",
+            path: "/faq",
         },
     ];
     return (
