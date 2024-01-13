@@ -29,6 +29,8 @@ import { GlobalContextProvider } from "./Contexts/GlobalContext";
 import { AllCollection } from "./Components/pages/AllCollection";
 import TagBasedQuestion from "./Components/pages/TagBasedQuestion";
 import SearchResult from "./Components/pages/SearchResult";
+import PublicRoute from "./Components/PublicRoute";
+import PrivateRoute from "./Components/PrivateRoute";
 
 const App = () => {
     return (
@@ -38,30 +40,11 @@ const App = () => {
                     <Router>
                         <Routes>
                             {/* Main Routes  */}
-                            <Route path="/question/*" element={<Layout />}>
-                                <Route
-                                    path="new-question"
-                                    element={<AskQuestion />}
-                                />
-                                <Route
-                                    path="edit-question/:id"
-                                    element={<EditQuestion />}
-                                />
-                                <Route path="all-tags" element={<AllTags />} />
-                            </Route>
                             <Route path="/*" element={<LayoutWithSidebar />}>
                                 <Route path="" element={<AllQuestions />} />
                                 <Route
-                                    path="collection"
-                                    element={<AllCollection />}
-                                />
-                                <Route
                                     path="tag/:tagName"
                                     element={<TagBasedQuestion />}
-                                />
-                                <Route
-                                    path="profile/:userId"
-                                    element={<Profile />}
                                 />
                                 <Route
                                     path="single-question/:id"
@@ -72,16 +55,53 @@ const App = () => {
                                     element={<SearchResult />}
                                 />
                             </Route>
-                            <Route path="/accounts" element={<LoginSignup />} />
-                            <Route
-                                path="/edit-profile"
-                                element={<EditProfile />}
-                            />
-                            <Route
-                                path="/subscription"
-                                element={<Subscription />}
-                            />
-                            <Route path="/chat" element={<Chat />} />
+                            <Route path="/*" element={<PublicRoute />}>
+                                <Route
+                                    path="accounts"
+                                    element={<LoginSignup />}
+                                />
+                            </Route>
+                            <Route path="/*" element={<PrivateRoute />}>
+                                <Route path="question/*" element={<Layout />}>
+                                    <Route
+                                        path="new-question"
+                                        element={<AskQuestion />}
+                                    />
+                                    <Route
+                                        path="edit-question/:id"
+                                        element={<EditQuestion />}
+                                    />
+                                </Route>
+                                <Route
+                                    path="edit-profile"
+                                    element={<EditProfile />}
+                                />
+                                <Route
+                                    path="subscription"
+                                    element={<Subscription />}
+                                />
+                                <Route path="chat" element={<Chat />} />
+
+                                <Route
+                                    path="/*"
+                                    element={<LayoutWithSidebar />}
+                                >
+                                    <Route
+                                        path="collection"
+                                        element={<AllCollection />}
+                                    />
+
+                                    <Route
+                                        path="profile/:userId"
+                                        element={<Profile />}
+                                    />
+                                </Route>
+                            </Route>
+
+                            <Route path="/question/*" element={<Layout />}>
+                                <Route path="all-tags" element={<AllTags />} />
+                            </Route>
+
                             {/* Ui Test Routes  */}
                             <Route
                                 path="/ui-test/navbar"

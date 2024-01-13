@@ -51,8 +51,14 @@ const Sidebar = ({ sidebarState, setSidebarState }) => {
             path: "/question/all-tags",
         },
         {
-            name: "Inbox",
-            icon: <IoMailUnread />,
+            name: "Inbox *",
+            icon: (
+                <IoMailUnread
+                    style={{
+                        color: "var(--yellow)",
+                    }}
+                />
+            ),
             path: "/chat",
         },
         {
@@ -100,7 +106,13 @@ const Sidebar = ({ sidebarState, setSidebarState }) => {
                             >
                                 <Link to={"#"}>
                                     {item.icon}
-                                    <span>{item.name}</span>
+                                    <span
+                                        style={{
+                                            color: "var(--yellow) !important",
+                                        }}
+                                    >
+                                        {item.name}
+                                    </span>
                                 </Link>
                             </li>
                         );
