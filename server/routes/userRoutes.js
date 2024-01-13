@@ -34,6 +34,7 @@ const {
 } = require("../controllers/collectionControllers.js");
 
 const {
+    mostUpvotedQuestions,
     uploadQuestions,
     updateQuestion,
     getWholeQuestion,
@@ -82,6 +83,9 @@ router.route("/popular-tags").get(getPopularTags);
 router.route("/all-tags").get(getAllTags);
 router.route("/upvote-downvote").put(requireAuth, upvoteDownvoteQuestion);
 router.route("/single-question").get(getWholeQuestion);
+
+//Upvoted Sort
+router.route("/questions-most-upvoted").get(mostUpvotedQuestions);
 
 /**ANSWER ROUTES */
 router.route("/upvote-downvote-ans").put(requireAuth, upvoteDownvoteAnswer);
