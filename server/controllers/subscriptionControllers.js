@@ -26,9 +26,7 @@ const subscribe = async (req, res) => {
         await user.save();
 
         console.log(user);
-        return res
-            .status(200)
-            .json({ message: "Subscription updated successfully" });
+        return res.status(200).json(subscriptionDetails);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal Server Error" });

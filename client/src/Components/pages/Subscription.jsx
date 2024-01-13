@@ -7,6 +7,7 @@ import UserApi from "../../Apis/UserApi";
 import { useAuthContext } from "../../Hooks/useAuthContext";
 import { useEffect, useState } from "react";
 import { formatDateAndTimeFromString } from "../../Utilities/utilities";
+import { ToastContainer, toast } from "react-toastify";
 const Subscription = () => {
     const { user, newUser } = useAuthContext();
     const [subscription, setSubscription] = useState(null);
@@ -32,6 +33,8 @@ const Subscription = () => {
                 }
             );
             console.log("Response: ", response.data);
+            setSubscription(response.data);
+            toast.success("Subscribed Successfully");
         } catch (error) {
             console.log(error);
         }
@@ -92,6 +95,19 @@ const Subscription = () => {
                     </div>
                 )}
             </div>
+
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
         </div>
     );
 };
