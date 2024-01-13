@@ -1,11 +1,11 @@
 .navbar {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
     background-color: var(--dark);
     color: var(--white);
-    /* border-bottom: 1px solid #444; */
     box-shadow: 0px 0px 15px rgb(0, 0, 0);
     position: fixed;
     z-index: 500;
@@ -15,9 +15,7 @@
 .logoContainer {
     display: flex;
     align-items: center;
-    margin-left: 30px;
     color: var(--white);
-    width: 20%;
 }
 
 .logoIcon {
@@ -36,12 +34,11 @@
 }
 
 .searchBarContainer {
-    width: 55%;
+    width: 40%;
     height: 44px;
     top: 32px;
     left: 286px;
     border-radius: 5px;
-    /* border: 2px solid var(--border); */
     background-color: var(--dark-light);
     display: flex;
     align-items: center;
@@ -75,15 +72,20 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    /* margin-right: 30px; */
-    width: 25%;
-    /* gap: 10px; */
+    gap: 1rem;
 }
 .navItems svg {
     color: var(--white);
     width: 1.5rem;
     height: 1.5rem;
     vertical-align: middle;
+}
+.icon {
+    width: 25px;
+    height: 25px;
+    margin-right: 8px;
+    top: 41px;
+    left: 1213px;
 }
 .navItems .notificationIconActive {
     color: var(--danger);
@@ -96,34 +98,33 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* margin-left: 10px; */
     cursor: pointer;
+    /* overflow: hidden; */
 }
 .navbarItem span {
     margin: 0;
     vertical-align: middle;
 }
-.navbarItem > * {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-}
-.navbarItem > div > * {
-    vertical-align: middle;
-}
 .badge {
-    width: 45%;
     display: flex;
-    gap: 2rem;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
 }
 .notification {
-    width: 25%;
+    justify-content: flex-end;
 }
 .profile {
-    width: 20%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+.profile > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    /* overflow: hidden; */
 }
 .icon {
     width: 25px;
@@ -150,8 +151,6 @@
     display: none;
 }
 .navbarText {
-    width: 50px;
-    height: 24px;
     top: 41px;
     left: 1146px;
     font-family: "Poppins", sans-serif;
@@ -237,7 +236,6 @@
         justify-content: space-between;
     }
     .navbarItem {
-        /* margin-left: 10px; */
     }
     .sidebarIcon svg {
         display: block;
