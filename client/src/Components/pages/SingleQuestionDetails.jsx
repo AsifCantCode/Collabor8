@@ -108,28 +108,36 @@ const SingleQuestionDetails = () => {
                             {formatDateAndTimeFromString(question?.postTime)}
                         </p>
                     </div>
-                    <div className={`${classes["up-down-votes"]}`}>
-                        <p className={`${upvoted ? classes["upvote"] : ""}`}>
-                            {upvote}
-                        </p>
-                        <FaThumbsUp
-                            className={`${upvoted ? classes["upvote"] : ""}`}
-                            onClick={handleUpvote}
-                        />
-                        <FaThumbsDown
-                            className={`${
-                                downvoted ? classes["downvote"] : ""
-                            }`}
-                            onClick={handleDownvote}
-                        />
-                        <p
-                            className={`${
-                                downvoted ? classes["downvote"] : ""
-                            }`}
-                        >
-                            {downvote}
-                        </p>
-                    </div>
+                    {newUser?._id !== question?.AuthorId?._id && (
+                        <div className={`${classes["up-down-votes"]}`}>
+                            <p
+                                className={`${
+                                    upvoted ? classes["upvote"] : ""
+                                }`}
+                            >
+                                {upvote}
+                            </p>
+                            <FaThumbsUp
+                                className={`${
+                                    upvoted ? classes["upvote"] : ""
+                                }`}
+                                onClick={handleUpvote}
+                            />
+                            <FaThumbsDown
+                                className={`${
+                                    downvoted ? classes["downvote"] : ""
+                                }`}
+                                onClick={handleDownvote}
+                            />
+                            <p
+                                className={`${
+                                    downvoted ? classes["downvote"] : ""
+                                }`}
+                            >
+                                {downvote}
+                            </p>
+                        </div>
+                    )}
                 </div>
                 <div>
                     <div className={`${classes["title"]}`}>

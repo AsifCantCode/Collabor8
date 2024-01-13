@@ -17,6 +17,7 @@
     align-items: center;
     margin-left: 30px;
     color: var(--white);
+    width: 20%;
 }
 
 .logoIcon {
@@ -35,7 +36,7 @@
 }
 
 .searchBarContainer {
-    width: 50%;
+    width: 55%;
     height: 44px;
     top: 32px;
     left: 286px;
@@ -71,8 +72,12 @@
 
 .navItems {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin-right: 30px;
+    flex-wrap: wrap;
+    /* margin-right: 30px; */
+    width: 25%;
+    /* gap: 10px; */
 }
 .navItems svg {
     color: var(--white);
@@ -90,9 +95,28 @@
 .navbarItem {
     display: flex;
     align-items: center;
-    margin-left: 10px;
+    justify-content: center;
+    /* margin-left: 10px; */
+    cursor: pointer;
 }
-
+.navbarItem > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.badge {
+    width: 45%;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+.notification {
+    width: 25%;
+}
+.profile {
+    width: 20%;
+}
 .icon {
     width: 25px;
     height: 25px;
@@ -106,6 +130,10 @@
     margin-right: 28px;
     top: 41px;
     left: 1213px;
+    transition: all 0.3s ease-in-out;
+}
+.iconExit:hover {
+    color: var(--danger);
 }
 .sidebarIcon svg {
     width: 2rem;
@@ -202,9 +230,33 @@
         justify-content: space-between;
     }
     .navbarItem {
+        /* margin-left: 10px; */
+    }
+    .sidebarIcon svg {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .logoContainer {
+        width: 100%;
+        justify-content: center;
+    }
+    .searchBarContainer {
+        width: 100%;
+        margin: 10px 0px;
+    }
+    .navItems {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .navbarItem {
         margin-left: 10px;
     }
     .sidebarIcon svg {
         display: block;
+    }
+    .badge {
+        display: none;
     }
 }

@@ -16,6 +16,7 @@ import _ from "lodash";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
 import { FaAward } from "react-icons/fa6";
+import { MdOutlineLogout } from "react-icons/md";
 import { MdNotifications } from "react-icons/md";
 import { MdNotificationsActive } from "react-icons/md";
 import NotificationApi from "../Apis/NotificationApi";
@@ -97,7 +98,6 @@ const Navbar = ({ setSidebarState }) => {
             </div>
 
             {/* Navbar Items  */}
-
             <div className={`${classes["navItems"]}`}>
                 <div
                     className={`${classes["navbarItem"]} ${
@@ -111,7 +111,10 @@ const Navbar = ({ setSidebarState }) => {
 
                 {user && newUser ? (
                     <>
-                        <div className={classes.navbarItem}>
+                        {/* Badge  */}
+                        <div
+                            className={`${classes["navbarItem"]} ${classes["badge"]}`}
+                        >
                             <img
                                 src={expert_logo}
                                 alt="Icon"
@@ -122,7 +125,10 @@ const Navbar = ({ setSidebarState }) => {
                             </span>
                         </div>
 
-                        <div className={classes.navbarItem}>
+                        {/* Notification  */}
+                        <div
+                            className={`${classes["navbarItem"]} ${classes["notification"]}`}
+                        >
                             {unOpenedNotification?.length > 0 ? (
                                 <div
                                     onClick={() => {
@@ -144,23 +150,27 @@ const Navbar = ({ setSidebarState }) => {
                                 />
                             )}
                         </div>
-                        <Link to="/profile" className={classes.navbarItem}>
-                            <img
-                                src={avatar_logo}
-                                alt="Icon"
-                                className={classes.icon}
-                            />
-                            <span className={classes.navbarText}>
-                                {newUser?.fullname?.split(" ")[0]}
-                            </span>
-                        </Link>
-                        <div className={classes.navbarItem}>
-                            <img
-                                src={exit_logo}
-                                alt="Icon"
-                                className={classes.iconExit}
-                                onClick={handleLogout}
-                            />
+                        {/* Profile  */}
+                        <div
+                            className={`${classes["navbarItem"]} ${classes["profile"]}`}
+                        >
+                            <Link to={`/profile/${newUser?._id}`}>
+                                <img
+                                    src={avatar_logo}
+                                    alt="Icon"
+                                    className={classes.icon}
+                                />
+                                <span className={classes.navbarText}>
+                                    {newUser?.fullname?.split(" ")[0]}
+                                </span>
+                            </Link>
+                            <div>
+                                <MdOutlineLogout
+                                    className={classes.iconExit}
+                                    onClick={handleLogout}
+                                />
+                                {/* <img src={exit_logo} alt="Icon" /> */}
+                            </div>
                         </div>
                     </>
                 ) : (
