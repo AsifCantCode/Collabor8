@@ -57,6 +57,46 @@ const Faq = () => {
             content:
                 'Hurry up and jump into helping the community to gain more than 3000 points and ultimately being eligible for the "Instructor" posts\' applications where you can earn money by giving services to the customers and also by making the community more knowledgeable by sharing your knowledge.',
         },
+        {
+            heading: "Let's Learn about the badges, shall we?",
+            content: (
+                <div>
+                    <table>
+                        <tr>
+                                <td><b>Points</b></td>
+                                <td><b>Badge</b></td>
+                                <td><b>Action</b></td>
+                        </tr>
+                        <tr>
+                            <td>&ge; 1</td>
+                            <td>Newbie</td>
+                            <td>Upgrade to beginner if point exists,<br></br>Can add 2 images</td>
+                        </tr>
+                        <tr>
+                            <td>&ge; 500</td>
+                            <td>Intermediate</td>
+                            <td>Upgrade badge<br></br>Can add 3 images</td>
+                        </tr>
+                        <tr>
+                            <td>&ge; 1500</td>
+                            <td>Expert</td>
+                            <td>Upgrade badge<br></br>Able to add new tags,<br></br>Can add 5 images</td>
+                        </tr>
+                        <tr>
+                            <td>&ge; 3000</td>
+                            <td>Master (REQ FOR INS)</td>
+                            <td>Upgrade badge<br></br>Ask for being an instructor,<br></br>Take 10 Requests a week.<br></br>Add 8 Images</td>
+                        </tr>
+                        <tr>
+                            <td>&ge; 5000</td>
+                            <td>Legend</td>
+                            <td>Upgrade badge<br></br>Can add unlimited images.<br></br>Can take 20 Requests a week<br></br>Get message service free</td>
+                        </tr>
+
+                    </table>
+                </div>
+            ),
+        },
         // {
         //     heading: "How do I edit my profile?",
         //     content:
