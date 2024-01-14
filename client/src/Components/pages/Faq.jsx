@@ -19,21 +19,43 @@ const Faq = () => {
             heading: "How does the Points system work?",
             content: (
                 <div>
-                    <p>For the points, every user will be starting with 0 points and the points will be maintained in the following manners:</p>
-                    <ul style={{ listStyleType: 'disc' }}>
-                        <li>Questioning will add 1 point</li>
-                        <li>Answering will add 2 points</li>
-                        <li>Solved questions will add 5 points to the questioner and 10 points to the user giving the correct answer</li>
-                        <li>Each upvote of question/answer will add 2 points to the questioner or the answer-giver</li>
-                        <li>Each downvote will subtract 1 from the same</li>
-                    </ul>
+                    <p>
+                        For the points, every user will be starting with 0
+                        points and the points will be maintained in the
+                        following manners:
+                    </p>
+                    <table>
+                        <tr>
+                            <td>Each Question</td>
+                            <td>1 point</td>
+                        </tr>
+                        <tr>
+                            <td>Each Answer</td>
+                            <td>2 points</td>
+                        </tr>
+                        <tr>
+                            <td>Solved Question</td>
+                            <td>
+                                Question Author: 5 points, Answer Author: 10
+                                points
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Upvote</td>
+                            <td>2 points</td>
+                        </tr>
+                        <tr>
+                            <td>Downvote</td>
+                            <td>-1 point</td>
+                        </tr>
+                    </table>
                 </div>
             ),
         },
         {
             heading: "Want to be a part of this community? Join us!",
             content:
-                "Hurry up and jump into helping the community to gain more than 3000 points and ultimately being eligible for the \"Instructor\" posts' applications where you can earn money by giving services to the customers and also by making the community more knowledgeable by sharing your knowledge.",
+                'Hurry up and jump into helping the community to gain more than 3000 points and ultimately being eligible for the "Instructor" posts\' applications where you can earn money by giving services to the customers and also by making the community more knowledgeable by sharing your knowledge.',
         },
         // {
         //     heading: "How do I edit my profile?",
