@@ -20,6 +20,7 @@ import {
 } from "../../Utilities/utilities";
 import UserApi from "../../apis/UserApi";
 import { useAuthContext } from "../../Hooks/useAuthContext";
+import { FaUserGraduate } from "react-icons/fa";
 const SingleQuestionDetails = () => {
     const [upvote, setUpvote] = useState(0);
     const [downvote, setDownvote] = useState(0);
@@ -102,7 +103,14 @@ const SingleQuestionDetails = () => {
                     <div className={`${classes["creation-info"]}`}>
                         <p className={`${classes["author-name"]}`}>
                             <FaCircleUser />{" "}
-                            <span>{question?.AuthorId?.fullname}</span>
+                            <span>
+                                {question?.AuthorId?.fullname}{" "}
+                                {question?.AuthorId?.instructor && (
+                                    <FaUserGraduate
+                                        style={{ color: "var(--yellow)" }}
+                                    />
+                                )}
+                            </span>
                         </p>
                         <p className={`${classes["creation-date"]}`}>
                             {formatDateAndTimeFromString(question?.postTime)}

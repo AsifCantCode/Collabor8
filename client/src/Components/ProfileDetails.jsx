@@ -19,6 +19,7 @@ import { useAuthContext } from "../Hooks/useAuthContext";
 import { useGlobalContext } from "../Hooks/useGlobalContext";
 import { makeProfileImageURL } from "../Utilities/utilities";
 import UserApi from "../apis/UserApi";
+import { FaUserGraduate } from "react-icons/fa";
 const ProfileDetails = ({
     profile,
     profileLoading,
@@ -111,7 +112,12 @@ const ProfileDetails = ({
                     </div>
                     <div className={`${classes["info"]}`}>
                         <h2 className={`${classes["username"]}`}>
-                            {profile?.fullname}
+                            {profile?.fullname}{" "}
+                            {profile?.instructor && (
+                                <FaUserGraduate
+                                    style={{ color: "var(--yellow)" }}
+                                />
+                            )}
                         </h2>
                         <p className={`${classes["email"]}`}>
                             {profile?.email}
@@ -192,10 +198,8 @@ const ProfileDetails = ({
                 currentUser && (
                     <div className={`${classes["message-area"]}`}>
                         <p>
-                            Do you want to be a instructor? Lorem ipsum dolor
-                            sit amet consectetur adipisicing elit. Distinctio a
-                            quod harum voluptatibus laudantium architecto
-                            consectetur, voluptas magnam tenetur minus!
+                            Want to join us in helping the community? <br />
+                            Join as an instructor.
                         </p>
                         <div className={`${classes["message-btn"]}`}>
                             <Button

@@ -20,6 +20,7 @@ import {
 import { useAuthContext } from "../../Hooks/useAuthContext";
 import { useChatContext } from "../../Hooks/useChatContext";
 import UserApi from "../../apis/UserApi";
+import { FaUserGraduate } from "react-icons/fa";
 const SingleAnswer = (props) => {
     const {
         setEditMode,
@@ -202,23 +203,24 @@ const SingleAnswer = (props) => {
             {/* <FaCircleCheck className={`${classes["mark-as-correct"]}`} /> */}
             {newUser?._id === questionAuthorId && (
                 <>
-                    {!isAccepted ? (
+                    {!isAccepted && (
                         <SmallButtonAc
                             func={markAsCorrect}
                             icon={<BiCheckDouble />}
                             text="Mark As Correct"
                         />
-                    ) : (
-                        <div className={`${classes["correct-answer"]}`}>
-                            <FaCircleCheck
-                                className={`${classes["mark-as-correct"]}`}
-                            />{" "}
-                            Correct Answer
-                        </div>
                     )}
                 </>
             )}
 
+            {isAccepted && (
+                <div className={`${classes["correct-answer"]}`}>
+                    <FaCircleCheck
+                        className={`${classes["mark-as-correct"]}`}
+                    />{" "}
+                    Correct Answer
+                </div>
+            )}
             {!isSolved && (
                 <SmallButtonAc
                     func={() => {
@@ -232,7 +234,14 @@ const SingleAnswer = (props) => {
                 <div className={`${classes["info"]}`}>
                     <h4 className={`${classes["answer-author"]}`}>
                         <FaCircleUser />{" "}
-                        <span>{answer?.createdBy?.fullname}</span>
+                        <span>
+                            {answer?.createdBy?.fullname}{" "}
+                            {answer?.createdBy?.instructor && (
+                                <FaUserGraduate
+                                    style={{ color: "var(--yellow)" }}
+                                />
+                            )}
+                        </span>
                     </h4>
                     <p className={`${classes["answer-date"]}`}>
                         {formatDateAndTimeFromString(answer?.createdAt)}
@@ -274,7 +283,14 @@ const SingleAnswer = (props) => {
                 {replies?.map((reply, index) => (
                     <div key={index} className={`${classes["reply"]}`}>
                         <div className={`${classes["reply-header"]}`}>
-                            <h4>{reply?.userId?.fullname}</h4>
+                            <h4>
+                                {reply?.userId?.fullname}{" "}
+                                {reply?.userId?.instructor && (
+                                    <FaUserGraduate
+                                        style={{ color: "var(--yellow)" }}
+                                    />
+                                )}
+                            </h4>
                             {!editReplyMode && (
                                 <SmallButtonAc
                                     func={() => {
