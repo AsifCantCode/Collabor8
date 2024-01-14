@@ -236,7 +236,7 @@ const SingleAnswer = (props) => {
                         <FaCircleUser />{" "}
                         <span>
                             {answer?.createdBy?.fullname}{" "}
-                            {answer?.createdBy?.instructor && (
+                            {answer?.createdBy?._id?.instructor && (
                                 <FaUserGraduate
                                     style={{ color: "var(--yellow)" }}
                                 />
